@@ -62,66 +62,50 @@
 
 \begin{document}
 
-\title{Paper Title*\\
-{\footnotesize \textsuperscript{*}Note: Sub-titles are not captured in Xplore and
-should not be used}
-\thanks{Identify applicable funding agency here. If none, delete this.}
-}
+\title{Recommender system for high school entrants having social network accounts}
 
-\author{\IEEEauthorblockN{1\textsuperscript{st} Given Name Surname}
-\IEEEauthorblockA{\textit{dept. name of organization (of Aff.)} \\
-\textit{name of organization (of Aff.)}\\
-City, Country \\
-email address}
-\and
-\IEEEauthorblockN{2\textsuperscript{nd} Given Name Surname}
-\IEEEauthorblockA{\textit{dept. name of organization (of Aff.)} \\
-\textit{name of organization (of Aff.)}\\
-City, Country \\
-email address}
-\and
-\IEEEauthorblockN{3\textsuperscript{rd} Given Name Surname}
-\IEEEauthorblockA{\textit{dept. name of organization (of Aff.)} \\
-\textit{name of organization (of Aff.)}\\
-City, Country \\
-email address}
-\and
-\IEEEauthorblockN{4\textsuperscript{th} Given Name Surname}
-\IEEEauthorblockA{\textit{dept. name of organization (of Aff.)} \\
-\textit{name of organization (of Aff.)}\\
-City, Country \\
-email address}
-\and
-\IEEEauthorblockN{5\textsuperscript{th} Given Name Surname}
-\IEEEauthorblockA{\textit{dept. name of organization (of Aff.)} \\
-\textit{name of organization (of Aff.)}\\
-City, Country \\
-email address}
-\and
-\IEEEauthorblockN{6\textsuperscript{th} Given Name Surname}
-\IEEEauthorblockA{\textit{dept. name of organization (of Aff.)} \\
-\textit{name of organization (of Aff.)}\\
-City, Country \\
-email address}
+\author{%
+\IEEEauthorblockN{Viktoria Kopylova${}^1$, N. Luk'yranov${}^1$, Evgeny Cherkashin${}^{2,1}$}
+\IEEEauthorblockA{${}^1$~\textit{Institute for computer science and data analysis,
+National research Irkutsk state technical university} Irkutsk, Russia\\
+\{,\}@istu.edu}
+\IEEEauthorblockA{${}^2$~\textit{Laboratory of Complex informational systems, Institute for system dynamics and control theory, SB RAS,}
+Irkutsk, Russia \\
+eugeneai@irnok.net}
 }
 
 \maketitle
 
 \begin{abstract}
-This document is a model and instructions for \LaTeX.
-This and the IEEEtran.cls file define the components of your paper [title, text, heads, etc.]. *CRITICAL: Do Not Use Symbols, Special Characters, Footnotes,
-or Math in Paper Title or Abstract.
+  The research of the paper is devoted to the development a recommender system for entrants choosing the specialty of a high school.  The recommendation is to be realized on the base of data obtained from his/her account of a social network.  Recommenter system data analysis engine is a complex of data analysis technologies being used for social network data extraction and storage, enrolling documents parsing, entrants and study subjects classifications, construction of the correlations between entrants and subjects of study.
+
+  This paper deals with mostly with the stage of information acquisition, correlation patterns construction and taxonomy construction for entrants and high school subjects.  The future development is indicated.
 \end{abstract}
 
 \begin{IEEEkeywords}
-component, formatting, style, styling, insert
+recommender system, correlation patterns, taxonomy
 \end{IEEEkeywords}
 
 \section{Introduction}
-This document is a model and instructions for \LaTeX.
-Please observe the conference page limits.
 
-\section{Ease of Use}
+Often, having received an education, people realize that they do not want to work in this area. In order to minimize the percentage of such situations, educational institutions hold various events: open days, career guidance work among school graduates, posting useful information on the websites of their university or college, \emph{etc}.  These methods help educational institutions in finding and attracting potential applicants for admission and further study in a more efficient and purposeful way.
+
+In a period of intense competition, multidisciplinary educational institutions with similar areas of study are interested in a tool that allows them to determine the target audience more accurately.  The work with the audience would be focused and directed. This will help to attract applicants interested in a particular direction, which is being implemented in the educational institution.  This tool could improve the effectiveness of career guidance activities for high school students.
+
+For the entrants, analysis of their personal properties could be used in construction an individual direction of training and even a particular educational program.  We have been developing and implementing a prototype recommender system (RS) for helping to choose a direction of training at an university for entrants on the base of algorithms for predicting the their possible choice based on digital footprints in a social network. As a source data, \emph{e.g.}, a subscriptions of Russian social network ``In Contact'' (IC) (in Russian -- ``В контакте'') are used.  %The research \cite{c1} of Tomsk state university, Russia, shows that students (pupils) once or twice a year actualize their profile and subscriptions, as irrelevant information in the main tape (blog) results in necessity to routinely filtering it out. In 2016,  the university researchers showed the IC profile in general actually reflects the cognitive properties of personality, and the educational interests of students are closely correlate to their social network behavior.
+
+Nowadays social networks are on of the main place in the life of a person, and even more so a teenager.  This is clear from the data from the Glas Runet online poll service.  Among the 2000 participants of the survey, the majority (86\%) of them know about the existence of Internet social networks and use their services.  Among those who know about the existence of social networks, only 10\% do not use them \cite{c2}.
+The most popular social networks according to the Romir holding are Odnoklassniki (Одноклассники, Classmates), Vkontakte (ВКонтакте, InContact) and Instagram.  The youngest audience, from 14 to 30 years old, visit Vkontakte, 45\% does it daily, and 70\% does more often than once a day \cite{c6}.
+
+Often, it is in social networks that one can track the self-expression, interests and attitude to the world of a person. The analysis of groups, posts on the main blog, reposts, statuses, \emph{etc.} can be the sources of the valuable information \cite{c7}.
+
+Of course, if a person is an adult, then it is unlikely that all subscriptions to groups will be relevant (``entered and forgot'').  But school students, according to research \cite{11}, update subscriptions every six months or a year: irrelevant content in the feed annoys them.  Accordingly, subscriptions can become the original dataset that can be analyzed.
+
+In 2016, TSU proved that the Vkontakte profile reflects the cognitive personality traits, i.e. the educational interests of schoolchildren are closely related to their behavior in the social network \cite{c9}.
+
+%Based on the data on students enrolled in various areas of an university, it is possible to build a system of recommendations for the direction of training.
+
+\section{General approach}
 
 \subsection{Maintaining the Integrity of the Specifications}
 
