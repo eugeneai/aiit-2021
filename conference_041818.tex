@@ -88,11 +88,17 @@ recommender system, correlation patterns, taxonomy
 
 \section{Introduction}
 
-Often, having received an education, people realize that they do not want to work in this area. In order to minimize the percentage of such situations, educational institutions hold various events: open days, career guidance work among school graduates, posting useful information on the websites of their university or college, \emph{etc}.  These methods help educational institutions in finding and attracting potential applicants for admission and further study in a more efficient and purposeful way.
+Each school student sooner or later faces the problem of choice of a future specialty, university to enroll, and the set of courses to study.  Decisions made at this time significantly affect the future life of the students, their job and career perspective, families' life level, \emph{etc}.  Therefore, any help at this stage seems to be a necessary moment. In comparison to the real estate, where there is a whole industry supporting decision-making -- the services of realtors --, in this field the educational environment supports only an information provision service: students are given only career guidance, advertisement of the high school capabilities.  The student is on his/her own in the fundamental life decision.  Of cause, parents and favorite mentors can supply the additional life experience examples helping to focus the analysis of the present conditions, but the actuality of their advices are generally of questions due to specifics of their experience, subjectivity, absence of the actual information of the present state of the labor market, scientific progress, \emph{etc}.
 
-In a period of intense competition, multidisciplinary educational institutions with similar areas of study are interested in a tool that allows them to determine the target audience more accurately.  The work with the audience would be focused and directed. This will help to attract applicants interested in a particular direction, which is being implemented in the educational institution.  This tool could improve the effectiveness of career guidance activities for high school students.
+[[Here we speak about actuality... how to obtain it with data analysis relating contemporary enrollments and, possibly, the resulting educational capabilities of the students after the graduation.]] [[Then transit to the preliminary part (at this time we will deal with the entrant stage) - choice of the study courses]]
 
-For the entrants, analysis of their personal properties could be used in construction an individual direction of training and even a particular educational program.  We have been developing and implementing a prototype recommender system (RS) for helping to choose a direction of training at an university for entrants on the base of algorithms for predicting the their possible choice based on digital footprints in a social network. As a source data, \emph{e.g.}, a subscriptions of Russian social network ``In Contact'' (IC) (in Russian -- ``В контакте'') are used.  %The research \cite{c1} of Tomsk state university, Russia, shows that students (pupils) once or twice a year actualize their profile and subscriptions, as irrelevant information in the main tape (blog) results in necessity to routinely filtering it out. In 2016,  the university researchers showed the IC profile in general actually reflects the cognitive properties of personality, and the educational interests of students are closely correlate to their social network behavior.
+Sometimes, having received an education, people realize that they do not want to work in this area. [[In order to minimize the percentage of such situations, educational institutions hold various events: open days, career guidance work among school graduates, posting useful information on the websites of their university or college, \emph{etc}.  These methods help educational institutions in finding and attracting potential applicants for admission and further study in a more efficient and purposeful way.] NOW SEEMS REDUNDAND]
+
+In a period of intense competition, multidisciplinary educational institutions with similar areas of study are interested in a tool that allows them to determine the target audience more accurately, as well as entrants are interested to find a relevant university.  The work with the audience would be focused and directed. This will help to attract applicants interested in a particular direction, which is being implemented in the educational institution.  This tool could improve the effectiveness of career guidance activities for high school students.  Recommender systems are the tools of such kind.
+
+Recommender systems (RS) \cite{rs_basic6} are decision support information systems designed to assess the user's level of interest in a particular product or service (object) based on available information about user and object.  The RS development industry began to actively develop with the emergence of online sales services, and now it is one of the active areas of development of decision support systems, a direction of artificial intelligence, focused primarily on commercial use, as well as on solving problems of increasing the productivity of searching for relevant information.
+
+Functioning of a RS could be based on analysis of entrants' personal properties, matching them with already enrolled students, analyzing existing individual direction of training and even a particular educational program.  We have been developing and implementing a prototype RS for helping to choose a direction of training at an university for entrants on the base of algorithms for predicting their possible choice based on digital footprints in a social network. As a source data, \emph{e.g.}, a subscriptions of Russian social network ``In Contact'' (IC) (in Russian -- ``В контакте'') are used as sources of personal characteristics, and enrollment orders of our university.  %The research \cite{c1} of Tomsk state university, Russia, shows that students (pupils) once or twice a year actualize their profile and subscriptions, as irrelevant information in the main tape (blog) results in necessity to routinely filtering it out. In 2016,  the university researchers showed the IC profile in general actually reflects the cognitive properties of personality, and the educational interests of students are closely correlate to their social network behavior.
 
 Nowadays social networks are on of the main place in the life of a person, and even more so a teenager.  This is clear from the data from the Glas Runet online poll service.  Among the 2000 participants of the survey, the majority (86\%) of them know about the existence of Internet social networks and use their services.  Among those who know about the existence of social networks, only 10\% do not use them \cite{c2}.
 The most popular social networks according to the Romir holding are Odnoklassniki (Одноклассники, Classmates), Vkontakte (ВКонтакте, InContact) and Instagram.  The youngest audience, from 14 to 30 years old, visit Vkontakte, 45\% does it daily, and 70\% does more often than once a day \cite{c6}.
@@ -101,11 +107,52 @@ Often, it is in social networks that one can track the self-expression, interest
 
 Of course, if a person is an adult, then it is unlikely that all subscriptions to groups will be relevant (``entered and forgot'').  But school students, according to research \cite{11}, update subscriptions every six months or a year: irrelevant content in the feed annoys them.  Accordingly, subscriptions can become the original dataset that can be analyzed.
 
-In 2016, TSU proved that the Vkontakte profile reflects the cognitive personality traits, i.e. the educational interests of schoolchildren are closely related to their behavior in the social network \cite{c9}.
+In 2016, TSU proved that the Vkontakte profile reflects the cognitive personality traits, \emph{i.e.} the educational interests of schoolchildren are closely related to their behavior in the social network \cite{c9}.
 
 %Based on the data on students enrolled in various areas of an university, it is possible to build a system of recommendations for the direction of training.
 
 \section{General approach}
+
+
+\section{Technologies used}
+\label{sec:tech}
+
+At this stage we decided to use C\# based platform for implementation of the RS.  The RS is a web ASP.NET application with database represented with Entity Framework.
+
+\subsection{Input data acquisition}
+\label{sec:tech-input}
+
+The input data is provided by the input forms and automatic processing of students enrollment orders in DOCX format, using our syntactic analyzer.  Orders contain header, which is parsed to determine the date of the enrollment, specialty and other parameters.  The only table part lists of the enrolled students.  Additionally the list records are checked by regular expressions determining the sum of points gained.  The reading of the document data is implemented by means of C\# library \texttt{Microsoft.Office.Interop.Word} with its \texttt{Paragraphs} collection and \texttt{Range} objects.
+
+The list of students is traversed, and for each student its IC profile is queried.  The data of interest is the profile and the subscriptions.  The query is done via IC API as HTTP queries.  According to IC API policy, the queries can be issued not more than three times per second, otherwise error 6 meaning ``Too many requests per second'' is obtained.  Additional constraints are stated to the set of issued remote methods.  The policy for the set is not published, its violation results to the Captcha test issue or rejection of a concrete method usage with no restriction for others.
+
+% The database is used to query stored data
+
+One student can have more than one IC accounts.  In this case a form appeared to choose the right one manually.  The decision is stored in the database tale attribute.
+
+
+\section{Preliminary data processing}
+\label{sec:relim-proc}
+
+The acquired input data stored in the database at first is processed with hierarchical cluster analysis algorithms to construct set of classes for students and study courses.  After that an classification procedure is applied to construct relations between individual student to its class.  These classifications allow us to reduce the complexity of the main recommender algorithms and shift partially from collaborative filtration technique to .
+
+
+\section{Recommendations generation}
+\label{sec:proc-recs}
+
+
+\section{Discussion}
+\label{sec:disc}
+
+\section*{Conclusion}
+\label{sec:conc}
+
+
+
+\section*{Acknowledgements}
+\label{sec:ack}
+
+
 
 \subsection{Maintaining the Integrity of the Specifications}
 
