@@ -124,6 +124,7 @@ In general, the research consists of our variant of the standard scenario that i
 \item Devising classification procedures for relating entrants to the classes;
 \item Imported and above mentioned data analysis results organized in a rationalize database having wrapped in an ORM (Object-relational mapping) to ease of usage;
 \item Implementation the content-based filtering for students that are entrants with data in the database.
+\item Create web application for entrants and university staff.
 \item Testing the system and interviewing students.
 \end{enumerate}
 
@@ -135,14 +136,25 @@ There are regular problems of feature selection describing users and study cours
 
 % Я думала это программа типа помощь с тем, чтобы выбрать направление обучения
 
+% Для реализации проекта необходимо выполнить следующие задачи:
+% - осуществить постановку задачи и описать требования к системе;
+% - получить набор данных (синтаксический анализ открытых приказов о поступлении);
+% - разработать алгоритм поиска студентов в социальной сети «Вконтакте» (ВК) при использовании технологии API;
+% - спроектировать и реализовать базу данных (БД);
+% - разработать основные классы, выполняющие взаимодействие пользователя с БД и обработку поступающих данных;
+% - реализовать графический интерфейс;
+% - осуществить тестирование и отладку программы;
+% - разделить данные на обучающую и тестовую выборку;
+% - подобрать и реализовать алгоритм классификации данных, наиболее подходящий для достижения поставленной цели;
+% - обучить алгоритм и проверить на тестовой выборке;
+% - протестировать алгоритм на данных о поступивших в следующем году абитуриентах.
+
+
 
 \section{Technologies used}
 \label{sec:tech}
 
 At this stage we decided to use C\# based platform for implementation of the RS.  The RS is a web ASP.NET application with database represented with Entity Framework.
-
-\subsection{Input data acquisition}
-\label{sec:tech-input}
 
 The input data is provided by the input forms and automatic processing of students enrollment orders in DOCX format, using our syntactic analyzer.  Orders contain header, which is parsed to determine the date of the enrollment, specialty and other parameters.  The only table part lists of the enrolled students.  Additionally the list records are checked by regular expressions determining the sum of points gained.  The reading of the document data is implemented by means of C\# library \texttt{Microsoft.Office.Interop.Word} with its \texttt{Paragraphs} collection and \texttt{Range} objects.
 
@@ -150,11 +162,15 @@ The list of students is traversed, and for each student its IC profile is querie
 
 % The database is used to query stored data
 
-One student can have more than one IC accounts.  In this case a form appeared to choose the right one manually.  The decision is stored in the database tale attribute.
+One student can have more than one IC accounts.  In this case a form appeared to choose the right one manually.  The decision is stored in a database table attribute.
 
 
 \section{Preliminary data processing}
 \label{sec:relim-proc}
+
+
+\subsection{Input data acquisition}
+\label{sec:tech-input}
 
 The acquired input data stored in the database at first is processed with hierarchical cluster analysis algorithms to construct set of classes for students and study courses.  After that an classification procedure is applied to construct relations between individual student to its class.  These classifications allow us to reduce the complexity of the main recommender algorithms and shift partially from collaborative filtration technique to .
 
@@ -174,7 +190,19 @@ The acquired input data stored in the database at first is processed with hierar
 \section*{Acknowledgements}
 \label{sec:ack}
 
+% \section*{References}
 
+\begin{thebibliography}{99}
+\bibitem{rs_basics} D. Jannach, M. Zanker, A. Felfernig, G. Friedrich. Recommender crSystems: An Introduction. Cambridge University Press (2010).
+\bibitem{ben16}  Джозеф А., Бен А. – C\# 6.0. Справочник. Полное описание языка – М:Вильямс, 2016 – 1040 с.
+\bibitem{apivk}Документация API VK [Электронный ресурс] – URL: https://vk.com/dev/manuals (дата обращения: 05.07.2020).
+\bibitem{wwword}Работаем с MS Word из C\# [Электронный ресурс] – URL: http://nullpro.info/2012/rabotaem-s-ms-word-iz-c-chast-0-klass-i-testovyj-proekt-primer-winforms/ (дата обращения: 05.07.2020).
+\bibitem{ef15}Руководство по Entity Framework [Электронный ресурс] – URL: https://metanit.com/sharp/entityframework (дата обращения: 05.07.2020).
+\bibitem{friman15}Фримен А. – ASP.NET MVC 5 с примерами на C\# 5.0 для профессионалов / Адам Фримен – М: Вильямс, 2015 – 736 c.
+\bibitem{chadvik20}Чедвик Д. – ASP.NET MVC 4. Разработка реальных веб-приложений с помощью ASP.NET MVC / Джесс Чедвик, Тодд Снайдер, Хришикеш Панда – М: Вильямс, 2020 – 432 c.
+\end{thebibliography}
+
+%\newpage\newpage
 
 \subsection{Maintaining the Integrity of the Specifications}
 
@@ -379,9 +407,6 @@ citation first, followed by the original foreign-language citation \cite{b6}.
 %\bibliographystyle{./bibliography/IEEEtran}
 %\bibliography{./bibliography/IEEEabrv,./bibliography/IEEEexample}
 
-\begin{thebibliography}{99}
-  \bibitem{rs_basics} D. Jannach, M. Zanker, A. Felfernig, G. Friedrich. Recommender crSystems: An Introduction. Cambridge University Press (2010).
-\end{thebibliography}
 
 \vspace{12pt}
 \color{red}
