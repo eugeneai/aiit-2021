@@ -113,7 +113,49 @@ In 2016, TSU proved that the Vkontakte profile reflects the cognitive personalit
 
 \section{General approach}
 
-There is three basic approaches to development of a RS: \emph{content-based filtering}, \emph{collaborative filtering} and implementing as a \emph{knowledge-based system}.  Collaborative filtering is efficiently used when there is no initial data on object features describing user interests.  This approach is based on continuous data accumulation on user behavior (the decision made) within a system (\emph{e.g.}, internet shop).  In our case we cannot collect user's decision for individual user continuously as user makes only one decision which faculty he/she will study at.  This can be done for user classes; each enrollment entrants are classified and their decisions update its class collected data.  As this is done rarely, usually once a year, and can be processed off-line, then content-based filtering is more suitable approach for this function mode.  The third approach could be usable later after acquiring more data for data mining.
+There are three basic approaches to development of a RS: \emph{content-based filtering}, \emph{collaborative filtering} and implementing as a \emph{knowledge-based system}.  Collaborative filtering is efficiently used when there is no initial data on object features describing user interests to the items, as well as definitive set of items features, which used in representing user's interest aspects.  This approach is based on continuous data accumulation of user's behavior (the decision made) within a system (\emph{e.g.}, internet shop).  In our case we cannot collect user's decision for each individual user continuously as user makes only one decision which faculty he/she will study at.
+
+This can be done for user classes; each enrollment entrants are classified and their decisions update their classes collected data.  As this is done rarely, usually once a year, and can be processed off-line, then content-based filtering is more suitable approach for this function mode.  The third approach could be usable later after acquiring more data for data mining.
+
+% Из Википедии - общий план исследования.
+
+% Content-based filtering
+For the ease of further consideration of the RS basic aspects of development, we took ``Content-based filtering'' section of Wikipedia webpage \cite{wikiRS}, presenting it here with a small font and necessary emphasizing, and fill it with our data, presenting them with the regular font.
+
+{\footnotesize
+Content-based filtering methods are based on a description of the item (course in our case) and a profile of the users's (student and entrant in our case) preferences \cite{wb41,wb42}. These methods are best suited to situations where \emph{there is known data on an item} (name, location, description, \emph{etc.}), but \emph{not on the user}. Content-based RS treat recommendation as a \emph{user-specific classification problem} and learn a classifier for the user's preferences (likes and dislikes) based on an item's features.}
+
+The item's source data is documents, enrollment orders, where all the formal data presented for each enrolled student.  In contradiction, we have all data about user's features from their IC profiles.  Thus, we have to design machine learning structure relating entrant's features to the classes of courses of an university.
+
+{\footnotesize
+In this system, \emph{keywords} are used to \emph{describe the items} and a \emph{user profile} is built to indicate the \emph{type of item} this user likes. In other words, these algorithms try to recommend items that are similar to those that a \emph{user liked in the past}, or is examining in the present. It does not rely on a user sign-in mechanism to generate this often temporary profile. In particular, various candidate items are compared with items previously rated by the user and the best-matching items are recommended. This approach has its roots in information retrieval and information filtering research.
+}
+
+In order to obtain the keywords describing courses, we are to create a taxonomy of courses and relate it to the known characteristics, for example, competence names or keywords obtained from course descriptions.  User profile is built out of the analysis of the user's profile and subscriptions at IC.  We cannot obtain information on the previous behavior for the individual entrants, but we can consider as a user a class of similar users, \emph{i.e.}, join users in classes and treat a class as a RC user.  New entrants are classified and their IC profiles represent new data on users's past behavior.
+
+{\footnotesize
+To create a user profile, the system mostly focuses on two types of information:
+\begin{enumerate}
+\item A \emph{model of the user's preference}.
+\item A history of the user's interaction with the recommender system.
+\end{enumerate}
+}
+
+Model of user's preference implemented as relation of user class profile features to a study course features expressed by keywords.
+
+{\footnotesize
+Basically, these methods use an item profile (i.e., a set of discrete attributes and features) characterizing the item within the system. To abstract the features of the items in the system, an item presentation algorithm is applied. A widely used algorithm is the tf–idf representation (also called vector space representation) \cite{wb43}. The system creates a content-based profile of users based on a weighted vector of item features. The weights denote the importance of each feature to the user and can be computed from individually rated content vectors using a variety of techniques. Simple approaches use the average values of the rated item vector while other sophisticated methods use machine learning techniques such as Bayesian Classifiers, cluster analysis, decision trees, and artificial neural networks in order to estimate the probability that the user is going to like the item \cite{wb44}.
+}
+
+We decided to use neural networks for the estimation, as nowadays there appeared a bunch of good programming libraries like \cite{nnlibex}, which are easily  be applied.
+
+% {\footnotesize
+% A key issue with content-based filtering is whether the system is able to learn user preferences from users' actions regarding one content source and use them across other content types. When the system is limited to recommending content of the same type as the user is already using, the value from the recommendation system is significantly less than when other content types from other services can be recommended. For example, recommending news articles based on browsing of news is useful, but would be much more useful when music, videos, products, discussions etc. from different services can be recommended based on news browsing. To overcome this, most content-based recommender systems now use some form of hybrid system.
+% }
+
+% {\footnotesize
+% Content-based recommender systems can also include opinion-based recommender systems. In some cases, users are allowed to leave text review or feedback on the items. These user-generated texts are implicit data for the recommender system because they are potentially rich resource of both feature/aspects of the item, and users' evaluation/sentiment to the item. Features extracted from the user-generated reviews are improved meta-data of items, because as they also reflect aspects of the item like meta-data, extracted features are widely concerned by the users. Sentiments extracted from the reviews can be seen as users' rating scores on the corresponding features. Popular approaches of opinion-based recommender system utilize various techniques including text mining, information retrieval, sentiment analysis (see also Multimodal sentiment analysis) and deep learning \cite{wb45}.
+% }
 
 In general, the research consists of our variant of the standard scenario that includes the following steps:
 \begin{enumerate}
@@ -130,26 +172,6 @@ In general, the research consists of our variant of the standard scenario that i
 
 There are regular problems of feature selection describing users and study courses, as well as naming their classes after stage of taxonomy inference. [[List of features ]].  The subscription group (channel) names can be used as features too.  They also could be processed with clustering to generalize subsets of groups, giving additional data on the similarities and control correspondence to their set subject matter tags.  As for names of courses classes competence names can be used also possibly after a generalization.  Classification of new students is realized with two-layer neural network for easy implementation. The data will be processed in context of the university and its subdivision departments, institutions.  There is other data that could be used in the preliminary data analysis: faculty name, course relation data, competence definition text, relation of competences to their courses, course data like study direction and other describing features, and, in principle, results of feed text analysis.
 
-
-% Из Википедии - общий план исследования.
-
-% Content-based filtering
-
-% Another common approach when designing recommender systems is content-based filtering. Content-based filtering methods are based on a description of the item and a profile of the user's preferences.[41][42] These methods are best suited to situations where there is known data on an item (name, location, description, etc.), but not on the user. Content-based recommenders treat recommendation as a user-specific classification problem and learn a classifier for the user's likes and dislikes based on an item's features.
-
-% In this system, keywords are used to describe the items and a user profile is built to indicate the type of item this user likes. In other words, these algorithms try to recommend items that are similar to those that a user liked in the past, or is examining in the present. It does not rely on a user sign-in mechanism to generate this often temporary profile. In particular, various candidate items are compared with items previously rated by the user and the best-matching items are recommended. This approach has its roots in information retrieval and information filtering research.
-
-% To create a user profile, the system mostly focuses on two types of information:
-
-% 1. A model of the user's preference.
-
-% 2. A history of the user's interaction with the recommender system.
-
-% Basically, these methods use an item profile (i.e., a set of discrete attributes and features) characterizing the item within the system. To abstract the features of the items in the system, an item presentation algorithm is applied. A widely used algorithm is the tf–idf representation (also called vector space representation).[43] The system creates a content-based profile of users based on a weighted vector of item features. The weights denote the importance of each feature to the user and can be computed from individually rated content vectors using a variety of techniques. Simple approaches use the average values of the rated item vector while other sophisticated methods use machine learning techniques such as Bayesian Classifiers, cluster analysis, decision trees, and artificial neural networks in order to estimate the probability that the user is going to like the item.[44]
-
-% A key issue with content-based filtering is whether the system is able to learn user preferences from users' actions regarding one content source and use them across other content types. When the system is limited to recommending content of the same type as the user is already using, the value from the recommendation system is significantly less than when other content types from other services can be recommended. For example, recommending news articles based on browsing of news is useful, but would be much more useful when music, videos, products, discussions etc. from different services can be recommended based on news browsing. To overcome this, most content-based recommender systems now use some form of hybrid system.
-
-% Content-based recommender systems can also include opinion-based recommender systems. In some cases, users are allowed to leave text review or feedback on the items. These user-generated texts are implicit data for the recommender system because they are potentially rich resource of both feature/aspects of the item, and users' evaluation/sentiment to the item. Features extracted from the user-generated reviews are improved meta-data of items, because as they also reflect aspects of the item like meta-data, extracted features are widely concerned by the users. Sentiments extracted from the reviews can be seen as users' rating scores on the corresponding features. Popular approaches of opinion-based recommender system utilize various techniques including text mining, information retrieval, sentiment analysis (see also Multimodal sentiment analysis) and deep learning [45].
 
 
 
@@ -172,8 +194,6 @@ There are regular problems of feature selection describing users and study cours
 % - обучить алгоритм и проверить на тестовой выборке;
 % - протестировать алгоритм на данных о поступивших в следующем году абитуриентах.
 
-
-
 \section{Technologies used}
 \label{sec:tech}
 
@@ -187,6 +207,7 @@ The list of students is traversed, and for each student its IC profile is querie
 
 One student can have more than one IC accounts.  In this case a form appeared to choose the right one manually.  The decision is stored in a database table attribute.
 
+Curriculum structure is analyzed by a Python script.  It loads Excel spreadsheet containing the working plans for a student group and extracts disciplines, working hours, competences and various formal data from there.  The structure is stored in a database.
 
 \section{Preliminary data processing}
 \label{sec:relim-proc}
@@ -195,19 +216,25 @@ One student can have more than one IC accounts.  In this case a form appeared to
 \subsection{Input data acquisition}
 \label{sec:tech-input}
 
-The acquired input data stored in the database at first is processed with hierarchical cluster analysis algorithms to construct set of classes for students and study courses.  After that an classification procedure is applied to construct relations between individual student to its class.  These classifications allow us to reduce the complexity of the main recommender algorithms and shift partially from collaborative filtration technique to .
+% The acquired input data stored in the database at first is processed with hierarchical cluster analysis algorithms to construct set of classes for students and study courses.  After that an classification procedure is applied to construct relations between individual student to its class.  These classifications allow us to reduce the complexity of the main recommender algorithms and shift partially from collaborative filtration technique to .
 
 
 \section{Recommendations generation}
 \label{sec:proc-recs}
 
+\section{Web application}
+
+\subsection{Back office}
+\label{sec:back}
+
+\subsection{Front office}
+\label{sec:back}
 
 \section{Discussion}
 \label{sec:disc}
 
 \section*{Conclusion}
 \label{sec:conc}
-
 
 
 \section*{Acknowledgements}
@@ -223,7 +250,16 @@ The acquired input data stored in the database at first is processed with hierar
 \bibitem{ef15}Руководство по Entity Framework [Электронный ресурс] – URL: https://metanit.com/sharp/entityframework (дата обращения: 05.07.2020).
 \bibitem{friman15}Фримен А. – ASP.NET MVC 5 с примерами на C\# 5.0 для профессионалов / Адам Фримен – М: Вильямс, 2015 – 736 c.
 \bibitem{chadvik20}Чедвик Д. – ASP.NET MVC 4. Разработка реальных веб-приложений с помощью ASP.NET MVC / Джесс Чедвик, Тодд Снайдер, Хришикеш Панда – М: Вильямс, 2020 – 432 c.
+
+\bibitem{wb41}Aggarwal, Charu C. (2016). Recommender Systems: The Textbook. Springer. ISBN 9783319296579.
+\bibitem{wb42}Peter Brusilovsky (2007). The Adaptive Web. p. 325. ISBN 978-3-540-72078-2.
+\bibitem{wb43}D.H. Wang, Y.C. Liang, D.Xu, X.Y. Feng, R.C. Guan(2018), "A content-based recommender system for computer science publications", Knowledge-Based Systems, 157: 1-9
+\bibitem{wb44}Blanda, Stephanie (May 25, 2015). "Online Recommender Systems – How Does a Website Know What I Want?". American Mathematical Society. Retrieved October 31, 2016.
+\bibitem{wb45}X.Y. Feng, H. Zhang, Y.J. Ren, P.H. Shang, Y. Zhu, Y.C. Liang, R.C. Guan, D. Xu, (2019), "The Deep Learning–Based Recommender System “Pubmender” for Choosing a Biomedical Publication Venue: Development and Validation Study", Journal of Medical Internet Research, 21 (5): e12957
+\bibitem{wikiRS}Recommender system -- Wikipedia. URL:~\url{https://en.wikipedia.org/wiki/Recommender_system} (access date: 13.09.2020)
 \end{thebibliography}
+
+\end{document}
 
 %\newpage\newpage
 
