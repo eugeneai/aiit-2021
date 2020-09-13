@@ -3642,7 +3642,7 @@ Using a default centering column instead}%
    \fi% if star form
    % provide a basic hyperref \theHequation if this has not already been setup (hyperref not loaded, or no section counter)
    \@ifundefined{theHequation}{\def\theHequation{\arabic{equation}}}{}\relax
-   % provide dummy hyperref commands in case hyperref is not loaded
+   % provide dummy hyperref commands in case hyperref is not loadedaded
    \providecommand{\Hy@raisedlink}[1]{}\relax
    \providecommand{\hyper@anchorstart}[1]{}\relax
    \providecommand{\hyper@anchorend}{}\relax
