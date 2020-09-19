@@ -62,24 +62,28 @@
 
 \begin{document}
 
-\title{Recommender system for high school entrants having social network accounts}
+% \title{Recommender system for high school entrants having social network accounts}
+
+\title{Recommender systems: some aspects of implementation}
 
 \author{%
-\IEEEauthorblockN{Viktoria Kopylova${}^1$, N. Luk'yranov${}^1$, Evgeny Cherkashin${}^{2,1}$}
-\IEEEauthorblockA{${}^1$~\textit{Institute for computer science and data analysis,
-National research Irkutsk state technical university} Irkutsk, Russia\\
-\{,\}@istu.edu}
-\IEEEauthorblockA{${}^2$~\textit{Laboratory of Complex informational systems, Institute for system dynamics and control theory, SB RAS,}
+\IEEEauthorblockN{Evgeny Cherkashin${}^{1,2}$, Viktoria Kopylova${}^2$, N. Luk'yranov${}^2$, Boris Shevchenko${}^2$}
+\IEEEauthorblockA{${}^1$~\textit{Laboratory of Complex informational systems, Institute for system dynamics and control theory, SB RAS,}
 Irkutsk, Russia \\
 eugeneai@irnok.net}
+\IEEEauthorblockA{${}^2$~\textit{Institute for computer science and data analysis,
+National research Irkutsk state technical university} Irkutsk, Russia\\
+kopylovika@mail.ru,lukyanovnd@istu.edu}
 }
 
 \maketitle
 
 \begin{abstract}
-  The research of the paper is devoted to the development a recommender system for entrants choosing the specialty of a high school.  The recommendation is to be realized on the base of data obtained from his/her account of a social network.  Recommenter system data analysis engine is a complex of data analysis technologies being used for social network data extraction and storage, enrolling documents parsing, entrants and study subjects classifications, construction of the correlations between entrants and subjects of study.
+  The research of the paper is devoted to expose experience gained in development recommender systems for two domain areas: real estate of an region and choosing the specialty of a high school by entrants. These systems implement different approaches to obtain necessary data and the technique of figuring out the user interest. The common in the techniques are the usage of preliminary data analysis for user and object classification that reduces the computations and data stored. %The recommendation is to be realized on the base of data obtained from his/her account of a social network.  Recommenter system data analysis engine is a complex of data analysis technologies being used for social network data extraction and storage, enrolling documents parsing, entrants and study subjects classifications, construction of the correlations between entrants and subjects of study.
 
-  This paper deals with mostly with the stage of information acquisition, correlation patterns construction and taxonomy construction for entrants and high school subjects.  The future development is indicated.
+The future development is indicated.
+
+  % This paper deals with mostly with the stage of information acquisition, correlation patterns construction and taxonomy construction for entrants and high school subjects.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -88,11 +92,16 @@ recommender system, correlation patterns, taxonomy
 
 \section{Introduction}
 
-Each school student sooner or later faces the problem of choice of a future specialty, university to enroll, and the set of courses to study.  Decisions made at this time significantly affect the future life of the students, their job and career perspective, families' life level, \emph{etc}.  Therefore, any help at this stage seems to be a necessary moment. In comparison to the real estate, where there is a whole industry supporting decision-making -- the services of realtors --, in this field the educational environment supports only an information provision service: students are given only career guidance, advertisement of the high school capabilities.  The student is on his/her own in the fundamental life decision.  Of cause, parents and favorite mentors can supply the additional life experience examples helping to focus the analysis of the present conditions, but the actuality of their advices are generally of questions due to specifics of their experience, subjectivity, absence of the actual information of the present state of the labor market, scientific progress, \emph{etc}.
+Recommender systems (RS), being considered as an example of decision support systems, are useful to support users with additional information and decision variants.  In this paper we consider our experience with developing RS in two domains: real estate of a region and choosing the specialty of a high school.  Both systems were developed within preparing master degree at Institute for computer science and data analysis, National research Irkutsk state technical university.  That's why they have status of pilot projects showing the basic technique implementations.
 
-[[Here we speak about actuality... how to obtain it with data analysis relating contemporary enrollments and, possibly, the resulting educational capabilities of the students after the graduation.]] [[Then transit to the preliminary part (at this time we will deal with the entrant stage) - choice of the study courses]]
+The first system deals with the problem of the time span spent for selling a real estate: a flat, a room in a flat, a house.  Most of the objects on the market have similar characteristics in a class, the user interest is expressed with obvious characteristics like price, location, the level, number of owners.  But the most interesting aspect of the problem is the special cases of realty like private family hotels, countryside houses, shops.  These are being sold usually for a long time, and the real estate firms utilize too much efforts.  The time spent to find new owner of the property is critical for the business.  RS focusing user interest on the previously filtered subsets of the property, preliminary sorting by relevance, could speed up the sales.
 
-Sometimes, having received an education, people realize that they do not want to work in this area. [[In order to minimize the percentage of such situations, educational institutions hold various events: open days, career guidance work among school graduates, posting useful information on the websites of their university or college, \emph{etc}.  These methods help educational institutions in finding and attracting potential applicants for admission and further study in a more efficient and purposeful way.] NOW SEEMS REDUNDAND]
+Each school student sooner or later faces the problem of choice of a future specialty, university to enroll, and the set of courses to study.  Decisions made at this time significantly affect the future life of the students, their job and career perspective, families' life level.  Therefore, any help at this stage seems to be a necessary. In comparison to the real estate, where there is a whole industry supporting decision-making -- the services of realtors --, in this field the educational environment supports only an information provision service: students are given only career guidance, advertisement of the high school capabilities.  The student is on his/her own in the fundamental life decision.  Of cause, parents and favorite mentors can supply the additional life experience examples helping to focus the analysis of the present conditions, but the actuality of their advices are generally of questions due to specifics of their experience, subjectivity, absence of the actual information of the present state of the labor market, scientific progress, \emph{etc}.
+
+%[[Here we speak about actuality... how to obtain it with data analysis relating contemporary enrollments and, possibly, the resulting educational capabilities of the students after the graduation.]] [[Then transit to the preliminary part (at this time we will deal with the entrant stage) - choice of the study courses]]
+
+% FIXME: extract info from here and add to the following paragraph
+% Sometimes, having received an education, people realize that they do not want to work in this area. In order to minimize the percentage of such situations, educational institutions hold various events: open days, career guidance work among school graduates, posting useful information on the websites of their university or college, \emph{etc}.  These activities help educational institutions in finding and attracting potential applicants for admission and further study in a more efficient and purposeful way.
 
 In a period of intense competition, multidisciplinary educational institutions with similar areas of study are interested in a tool that allows them to determine the target audience more accurately, as well as entrants are interested to find a relevant university.  The work with the audience would be focused and directed. This will help to attract applicants interested in a particular direction, which is being implemented in the educational institution.  This tool could improve the effectiveness of career guidance activities for high school students.  Recommender systems are the tools of such kind.
 
