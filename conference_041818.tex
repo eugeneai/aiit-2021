@@ -280,7 +280,15 @@ Curriculum structure is analyzed by a Python script.  It loads Excel spreadsheet
 \section{Recommendations generation}
 \label{sec:proc-recs}
 
+{\color{blue}The recommendation subsystem is currently implemented in real estate RS, using Slope One based collaborative filtration. }
+
 \section{Web application}
+
+Both RS use MVC architecture in construction of user interface.  Realty RS is based on \texttt{Nancy} ASP.NET framework, where for each URL template a lambda function is related, having supported parameters of the Request objects.  At the beginning of each function we restore \texttt{session} object, and at the end, the Response object is created by applying a context model and a view object to a template.  As template engine SharpTAL is used, an implementation of Zope page template (ZPT) with Template attribute language (TAL).  This implementation follows traditions of C\#, namely, compile its content into objects at the phase of project compilation.
+
+As for each web template engine, ZPT uses model, view, which implements controller functions as well, and template to generate HTML content.  Model is referred as \texttt{context} of view, which function is simplification of the access to context by template, and transforming user actions into model change upon \texttt{POST} query.  For using global application and other data as with context we pass in a general case \texttt{application}, \texttt{appview}, \texttt{user} and \texttt{message} objects.  User defines the currently authenticated user, and message contains text to show in a view, announcing an event happening in the RS, \emph{e.g.} the fact that the record is successfully stored in the database.
+
+ZPT and TAL technologies were chosen as they give a very powerful tools for HTML tree structure manipulation including usage of named and parametrized macros, attributes subtrees, defined in one page template, and multiply used in other ones, as well as the technology tries do not extend XHTML syntax with new entities for implementation of element replacement functions.
 
 \subsection{Back office}
 \label{sec:back}
