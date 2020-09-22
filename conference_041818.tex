@@ -15,6 +15,7 @@
 %
 \usepackage{makeidx}  % allows for indexgeneration
 \usepackage{url}
+\usepackage{doi}
 %\usepackage[biblabel]{cite}
 %\usepackage{amsmath,amssymb,amsfonts}
 %\usepackage{algorithmic}
@@ -59,7 +60,7 @@
   }
 
 \setmainfont{Times New Roman}
-
+\renewcommand{\doitext}{DOI:}
 \begin{document}
 
 % \title{Recommender system for high school entrants having social network accounts}
@@ -113,13 +114,20 @@ In this paper, we share the experience gained when producing a prototype RS for 
 
 There are many research groups and commercial firms dealing with developing RS techniques for various domains.  We will consider related domains and other interesting cases.
 
-In \cite{br22} a case-based reasoning RS for real estate market is presented.  Its goal is to find a similar instance in the database of existing cases, describing the cases for the user.  The obtained relations are used in following collaborative filtration and content filtering.  In theoretical researc \cite{br20} the users are divided on sellers an buyers.  Sellers ``advertise'' their realty by highlighting the important features by their opinion.  So the sellers play expert roles for forming data for content filtration.  Research \cite{br23} showed that usage of Internet does not influence significantly on the time efficiency, flexibility and satisfaction criteria of the search for a flat to buy.  There are no statistical difference between 2009 and 2011, since in 2011 88\% of buyers used Internet just as the main source of information.  Authors created RS with case based reasoning utilizing an ontology model.
+In \cite{br22} a case-based reasoning RS for real estate market is presented.  Its goal is to find a similar instance in the database of existing cases, describing the cases for the user.  The obtained relations are used in following collaborative filtration and content filtering.  In theoretical research \cite{br20} the users are divided on sellers an buyers.  Sellers ``advertise'' their realty by highlighting the important features by their opinion.  So the sellers play expert roles for forming data for content filtration.  Research \cite{br23} showed that usage of Internet does not influence significantly on the time efficiency, flexibility and satisfaction criteria of the search for a flat to buy.  There are no statistical difference between 2009 and 2011, since in 2011 88\% of buyers used Internet just as the main source of information.  Authors created RS with case based reasoning utilizing an ontology model.
 
 In \cite{br23} authors highlight three key features which significantly affects the decision: location, housing unit properties and price.  Final decision is made after evaluation of the environment, such as distances to shops, kindergartens, schools.  This can be accounted reducing the additional data to the value of the feature of housing unit properties using ontology.  The environment constraint is entered by user: user draws a circle over the preferable location, which should contain interested services and realty.
 
 Paper \cite{br21} considers a complex logistic problem of organization of a process of real estate control, involving various people groups in changing business environment.  The main aim is to develop a model, where the groups will be maximally satisfied in a rational micro and macro environment.  The efficiency of the realty utilization is evaluated with criteria of market, ownership, renewal prices, capacity, number of operations to be done while ownership transferring, safety, comfort, the time of physical and technical exploitations, \emph{etc}.  The software functions shift from ``the most economically efficient control of the property'' to multicriterial choice,r raising computation efficiency.
 
 % TODO: review of entrants' RS.
+
+For recent RS dealing with student's problem of choice the following papers were observed. In \cite{belotsky} a RS is constructed for helping entrants to choose an education direction (expressed as a sets of corresponding high schools) according to his/her grades in GCE (General certificate of education), gained competing prizes, physical activity, and hobby.  Three methods of content filtration were implemented: by distances between vector characteristics, axiomatic method of Pareto-set contraction, and analysis of hierarchies.  Authors figured out coefficients relating study directions to the features of user using series of experimental assessments controlled by experts.
+
+In \cite{bakh}, a problem of learning outcomes assessment of higher education students is considered.  A course RS on the base students' graduate attributes, which describe their developing values, is proposed.  RS rates improvement after each course and suggests new courses by a collaborative filtering algorithm in order to improve student's average competence profile.  Students are presented as long vectors of courses they already taken with the corresponding grades.  Similarity is calculated with a variation of angle cosine of the vectors.  The recommendations are the prediction of the grades for the new courses.  Similar by the problem statement paper \cite{amer}, where RS predicts course learning trajectory patterns, the students is suggested elective curses.  Source data for collaborative filtering are existing learning trajectories acquired from senior students in the image and likeliness one student advices younger one. Students and courses are divided on clusters.  For each student cluster (a group), a mean student values are calculated.  RS algorithms are based on combination of collaborative filtering and fuzzy-like rule based system, which defines process of production of a decision.  The article has a good reviews of related works and three classical approaches basics.
+
+Work \cite{naren} have the similar aim to develop RS for advising students new courses, but is focusing on description of courses, taking advantage of natural language processing over course documents to acquire descriptions.  Feature descriptions contain formal course data (name, structure, lecturer) and a placement in a keyword appearance frequency space.  Existing student data, represented as grades of the courses he/she already stood, related to the course data.  The resulting recommendations are represented as top-5 new courses, where student will gain the best grades.  This is a simplistic direct approach and, by authors opinion, gives good results; some measurement supporting the opinion were carried on.
+
 
 % frvei of paper selection.
 
@@ -131,13 +139,13 @@ The collaborative filtration is currently more popular as it reflects practical 
 
 % TODO: Указать, в чем особенность наших двух проектов.
 
-{\color{red}Our research is aimed at application of known techniques to the cases of real estate market of Irkutsk region and, similarly, the market of education service of the region, as well as implement libraries for constructing RS using nowadays technologies.}
+Our research is aimed at application of known techniques to the objects and agents data of real estate market of Irkutsk region and, similarly, the market of education service of the region, as well as at implementation of libraries for constructing RS using nowadays technologies.
 
 \section{Data source for real estate RS}
 
 In Russia sector of Internet, real estate market is presented with various classified advertisement websites for selling goods, jobs positions, real estate, cars, services, \emph{etc.} like Avito.ru.  In Irkutsk region and Moscow, every second flat is sold via such services, with publishing a number of offers for the same flat.  This usually results in reduction of the price to the level below the average on the market.   In Ekaterinburg, real estate is generally sold by realtor firms, in this case the process is more predictable for the seller.  The number of deals in Irkutsk region was raising by 20\% from 2010 to 2016 on the secondary housing market.  This raise is due to the raising of the activity of the websites.
 
-The source of the real estate data is atlcom.ru that provide an actual database for real estate market of almost any region or city of Russia.  One can register and supply filter setup by a form for selection of the part of the database to download. The downloaded data are represented in XML format.  The format is developed by yandex.com within the R\&D of describing selling commodities.  A special variant is for real estate.
+The source of the real estate data is \texttt{atlcom.ru} that provide an actual database for real estate market of almost any region or city of Russia.  One can register and supply filter setup by a form for selection of the part of the database to download. The downloaded data are represented in XML format.  The format is developed by yandex.com within the R\&D of describing selling commodities.  A special variant is for real estate.
 
 The file comprises a list of \texttt{offer} records (subtrees) describing a flat, house or a room.  The description include metadata (where published, sale agent), location address, price, area in square meters, an image, number of rooms, floor level, type of building and its general characteristics, as well as the conditions for obtaining additional information.  Each record is identified by a global identifier.
 
@@ -276,11 +284,32 @@ Curriculum structure is analyzed by a Python script.  It loads Excel spreadsheet
 
 % The acquired input data stored in the database at first is processed with hierarchical cluster analysis algorithms to construct set of classes for students and study courses.  After that an classification procedure is applied to construct relations between individual student to its class.  These classifications allow us to reduce the complexity of the main recommender algorithms and shift partially from collaborative filtration technique to .
 
+\subsection{Classification of realty objects}
+\label{sec:class-realty}
 
-\section{Recommendations generation}
+The classification was carried out with hierarchical clustering method and c\# library ....
+
+Comparison of the object was made according to the features presented in Table~\ref{tbl:cmp}.
+\begin{table}[th]
+  \caption{Comparing features and their weight coefficients}
+  \label{tab:cmp}
+  \centering
+  %\begin{tabular}[|l|l|c|c|]{}
+  %\end{tabular}
+\end{table}
+
+The aggregate assessment is made with formula:
+
+where $v_k$ is a weight of $k$-th attribute value, we, as programmers, for each calculated $d(i,j)$ \texttt{asserted} its value $0\leqslant d(j,j)\leqslant 1$.
+The following classes are presented on Irkutsk region real estate market: ..., and elite.
+
+
+\section{Recommendations generation behavior}
 \label{sec:proc-recs}
 
-{\color{blue}The recommendation subsystem is currently implemented in real estate RS, using Slope One based collaborative filtration. } We assume that buyer purchases a flat not frequently and then each buyer is a new user, and no data about his/her preferences are available.
+The RS for real estate market is implemented Slope One based collaborative filtration.  We assume that buyer purchases a flat not frequently and then each buyer is a new user, and no data about his/her preferences are available.  New users are assigned a GUID and tracked by cookies.  Tracking data forms preference data.  After a predefined number of viewed pages, RS suggests to register, it is an engine preventing loosing the data due to moving user to another workstation, and starts to issue recommendations.
+
+For each visited classes of objects, RS performing filtering the set of objects and range them according to all collected user data.
 
 \section{Web application}
 
@@ -323,6 +352,10 @@ ZPT and TAL technologies were chosen as they give a very powerful tools for HTML
 \bibitem{wb44}Blanda, Stephanie (May 25, 2015). "Online Recommender Systems – How Does a Website Know What I Want?". American Mathematical Society. Retrieved October 31, 2016.
 \bibitem{wb45}X.Y. Feng, H. Zhang, Y.J. Ren, P.H. Shang, Y. Zhu, Y.C. Liang, R.C. Guan, D. Xu, (2019), "The Deep Learning–Based Recommender System “Pubmender” for Choosing a Biomedical Publication Venue: Development and Validation Study", Journal of Medical Internet Research, 21 (5): e12957
 \bibitem{wikiRS}Recommender system -- Wikipedia. URL:~\url{https://en.wikipedia.org/wiki/Recommender_system} (access date: 13.09.2020)
+\bibitem{belotsky} E. A. Belotskiy, A. V. Suetin, Сonstruction of a recommendersystem for choosing higher education institutions for entrants,Vestnik S.-Petersburg Univ. Ser. 10. Prikl. Mat. Inform. Prots.Upr., 2016, Issue 1, 66–77. URL:\url{http://www.mathnet.ru/links/1c01f91d57c8dc6f050c7e6d3fed3604/vspui277.pdf}(in Russian)
+\bibitem{bakh}Bakhshinategh, B., Spanakis, G., Zaiane, O. and ElAtia, S. A Course Recommender System based on Graduating Attributes.In Proceedings of the 9th International Conference on Computer Supported Education - Volume 1: CSEDU, ISBN 978-989-758-239-4, 2017, pp. 347-354. \doi{10.5220/0006318803470354}
+\bibitem{amer}Amer Al-Badarenah and Jamal Alsakran, “An Automated Recommender System for Course Selection” International Journal of Advanced Computer Science and Applications(ijacsa), 7(3), 2016. \doi{10.14569/IJACSA.2016.070323}
+\bibitem{naren}J. Naren, M. Z. Banu, S. Lohavani, Recommendation System for Students’Course Selection. A. K. Somani et al. (eds.), Smart Systems and IoT: Innovationsin Computing, Smart Innovation, Systems and Technologies 141. 2020. pp.~825--833. \doi{10.1007/978-981-13-8406-6_77}
 \end{thebibliography}
 
 \end{document}
