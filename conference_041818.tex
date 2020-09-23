@@ -68,12 +68,12 @@
 \title{Recommender systems: some aspects of implementation}
 
 \author{%
-\IEEEauthorblockN{Evgeny Cherkashin${}^{1,2}$, Viktoria Kopylova${}^2$, Nikita Luk'yranov${}^2$, Boris Shevchenko${}^2$}
-\IEEEauthorblockA{${}^1$~\textit{Laboratory of Complex informational systems, Institute for system dynamics and control theory, SB RAS,}
+\IEEEauthorblockN{Evgeny Cherkashin${}^{1,2}$, Viktoria Kopylova${}^2$, Boris Shevchenko${}^2$, Nikita Luk'yranov${}^2$}
+\IEEEauthorblockA{${}^1$~\textit{Laboratory of Complex informational systems},\\\textit{Institute for system dynamics and control theory, SB RAS,}
 Irkutsk, Russia \\
 eugeneai@irnok.net}
-\IEEEauthorblockA{${}^2$~\textit{Institute for informational technologies and data analysis,
-National research Irkutsk state technical university} Irkutsk, Russia\\
+\IEEEauthorblockA{${}^2$~\textit{Institute for informational technologies and data analysis},\\
+\textit{National research Irkutsk state technical university,} Irkutsk, Russia\\
 kopylovika@mail.ru,lukyanovnd@istu.edu}
 }
 
@@ -263,7 +263,7 @@ There are regular problems of feature selection describing users and study cours
 \section{Technologies used}
 \label{sec:tech}
 
-At this stage we decided to use C\# based platform for implementation of the RS.  The RS is a web ASP.NET application with database represented with Entity Framework.
+In both projects we used C\#-based platform for implementation as it is a compromise of expressiveness and computational performance, it has rich set of libraries and frameworks.  The RS are web ASP.NET applications with database represented with Entity Framework Object-relational mappers (ORM).
 
 The input data is provided by the input forms and automatic processing of students enrollment orders in DOCX format, using our syntactic analyzer.  Orders contain header, which is parsed to determine the date of the enrollment, specialty and other parameters.  The only table part lists of the enrolled students.  Additionally the list records are checked by regular expressions determining the sum of points gained.  The reading of the document data is implemented by means of C\# library \texttt{Microsoft.Office.Interop.Word} with its \texttt{Paragraphs} collection and \texttt{Range} objects.
 
@@ -301,15 +301,15 @@ Comparison of the object was made according to the features presented in Table~\
 The aggregate assessment is made with formula:
 
 where $v_k$ is a weight of $k$-th attribute value, we, as programmers, for each calculated $d(i,j)$ \texttt{asserted} its value $0\leqslant d(j,j)\leqslant 1$.
-The following classes are presented on Irkutsk region real estate market: ..., and elite.
+The following classes are presented on Irkutsk region real estate market: two-room flats, one-or-two-room flats (comfort class really), one-room flats, dachas, houses, room, commercial space, a garage, and elite realty (flats with three and more rooms).
 
 
 \section{Recommendations generation behavior}
 \label{sec:proc-recs}
 
-The RS for real estate market is implemented Slope One based collaborative filtration.  We assume that buyer purchases a flat not frequently and then each buyer is a new user, and no data about his/her preferences are available.  New users are assigned a GUID and tracked by cookies.  Tracking data forms preference data.  After a predefined number of viewed pages, RS suggests to register, it is an engine preventing loosing the data due to moving user to another workstation, and starts to issue recommendations.
+The RS for real estate market is implemented Slope One based collaborative filtration \cite{br1}.  We assume that buyer purchases a flat not frequently and then each buyer is a new user, and no data about his/her preferences are available, as well as one flat cannot be bought several times as compared to a regular internet shop of commodities.  New users are assigned a GUID and tracked by cookies.  Tracking data forms preference data.  After a predefined number of viewed pages, RS suggests to register, it is an engine preventing loosing the data due to moving user to another workstation, and starts to issue recommendations.  The user is not required to register, as it was specially stated before us as a requirement, but we explain the advantages of the registration action.
 
-For each visited classes of objects, RS performing filtering the set of objects and range them according to all collected user data.
+RS tracks user movement around various classes and fixed for each class the estimation of the object explicitly viewed by user. For each visited class, RS performs filtering the set of objects and range them according to all collected user data in the context of the class.  The relevance is calculated by Slope One technique.  The average values of differences of objects' evaluations are calculated by request and cashed in the user session data. After calculation of the evaluations for each object, which was not seen by user, in the class, objects are sorted by relevance and a predefined number of them are displayed.
 
 \section{Web application}
 
@@ -328,12 +328,33 @@ ZPT and TAL technologies were chosen as they give a very powerful tools for HTML
 \section{Discussion}
 \label{sec:disc}
 
+The overview of the presented experience shows that C\# .NET and MONO technologies and used techniques are well suitable for construction RS of various kind, fulfilling the following typical requirements:
+\begin{enumerate}
+\item working in ``cold start'' conditions;
+\item do not require user to register and authorize while implicit gathering information needed for recommendation generation;
+\item testing systems are to be done in a local conditions to be able to check the results comparing with existing ``natural'' data;
+\item using open-source technologies, modules and libraries.
+\end{enumerate}
+
+The obtained real estate RS implementation as well as the second project do not take advantage of the nowadays methods, which corresponds to current traditions.  Most attention is paid to preliminary data processing and obtaining minimal valuable product (MVP).
+
 \section*{Conclusion}
 \label{sec:conc}
 
+[[...]]
+
+The described technique could be developed further by adaptation the standard directions such as:
+\begin{itemize}
+  \item development or adaptation of ontology of domain to extend search capabilities especially in students' courses domain;
+  \item case based reasoning for the same domain;
+  \item predictive modeling of attribute values for realty;
+  \item providing geospacial data of infrastructural service organizations in the environment, \emph{e.g.} schools, kindergartens and shops.
+\end{itemize}
 
 \section*{Acknowledgements}
 \label{sec:ack}
+
+Authors thank Evgeny Vasil'evich Brezheshov, director of a realtor office, for helping with problem domain description and problem statement of real estate recommender systems.
 
 % \section*{References}
 
