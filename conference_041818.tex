@@ -263,9 +263,11 @@ There are regular problems of feature selection describing users and study cours
 \section{Technologies used}
 \label{sec:tech}
 
-In both projects we used C\#-based platform for implementation as it is a compromise of expressiveness and computational performance, it has rich set of libraries and frameworks.  The RS are web ASP.NET applications with database represented with Entity Framework Object-relational mappers (ORM).
+In both projects we used C\#-based platform for implementation as it is a compromise of expressiveness and computational performance, it has rich set of libraries and frameworks.  The RS are web ASP.NET and MONO applications with database represented with Entity Framework Object-relational mappers (ORM).  One of the advantages of the C\# language is partial classes allowing composition of a class dividing its definition between files, which can be both generated and programmed manually.  This technology supports great flexibility of Entity Framework.  The language also supports properties and decorators, making it a convenient application programming language.
 
-The input data is provided by the input forms and automatic processing of students enrollment orders in DOCX format, using our syntactic analyzer.  Orders contain header, which is parsed to determine the date of the enrollment, specialty and other parameters.  The only table part lists of the enrolled students.  Additionally the list records are checked by regular expressions determining the sum of points gained.  The reading of the document data is implemented by means of C\# library \texttt{Microsoft.Office.Interop.Word} with its \texttt{Paragraphs} collection and \texttt{Range} objects.
+Database back-end of the realty RS is open-source RDF (Resource Description Framework) triple store \texttt{BrightstarDB}, allowing in future research to use data in logical inference engines, \textrm{e.g.}, for constructing knowledge-based RS and connect the system with other servers via SPARQL.  The second back-end database system is SQLEXPRESS, the default setup for Microsoft Visual Development Studio.
+
+The input data for entrants' RS is provided by the input forms and automatic processing of students enrollment orders in DOCX format, using our syntactic analyzer.  Orders contain header, which is parsed to determine the date of the enrollment, specialty and other parameters.  The only table part lists of the enrolled students.  Additionally the list records are checked by regular expressions determining the sum of points gained.  The reading of the document data is implemented by means of C\# library \texttt{Microsoft.Office.Interop.Word} with its \texttt{Paragraphs} collection and \texttt{Range} objects.
 
 The list of students is traversed, and for each student its IC profile is queried.  The data of interest is the profile and the subscriptions.  The query is done via IC API as HTTP queries.  According to IC API policy, the queries can be issued not more than three times per second, otherwise error 6 meaning ``Too many requests per second'' is obtained.  Additional constraints are stated to the set of issued remote methods.  The policy for the set is not published, its violation results to the Captcha test issue or rejection of a concrete method usage with no restriction for others.
 
@@ -273,7 +275,7 @@ The list of students is traversed, and for each student its IC profile is querie
 
 One student can have more than one IC accounts.  In this case a form appeared to choose the right one manually.  The decision is stored in a database table attribute.
 
-Curriculum structure is analyzed by a Python script.  It loads Excel spreadsheet containing the working plans for a student group and extracts disciplines, working hours, competences and various formal data from there.  The structure is stored in a database.
+% Curriculum structure is analyzed by a Python script.  It loads Excel spreadsheet containing the working plans for a student group and extracts disciplines, working hours, competences and various formal data from there.  The structure is stored in a database.
 
 \section{Preliminary data processing}
 \label{sec:relim-proc}
@@ -284,8 +286,25 @@ Curriculum structure is analyzed by a Python script.  It loads Excel spreadsheet
 
 % The acquired input data stored in the database at first is processed with hierarchical cluster analysis algorithms to construct set of classes for students and study courses.  After that an classification procedure is applied to construct relations between individual student to its class.  These classifications allow us to reduce the complexity of the main recommender algorithms and shift partially from collaborative filtration technique to .
 
+In realty RS, two program agents are implemented, which are executed on a n event occurrence.  The first one starts by timer of web browser and implements issuing user positive evaluation, if user spends some time viewing a page of a realty object.  The second one, located at server side, is activated if the first one raised event of a positive evaluation.  Server agent receives the evaluation and may start recalculation of estimates for recommendations if there are enough computational resources.
+
+All data are stored in a database, which structure is represented as objects on Figure~\ref{fig:class-siag}.  Central class is \texttt{IOffer}, representing the offer of an realty object.  The information on an object, which is independent of an offer, is stored as \texttt{IObject}-object.  The object structure corresponds to standard Yandex and Google form of real estate representation.
+
+\begin{figure}[tb]
+  \centering
+
+  \caption{Class diagram for real estate RS}
+  \label{fig:class-siag}
+\end{figure}
+
+The real estate domain specifics is the total availability of data for realty objects, so the import function provides the whole body of information on objects by importing it from other sites.
+
+
 \subsection{Classification of realty objects}
 \label{sec:class-realty}
+
+
+
 
 The classification was carried out with hierarchical clustering method and c\# library ....
 
@@ -301,8 +320,14 @@ Comparison of the object was made according to the features presented in Table~\
 The aggregate assessment is made with formula:
 
 where $v_k$ is a weight of $k$-th attribute value, we, as programmers, for each calculated $d(i,j)$ \texttt{asserted} its value $0\leqslant d(j,j)\leqslant 1$.
+
+In order to create a taxonomy, expert user must run the hierarchical clustering function supplying the number $N$ of general clusters to figure out.  After the function finishes, expert will see the numbers of top $N$ clusters with number of their objects.  Next step is naming the clusters.  Expert enters in the subsets and reviews the objects, forming an image of the common properties of the objects.  After naming the image in the first interface, expert changes name of cluster from a number to the name.  This is to be done for each $0..N-1$ clusters.  If expert cannot form a concrete image of the class, them we recommend repeat the procedure with larger number of clusters.
+
+Some clusters can gain the same name, and after renaming, clusters with the same name are joined.  Hierarchical clustering allows us to make experiments with data without recalculation of the taxonomies.  Before running clustering function, expert can restrict the set of objects to be examined, \emph{e.g.} by 200 objects, so we can use even agglomerative hierarchical clustering.
+
 The following classes are presented on Irkutsk region real estate market: two-room flats, one-or-two-room flats (comfort class really), one-room flats, dachas, houses, room, commercial space, a garage, and elite realty (flats with three and more rooms).
 
+User interests acquired as follows.  New user is suggested a set of objects from all the classes of realty.  Watching users activities, which objects he/she is viewing, the systems gains initial interest, and then specifies the class of objects to view at following steps.  Each object observed by user during long time considered to be of interest, the a positive evaluation is added to database.  Recommended objects are shown in a list located at the bottom of the interface window.  The set of suggested objects is restricted by 20 items.
 
 \section{Recommendations generation behavior}
 \label{sec:proc-recs}
@@ -310,6 +335,8 @@ The following classes are presented on Irkutsk region real estate market: two-ro
 The RS for real estate market is implemented Slope One based collaborative filtration \cite{br1}.  We assume that buyer purchases a flat not frequently and then each buyer is a new user, and no data about his/her preferences are available, as well as one flat cannot be bought several times as compared to a regular internet shop of commodities.  New users are assigned a GUID and tracked by cookies.  Tracking data forms preference data.  After a predefined number of viewed pages, RS suggests to register, it is an engine preventing loosing the data due to moving user to another workstation, and starts to issue recommendations.  The user is not required to register, as it was specially stated before us as a requirement, but we explain the advantages of the registration action.
 
 RS tracks user movement around various classes and fixed for each class the estimation of the object explicitly viewed by user. For each visited class, RS performs filtering the set of objects and range them according to all collected user data in the context of the class.  The relevance is calculated by Slope One technique.  The average values of differences of objects' evaluations are calculated by request and cashed in the user session data. After calculation of the evaluations for each object, which was not seen by user, in the class, objects are sorted by relevance and a predefined number of them are displayed.
+
+The Slope One algorithm can generate recommendations for an object (a class) if there is at least one positive evaluation of an objects of the class.  At the cold start period if there ware no such evaluations, RS shows random 20 objects of the same class of objects user is viewing.
 
 \section{Web application}
 
@@ -319,14 +346,10 @@ As for each web template engine, ZPT uses model, view, which implements controll
 
 ZPT and TAL technologies were chosen as they give a very powerful tools for HTML tree structure manipulation including usage of named and parametrized macros, attributes subtrees, defined in one page template, and multiply used in other ones, as well as the technology tries do not extend XHTML syntax with new entities for implementation of element replacement functions.
 
-\subsection{Back office}
-\label{sec:back}
-
-\subsection{Front office}
-\label{sec:back}
-
 \section{Discussion}
 \label{sec:disc}
+
+The realty RS was tested by a number of human being fictitious buyers, none of them mentioned misbehavior of the system like spontaneous transitions from one class to another, or supplying empty sets of recommendations.
 
 The overview of the presented experience shows that C\# .NET and MONO technologies and used techniques are well suitable for construction RS of various kind, fulfilling the following typical requirements:
 \begin{enumerate}
@@ -341,7 +364,11 @@ The obtained real estate RS implementation as well as the second project do not 
 \section*{Conclusion}
 \label{sec:conc}
 
-[[...]]
+We presented results of two master degree projects in the field of recommender system (RS) development in real estate and university entrants' study direction choice decision making.  The first one is finished, and the second one is on a half way.  Both systems have similar design, but rely on different RS technique: the realty RS is based on collaborative filtration, the entrants' one is based on content filtering.
+
+We considered the solutions of ``cold start'' problem for both domains.  They are based on creating taxonomies of objects by cluster analysis and partial transition to consider classes as objects of users' interests.  In the entrant RS we also created taxonomies of users according their subscriptions in a social network.
+
+The RS are implemented as MVC web applications for users, the administrative and expert user interfaces are implemented as window applications in entrant RS.  This simplifies user role model: web users must register, administrator runs form application at workstation and is not required to register.  Testing the finalized RS showed stable work when used by human users.
 
 The described technique could be developed further by adaptation the standard directions such as:
 \begin{itemize}
