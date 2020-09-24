@@ -74,7 +74,7 @@ Irkutsk, Russia \\
 eugeneai@irnok.net}
 \IEEEauthorblockA{${}^2$~\textit{Institute for informational technologies and data analysis},\\
 \textit{National research Irkutsk state technical university,} Irkutsk, Russia\\
-kopylovika@mail.ru,lukyanovnd@istu.edu}
+kopylovika@mail.ru, lukyanovnd@istu.edu}
 }
 
 \maketitle
@@ -82,13 +82,13 @@ kopylovika@mail.ru,lukyanovnd@istu.edu}
 \begin{abstract}
   The research of the paper is devoted to expose experience gained in development recommender systems for two domain areas: real estate of an region and choosing the specialty of a high school by entrants. These systems implement different approaches to obtain necessary data and the technique of figuring out the user interest. The common in the techniques are the usage of preliminary data analysis for user and object classification that reduces the computations and data stored. %The recommendation is to be realized on the base of data obtained from his/her account of a social network.  Recommenter system data analysis engine is a complex of data analysis technologies being used for social network data extraction and storage, enrolling documents parsing, entrants and study subjects classifications, construction of the correlations between entrants and subjects of study.
 
-The future development is indicated.
+Technique of overcoming ``cold start'' problems in these domains are proposed.  A general system design and implementation is considered.  The future development is indicated.
 
   % This paper deals with mostly with the stage of information acquisition, correlation patterns construction and taxonomy construction for entrants and high school subjects.
 \end{abstract}
 
 \begin{IEEEkeywords}
-recommender system, correlation patterns, taxonomy
+recommender system, taxonomy, cold start, cluster analysis, web application
 \end{IEEEkeywords}
 
 \section{Introduction}
@@ -108,7 +108,7 @@ In a period of intense competition, multidisciplinary educational institutions w
 
 Recommender systems (RS) \cite{rs_basics} are decision support information systems designed to assess the user's level of interest in a particular product or service (object) based on available information about user and object.  The RS development industry began to actively develop with the emergence of online sales services, and now it is one of the active areas of development of decision support systems, a direction of artificial intelligence, focused primarily on commercial use, as well as on solving problems of increasing the productivity of searching for relevant information.
 
-In this paper, we share the experience gained when producing a prototype RS for the above mentioned domains.  The first one is already built and published at Github.com \ref{RSPO}, and the second one is on the stage of data source import routines implementation.
+In this paper, we share the experience gained when producing a prototype RS for the above mentioned domains.  The first one is already built and published at Github.com \cite{RSPO}, and the second one is on the stage of data source import routines implementation.
 
 \section{Related works}
 
@@ -155,8 +155,8 @@ Users having role ``expert'' are construction of the taxonomy of offers, naming 
 
 \begin{figure}[tb]
   \centering
-
-  \caption{Use case diagram of real estate RS}
+  \includegraphics[width=\linewidth]{use_case.eps}
+  \caption{Use case diagram for real estate RS}
   \label{fig:use-case}
 \end{figure}
 
@@ -213,7 +213,7 @@ Model of user's preference implemented as relation of user class profile feature
 Basically, these methods use an item profile (i.e., a set of discrete attributes and features) characterizing the item within the system. To abstract the features of the items in the system, an item presentation algorithm is applied. A widely used algorithm is the tf–idf representation (also called vector space representation) \cite{wb43}. The system creates a content-based profile of users based on a weighted vector of item features. The weights denote the importance of each feature to the user and can be computed from individually rated content vectors using a variety of techniques. Simple approaches use the average values of the rated item vector while other sophisticated methods use machine learning techniques such as Bayesian Classifiers, cluster analysis, decision trees, and artificial neural networks in order to estimate the probability that the user is going to like the item \cite{wb44}.
 }
 
-We decided to use neural networks for the estimation, as nowadays there appeared a bunch of good programming libraries like \cite{nnlibex}, which are easily be applied.
+We decided to use neural networks for the estimation, as nowadays there appeared a bunch of good programming libraries, which are easily applied.
 
 % {\footnotesize
 % A key issue with content-based filtering is whether the system is able to learn user preferences from users' actions regarding one content source and use them across other content types. When the system is limited to recommending content of the same type as the user is already using, the value from the recommendation system is significantly less than when other content types from other services can be recommended. For example, recommending news articles based on browsing of news is useful, but would be much more useful when music, videos, products, discussions etc. from different services can be recommended based on news browsing. To overcome this, most content-based recommender systems now use some form of hybrid system.
@@ -290,12 +290,12 @@ In realty RS, two program agents are implemented, which are executed on a n even
 
 All data are stored in a database, which structure is represented as objects on Figure~\ref{fig:class-siag}.  Central class is \texttt{IOffer}, representing the offer of an realty object.  The information on an object, which is independent of an offer, is stored as \texttt{IObject}-object.  The object structure corresponds to standard Yandex and Google form of real estate representation.
 
-\begin{figure}[tb]
+\begin{figure*}[tb]
   \centering
-
+   \includegraphics[width=0.7\linewidth]{class_diagram.pdf}
   \caption{Class diagram for real estate RS}
   \label{fig:class-siag}
-\end{figure}
+\end{figure*}
 
 The real estate domain specifics is the total availability of data for realty objects, so the import function provides the whole body of information on objects by importing it from other sites.
 
@@ -306,22 +306,64 @@ The real estate domain specifics is the total availability of data for realty ob
 
 
 
-The classification was carried out with hierarchical clustering method and c\# library ....
+% The classification was carried out with hierarchical clustering method and c\# library ....
 
-Comparison of the object was made according to the features presented in Table~\ref{tbl:cmp}.
-\begin{table}[th]
+Comparison of the object was made in a vector space according to the features presented in Table~\ref{tab:cmp}.
+\begin{table}[tb]
   \caption{Comparing features and their weight coefficients}
   \label{tab:cmp}
+  \footnotesize
   \centering
-  %\begin{tabular}[|l|l|c|c|]{}
-  %\end{tabular}
+  \begin{tabular}{|l|l|c|c|}
+    \hline
+    Attribute & Calculation technique & $v_k, \%$ & Formula \\
+    \hline
+\texttt{string Name} & not used & & \\
+    \texttt{ILocation Location} & equality & 10 & $(\star)$
+    \\
+\texttt{string Address} & --''-- & 10 & \\
+\texttt{float Price} & relative difference & 25 & $(\star\star)$\\
+\texttt{CurrencyEnum \ldots} & not used  & & \\
+\texttt{float Area} & relative difference  & 35 & $(\star\star)$\\
+\texttt{AreaUnits AreaUnit} & not used & &\\
+\texttt{string ImageURL} & --''-- & & \\
+\texttt{string URL} & --''-- & & \\
+\texttt{int Rooms}  & relative difference  & 100 & $(\star\star)$\\
+\texttt{int RoomsOffered} &  --''--   & 100 & $(\star\star)$\\
+\texttt{int Floor}  &  --''--   & 30 & $(\star\star)$\\
+\texttt{int FloorTotal}  &  --''--   & 10 & $(\star\star)$\\
+\texttt{BuildingEnum \ldots}  & equality & 30 & $(\star)$\\
+\texttt{IBuilding \ldots{}}  & --''-- & 30 &  $(\star)$\\
+\texttt{PropertyEnum \ldots} & --''-- & 30 &  $(\star)$\\
+\texttt{CategoryEnum \ldots} & --''-- & 100 &  $(\star)$\\
+\texttt{string Description} & not used & & \\
+    \texttt{string GUID} & --''-- & & \\
+    \hline
+  \end{tabular}
 \end{table}
 
+In the table with stars we denote the following formulas:
+\[
+  d_k(i,j) = \left\{
+                                                          \begin{array}{ll}
+                                                            0, & \mbox{if\ \ } a_i=a_j,\\
+                                                            1, & \mbox{if\ \ } a_i\neq a_j,
+                                                          \end{array}
+                                                          \right.
+  \tag{\star}
+\]
+\[
+  d_k(i,j) = \frac{|a_i^k-a_j^k|}{a_i^k+a_j^k}, a_i^k+a_j^k>0.
+  \tag{\star\star}
+\]
+
 The aggregate assessment is made with formula:
+\[
+  d(i,j)=\frac{\sum\limits_{k=1}^m|v_k\cdot d_k(i,j)|}{\sum\limits_{k=1}^m v_k}, \qquad 0\leqslant d_{i,j}\leqslant 1.
+\]
+\noindent where $v_k$ is a weight of $k$-th attribute value, defined in the table. %, we, as programmers, for each calculated $d(i,j)$ \texttt{asserted} its value $0\leqslant d(j,j)\leqslant 1$.
 
-where $v_k$ is a weight of $k$-th attribute value, we, as programmers, for each calculated $d(i,j)$ \texttt{asserted} its value $0\leqslant d(j,j)\leqslant 1$.
-
-In order to create a taxonomy, expert user must run the hierarchical clustering function supplying the number $N$ of general clusters to figure out.  After the function finishes, expert will see the numbers of top $N$ clusters with number of their objects.  Next step is naming the clusters.  Expert enters in the subsets and reviews the objects, forming an image of the common properties of the objects.  After naming the image in the first interface, expert changes name of cluster from a number to the name.  This is to be done for each $0..N-1$ clusters.  If expert cannot form a concrete image of the class, them we recommend repeat the procedure with larger number of clusters.
+In order to create a taxonomy, expert user must run the hierarchical clustering function supplying the number $N$ of general clusters to figure out.  After the function finishes, expert will see the numbers of top $N$ clusters with number of their objects.  Next step is naming the clusters.  Expert enters in the subsets and reviews the objects, forming an image of the common properties of the objects.  After naming the image in the first interface, expert changes name of cluster from a number to the name.  This is to be done for each $\overline{0,N-1}$ cluster.  If expert cannot form a concrete image of the class, them we recommend repeat the procedure with larger number of clusters.
 
 Some clusters can gain the same name, and after renaming, clusters with the same name are joined.  Hierarchical clustering allows us to make experiments with data without recalculation of the taxonomies.  Before running clustering function, expert can restrict the set of objects to be examined, \emph{e.g.} by 200 objects, so we can use even agglomerative hierarchical clustering.
 
@@ -364,9 +406,9 @@ The obtained real estate RS implementation as well as the second project do not 
 \section*{Conclusion}
 \label{sec:conc}
 
-We presented results of two master degree projects in the field of recommender system (RS) development in real estate and university entrants' study direction choice decision making.  The first one is finished, and the second one is on a half way.  Both systems have similar design, but rely on different RS technique: the realty RS is based on collaborative filtration, the entrants' one is based on content filtering.
+We presented results of two master degree projects in the field of recommender system (RS) development in real estate and university entrants' study direction choice decision making.  The first one is finished, and the second one is on a half way.  Both systems have similar design, but rely on different RS technique: the realty RS is based on collaborative filtration, the entrants' one is based on content filtering.  Both systems use object-oriented representation of application entities, which are persistent.
 
-We considered the solutions of ``cold start'' problem for both domains.  They are based on creating taxonomies of objects by cluster analysis and partial transition to consider classes as objects of users' interests.  In the entrant RS we also created taxonomies of users according their subscriptions in a social network.
+Solutions of ``cold start'' problem for both domains has been considered.  They are based on creating taxonomies of objects by cluster analysis and partial transition to consider classes as objects of users' interests.  In the entrant RS we also created taxonomies of users according their subscriptions in a social network.
 
 The RS are implemented as MVC web applications for users, the administrative and expert user interfaces are implemented as window applications in entrant RS.  This simplifies user role model: web users must register, administrator runs form application at workstation and is not required to register.  Testing the finalized RS showed stable work when used by human users.
 
@@ -381,7 +423,7 @@ The described technique could be developed further by adaptation the standard di
 \section*{Acknowledgements}
 \label{sec:ack}
 
-Authors thank Evgeny Vasil'evich Brezheshov, director of a realtor office, for helping with problem domain description and problem statement of real estate recommender systems.
+Authors thank Evgeny Vasil'evich Brezheshov, director of a realtor office, for helping with problem domain description and problem statement of real estate RS.
 
 % \section*{References}
 
@@ -392,7 +434,7 @@ Authors thank Evgeny Vasil'evich Brezheshov, director of a realtor office, for h
 % \bibitem{wwword}Работаем с MS Word из C\# [Электронный ресурс] – URL: http://nullpro.info/2012/rabotaem-s-ms-word-iz-c-chast-0-klass-i-testovyj-proekt-primer-winforms/ (дата обращения: 05.07.2020).
 \bibitem{ef15}Entity Framework Tutorial. URL:\url{https://www.entityframeworktutorial.net/} (дата обращения: 05.07.2020).
 \bibitem{friman15}Adam Freeman.Pro ASP.NET MVC 5. 5th ed. Apress. 2013. 832 p. \doi{10.1007/978-1-4302-6530-6}
-\bibitem{chadvik20} J. Chadwick, T. Snyder, H. Panda.Programming ASP.NET MVC 4: Developing Real-World Web Applications with ASP.NET MVC.  O'Reilly Media; 1st Edition. 2012. 492 p.  ISBN-13:~978-1449320317
+\bibitem{cchadvik20} J. Chadwick, T. Snyder, H. Panda.Programming ASP.NET MVC 4: Developing Real-World Web Applications with ASP.NET MVC.  O'Reilly Media; 1st Edition. 2012. 492 p.  ISBN-13:~978-1449320317
 \bibitem{wb41}Aggarwal, Charu C. (2016). Recommender Systems: The Textbook. Springer. ISBN 9783319296579.
 \bibitem{wb42}Peter Brusilovsky (2007). The Adaptive Web. p. 325. ISBN 978-3-540-72078-2.
 \bibitem{wb43}D.H. Wang, Y.C. Liang, D.Xu, X.Y. Feng, R.C. Guan(2018), "A content-based recommender system for computer science publications", Knowledge-Based Systems, 157: 1-9
@@ -415,12 +457,13 @@ praktika (Business: Theory and Practice). 2011 12(3). p. 258–267 \doi{10.3846/
 \bibitem{br14}A.~S.~Amel'kin, D.~M.~Ponizovkin. Mathematical model of top-N problem for content recommender systems. Izvestiya MGTU ``MAMI'' No 3(17), 2013, Vol.2. p. 26-31. (in Russian)
 \bibitem{br13} J. Beel, B. Gripp, S. Langer, C. Breitinger. Research-paper recommender systems: a literature survey // International Journal on Digital Libraries (2016) 17: 305. \doi{10.1007/s00799-015-0156-0}
 \bibitem{br10} B.~R.~Avhadeev, L.~I.~Voronova, E.~P.~Ohapkina. Development of recommender system on the base of profile in social network ``VKontakte''. Vestnik Nizhnevartovskogo gosudarstvennogo universiteta. Issue No 3. 2014. (in Russian)
+\bibitem{br1} D. Lemire, A. Maclachlan. Slope One Predictors for Online Rating-Based Collaborative. URL:~\url{http://cogprints.org/4031/1/lemiremaclachlan_sdm05.pdf} (access date: 10.05.2018)
 \bibitem{c2}S.P.~Balandina, M.V.~Bautin, A.V.~Maiyorov, E.R.~Smirnova. Social networks as means of education and educational participants interactions. Pedagogicheskie i informacionniye tehnologii v obraxovanii. No. 15 (2016). (in Russian) URL:\url{https://journals.susu.ru/pit-edu/issue/view/31}
 \bibitem{c6}K.S.~Veber, A.A.Pimenova. Comparative analysis of social networks. Vestnik Tambovskogo universiteta. Series: Natural and technical sciences. Vol. 19, No. 2, 2014. p. 636--643. (in Russian)
 \bibitem{c7}A.V.Rozhkova. Self-expression (self-presentation) in social Internet networks as a phenomenon of human cyber-socialization. Homo Cyberus. 2017. No. 2(3). (in Russian) URL:\url{http://journal.homocyberus.ru/Samovyrazhenie_v_socialnyh_internet-setjah_kak_fenomen_kibersocializacii}
 \bibitem{c9}V.V.Matsuta, P.B. Kiselyev, A.V. Fescshenko, V.L. Goyko. Investigation of social networks potential for revealing talented students. Psychologiya i psihotehnika. No. 4. 2017. p. 104--121. (in Russian)
 \bibitem{c11} A.V. Fescshenko. Social networks in education: experience analysis and development perspectives. Gumanitarnaya informatika, Tomsk, Issue 6. 2012. p. 124--134. (in Russian)
-\bibitem{nnlibex}
+\bibitem{RSPO} E.~Charkashin, B.~Shevchenko. Source code of a prototype real estate market recommender system.  URL:\url{https://github.com/eugeneai/RSPO-CSharp}. (access date: 21-09-2020)
 \end{thebibliography}
 
 \end{document}
