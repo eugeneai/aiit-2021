@@ -65,7 +65,7 @@
 
 % \title{Recommender system for high school entrants having social network accounts}
 
-\title{Recommender systems: some aspects of implementation}
+\title{Two recommender systems: Technical decisions and session learned}
 
 \author{%
 \IEEEauthorblockN{Evgeny Cherkashin${}^{1,2}$, Viktoria Kopylova${}^2$, Boris Shevchenko${}^2$, Nikita Luk'yranov${}^2$}
@@ -80,9 +80,9 @@ kopylovika@mail.ru, lukyanovnd@istu.edu}
 \maketitle
 
 \begin{abstract}
-  The research of the paper is devoted to expose experience gained in development recommender systems for two domain areas: real estate of an region and choosing the specialty of a high school by entrants. These systems implement different approaches to obtain necessary data and the technique of figuring out the user interest. The common in the techniques are the usage of preliminary data analysis for user and object classification that reduces the computations and data stored. %The recommendation is to be realized on the base of data obtained from his/her account of a social network.  Recommenter system data analysis engine is a complex of data analysis technologies being used for social network data extraction and storage, enrolling documents parsing, entrants and study subjects classifications, construction of the correlations between entrants and subjects of study.
+  The research of the paper is devoted to expose experience gained in development recommender systems for two domain areas: real estate of a region and choosing the specialty of a high school by entrants. These systems implement different approaches to obtain data and the technique of figuring out the user interest. The common in the techniques are the usage of preliminary data analysis for user and object classification that reduces the computations and data stored. %The recommendation is to be realized on the base of data obtained from his/her account of a social network.  Recommenter system data analysis engine is a complex of data analysis technologies being used for social network data extraction and storage, enrolling documents parsing, entrants and study subjects classifications, construction of the correlations between entrants and subjects of study.
 
-Technique of overcoming ``cold start'' problems in these domains are proposed.  A general system design and implementation is considered.  The future development is indicated.
+Technique of overcoming ``cold start'' problems in these domains are proposed.  A general system design and implementation are considered.  The future development is indicated.
 
   % This paper deals with mostly with the stage of information acquisition, correlation patterns construction and taxonomy construction for entrants and high school subjects.
 \end{abstract}
@@ -93,11 +93,11 @@ recommender system, taxonomy, cold start, cluster analysis, web application
 
 \section{Introduction}
 
-Recommender systems (RS), being considered as an example of decision support systems, are useful to support users with additional information and decision variants.  In this paper we consider our experience with developing RS in two domains: real estate of a region and choosing the specialty of a high school.  Both systems were developed within preparing master degree at Institute for informational technologies and data analysis, National research Irkutsk state technical university.  That's why they have status of pilot projects showing the basic technique implementations.
+Recommender systems (RS), being considered as an example of decision support systems, are useful to support users with additional information and decision variants.  In this paper we consider our experience with developing RS in two domains: real estate of a region and choosing the specialty of a high school.  Both systems were developed within master degree at Institute for informational technologies and data analysis, National research Irkutsk state technical university.  That's why they have status of pilot projects showing the basic technique implementations.
 
-The first system deals with the problem of the time span spent for selling a real estate: a flat, a room in a flat, a house.  Most of the objects on the market have similar characteristics in a class, the user interest is expressed with obvious characteristics like price, location, the level, number of owners.  But the most interesting aspect of the problem is the special cases of realty like private family hotels, countryside houses, shops.  These are being sold usually for a long time, and the real estate firms utilize too much efforts.  The time spent to find new owner of the property is critical for the business: sellers have losses due paying the taxes for the estate being not utilized, buyers have no possibilities to invest available capital.   RS focusing user interest on the previously filtered subsets of the property, preliminary sorting by relevance, could speed up the sales.
+The first system deals with the problem of selling real estate: a flat, a room in a flat, a house.  Most of the objects on the market have similar characteristics in a class, the user interest is expressed with obvious characteristics like price, location, level, number of owners.  But the most interesting aspect of the problem is the special cases of realty like private family hotels, countryside houses, shops.  These are being sold usually for a long time, and the real estate firms utilize too much efforts for that.  The time spent to find new owner of the property is critical for the business: sellers have losses due paying the taxes for the estate being not utilized, buyers have no possibilities to invest available capital.   RS focusing user interest on the previously filtered subsets of the property, preliminary sorting by relevance, could speed up the sales.
 
-Each school student sooner or later faces the problem of choice of a future specialty, university to enroll, and the set of courses to study.  Decisions made at this time significantly affect the future life of the students, their job and career perspective, families' life level.  Therefore, any help at this stage seems to be a necessary. In comparison to the real estate, where there is a whole industry supporting decision-making -- the services of realtors --, in this field the educational environment supports only an information provision service: students are given only career guidance, advertisement of the high school capabilities.  The student is on his/her own in the fundamental life decision.  Of cause, parents and favorite mentors can supply the additional life experience examples helping to focus the analysis of the present conditions, but the actuality of their advices are generally of questions due to specifics of their experience, subjectivity, absence of the actual information of the present state of the labor market, scientific progress, \emph{etc}.
+Each school student sooner or later faces the problem of choice of a future specialty, university to enroll, and the set of courses to study.  Decisions made at this time significantly affect their future life, their job and career perspectives, families' life level.  Therefore, any help at this stage seems to be a necessary. In comparison to the real estate, where there is a whole industry supporting decision-making -- the services of realtors --, in this field the educational environment supports only an information provision service: students are given only career guidance, advertisement of the high school capabilities.  The student is on his/her own in the fundamental life decision.  Of cause, parents and favorite mentors can supply the additional life experience examples helping to focus the analysis of the present conditions, but the actuality of their advices are generally of questions due to specifics of their experience, subjectivity, absence of the actual information of the present state of the labor market, scientific progress, \emph{etc}.
 
 %[[Here we speak about actuality... how to obtain it with data analysis relating contemporary enrollments and, possibly, the resulting educational capabilities of the students after the graduation.]] [[Then transit to the preliminary part (at this time we will deal with the entrant stage) - choice of the study courses]]
 
@@ -106,19 +106,19 @@ Each school student sooner or later faces the problem of choice of a future spec
 
 In a period of intense competition, multidisciplinary educational institutions with similar areas of study are interested in a tool that allows them to determine the target audience more accurately, as well as entrants are interested to find a relevant university.  The work with the audience would be focused and directed. This will help to attract applicants interested in a particular direction, which is being implemented in the educational institution.  This tool could improve the effectiveness of career guidance activities for high school students.  Recommender systems are the tools of such kind.
 
-Recommender systems (RS) \cite{rs_basics} are decision support information systems designed to assess the user's level of interest in a particular product or service (object) based on available information about user and object.  The RS development industry began to actively develop with the emergence of online sales services, and now it is one of the active areas of development of decision support systems, a direction of artificial intelligence, focused primarily on commercial use, as well as on solving problems of increasing the productivity of searching for relevant information.
+\emph{Recommender systems} (RS) \cite{rs_basics} are decision support information systems designed to assess the user's level of interest in a particular product or service (object) based on available information about user and object.  The RS development industry began to actively develop with the emergence of online sales services, and now it is one of the active areas of development of decision support systems, a direction of artificial intelligence, focused primarily on commercial use, as well as on solving problems of increasing the productivity of searching for relevant information.
 
-In this paper, we share the experience gained when producing a prototype RS for the above mentioned domains.  The first one is already built and published at Github.com \cite{RSPO}, and the second one is on the stage of data source import routines implementation.
+Our experience gained when producing a prototype RS for the above mentioned domains is expressed as already built and published at Github.com \cite{RSPO} RS, and in the second RS, being now on the stage of data source import routines implementation.
 
 \section{Related works}
 
-There are many research groups and commercial firms dealing with developing RS techniques for various domains.  We will consider related domains and other interesting cases.
+There are many research groups and commercial firms dealing with developing RS technologies for various domains.  We will consider related domains and other interesting cases.
 
 In \cite{br22} a case-based reasoning RS for real estate market is presented.  Its goal is to find a similar instance in the database of existing cases, describing the cases for the user.  The obtained relations are used in following collaborative filtration and content filtering.  In theoretical research \cite{br20} the users are divided on sellers an buyers.  Sellers ``advertise'' their realty by highlighting the important features by their opinion.  So the sellers play expert roles for forming data for content filtration.  Research \cite{br23} showed that usage of Internet does not influence significantly on the time efficiency, flexibility and satisfaction criteria of the search for a flat to buy.  There are no statistical difference between 2009 and 2011, since in 2011 88\% of buyers used Internet just as the main source of information.  Authors created RS with case based reasoning utilizing an ontology model.
 
-In \cite{br23} authors highlight three key features which significantly affects the decision: location, housing unit properties and price.  Final decision is made after evaluation of the environment, such as distances to shops, kindergartens, schools.  This can be accounted reducing the additional data to the value of the feature of housing unit properties using ontology.  The environment constraint is entered by user: user draws a circle over the preferable location, which should contain interested services and realty.
+In \cite{br23} authors highlight three key features which significantly affects the decision: location, housing unit properties and price.  Final decision is made after evaluation of the environment, such as distances to shops, kindergartens, schools.  This can be accounted reducing the additional data to the value of the feature of housing unit properties using ontology.  The environment constraint is entered by user: user draws a circle around the preferable location, which should contain interested services and realty.
 
-Paper \cite{br21} considers a complex logistic problem of organization of a process of real estate control, involving various people groups in changing business environment.  The main aim is to develop a model, where the groups will be maximally satisfied in a rational micro and macro environment.  The efficiency of the realty utilization is evaluated with criteria of market, ownership, renewal prices, capacity, number of operations to be done while ownership transferring, safety, comfort, the time of physical and technical exploitations, \emph{etc}.  The software functions shift from ``the most economically efficient control of the property'' to multicriterial choice,r raising computation efficiency.
+Paper \cite{br21} considers a complex logistic problem of organization of a process of real estate control, involving various people groups in changing business environment.  The main aim is to develop a model, where the groups will be maximally satisfied in a rational micro and macro environment.  The efficiency of the realty utilization is evaluated with criteria of market, ownership, renewal prices, capacity, number of operations to be done while ownership transferring, safety, comfort, the time of physical and technical exploitations, \emph{etc}.  The software functions shift from ``the most economically efficient control of the property'' to multicriterial choice, raising computation efficiency.
 
 % TODO: review of entrants' RS.
 
@@ -126,14 +126,14 @@ For recent RS dealing with student's problem of choice the following papers were
 
 In \cite{bakh}, a problem of learning outcomes assessment of higher education students is considered.  A course RS on the base students' graduate attributes, which describe their developing values, is proposed.  RS rates improvement after each course and suggests new courses by a collaborative filtering algorithm in order to improve student's average competence profile.  Students are presented as long vectors of courses they already taken with the corresponding grades.  Similarity is calculated with a variation of angle cosine of the vectors.  The recommendations are the prediction of the grades for the new courses.  Similar by the problem statement paper \cite{amer}, where RS predicts course learning trajectory patterns, the students is suggested elective curses.  Source data for collaborative filtering are existing learning trajectories acquired from senior students in the image and likeliness one student advices younger one. Students and courses are divided on clusters.  For each student cluster (a group), a mean student values are calculated.  RS algorithms are based on combination of collaborative filtering and fuzzy-like rule based system, which defines process of production of a decision.  The article has a good reviews of related works and three classical approaches basics.
 
-Work \cite{naren} have the similar aim to develop RS for advising students new courses, but is focusing on description of courses, taking advantage of natural language processing over course documents to acquire descriptions.  Feature descriptions contain formal course data (name, structure, lecturer) and a placement in a keyword appearance frequency space.  Existing student data, represented as grades of the courses he/she already stood, related to the course data.  The resulting recommendations are represented as top-5 new courses, where student will gain the best grades.  This is a simplistic direct approach and, by authors opinion, gives good results; some measurement supporting the opinion were carried on.
+Work \cite{naren} has the similar aim to develop RS for advising students new courses, but is focusing on description of courses, taking advantage of natural language processing over course documents to acquire descriptions.  Feature descriptions contain formal course data (name, structure, lecturer) and a placement in a keyword appearance frequency space.  Existing student data, represented as grades of the courses he/she already got, related to the course data.  The resulting recommendations are represented as top-5 new courses, where student will gain the best grades.  This is a simplistic direct approach and, by authors opinion, gives good results; some measurement supporting the opinion were carried on.
 
 
 % frvei of paper selection.
 
-Interesting research has been done in \cite{br10}, where the problem of overcoming the cold start problem in recommending genres and music compositions, as well as movies.  The authors developed the RS ``EZSurf'' automating the process of web surfing and content filtering using a user profile on the social network ``VKontakte'', as well as API services last.fm and TheMovieDB, to obtain information about similarity of the objects.  This approach greatly simplifies storage of RS data, since it does not require the designing own system of classifications.  In \cite{br14}, a problem of choosing top=$N$ objects, with higher evaluations of user interest, in content filtration.  Authors proposed RS model based on fuzzy sets, RS quality assessment technique, and a corresponding algorithm.  The models have been tested on \texttt{last.fm} data.
+Interesting research has been done in \cite{br10}, where the problem of overcoming the cold start problem in recommending genres and music compositions, as well as movies.  The authors developed the RS ``EZSurf'' automating the process of web surfing and content filtering using a user profile on the social network ``VKontakte'', as well as API services last.fm and TheMovieDB, to obtain information about similarity of the objects.  This approach greatly simplifies storage of RS data, since it does not require the designing own system of classifications.  In \cite{br14}, a problem of choosing top--$N$ objects, with higher evaluations of user interest, in content filtration.  Authors proposed RS model based on fuzzy sets, RS quality assessment technique, and a corresponding algorithm.  The models have been tested on \texttt{last.fm} data.
 
-In a comprehensive RS review dealing with text (scientific) document relevance grading \cite{br13}, authors noted that more than half (55\%, 34 of 62) RS were based on content filtration.  Collaborative filtration was used only in 18\% (11 of 62) cases.  Stereotype based and hybrid methods are also presented.  Authors concluded that 81\% in of cases modeling user does not produce significant results in comparison to explicit indication the set of keywords.  The papers were described by keywords and, less frequently, $N$--grams included in the text, as well as metadata such as authors and references.  Most popular recommending model is based on vector space approach.  User interest modeling is implemented with graphs, where vertices are the papers, and arcs are their relationships, and topic lists assigned to user by machine learning.  The topics are organized in hierarchical catalogs using ACM classifiers.  In the RS which used collaborative filtration was used, the explicit ratings was not collected at all as users were too lazy too supply a rating to a paper he/she looked through.  Implicit ratings were obtained by measuring the number of pages user read, document user interaction (loading, editing), co--loadings, co-view an co-citing by users of one group.
+In a comprehensive RS review dealing with text (scientific) document relevance grading \cite{br13}, authors noted that more than half (55\%, 34 of 62) RS were based on content filtration.  Collaborative filtration was used only in 18\% (11 of 62) cases.  Stereotype based and hybrid methods are also presented.  Authors concluded that 81\% in of cases modeling user does not produce significant results in comparison to explicit indication the set of keywords.  The papers were described by keywords and, less frequently, $N$--grams included in the text, as well as metadata such as authors and references.  Most popular recommending model is based on vector space approach.  User interest modeling is implemented with graphs, where vertices are the papers, and arcs are their relationships, and topic lists assigned to user by machine learning.  The topics are organized in hierarchical catalogs using ACM classifiers.  In the RS which used collaborative filtration, the explicit ratings was not collected at all as users were too lazy too supply a rating to a paper he/she looked through.  Implicit ratings were obtained by measuring the number of pages user read, document user interaction (loading, editing), co--loadings, co-view an co-citing by users of one group.
 
 The collaborative filtration is currently more popular as it reflects practical experience: most of RS R\&D have to solve ``cold start'' problem of initial lack of information on objects and users, as well as have adaptation to user group interest transformations due to modern trends.
 
@@ -141,17 +141,19 @@ The collaborative filtration is currently more popular as it reflects practical 
 
 Our research is aimed at application of known techniques to the objects and agents data of real estate market of Irkutsk region and, similarly, the market of education service of the region, as well as at implementation of libraries for constructing RS using nowadays technologies.
 
-\section{Data source for real estate RS}
+\section{Data source for RS}
 
-In Russia sector of Internet, real estate market is presented with various classified advertisement websites for selling goods, jobs positions, real estate, cars, services, \emph{etc.} like Avito.ru.  In Irkutsk region and Moscow, every second flat is sold via such services, with publishing a number of offers for the same flat.  This usually results in reduction of the price to the level below the average on the market.   In Ekaterinburg, real estate is generally sold by realtor firms, in this case the process is more predictable for the seller.  The number of deals in Irkutsk region was raising by 20\% from 2010 to 2016 on the secondary housing market.  This raise is due to the raising of the activity of the websites.
+\subsection{Real estate RS}
 
-The source of the real estate data is \texttt{atlcom.ru} that provide an actual database for real estate market of almost any region or city of Russia.  One can register and supply filter setup by a form for selection of the part of the database to download. The downloaded data are represented in XML format.  The format is developed by yandex.com within the R\&D of describing selling commodities.  A special variant is for real estate.
+In Russian sector of Internet, real estate market is presented with various \emph{classified advertisement} websites for selling goods, jobs positions, real estate, cars, services, like \texttt{Avito.ru}.  In Irkutsk region and Moscow, every second flat is sold via such services, with publishing a number of offers for the same flat.  This usually results in reduction of the price to the level below the average on the market.   In Ekaterinburg, real estate is generally sold by realtor firms, in this case the process is more predictable for the seller.  The number of deals in Irkutsk region was raising by 20\% from 2010 to 2016 on the secondary housing market.  This increase is due to the raising of the activity of the websites.
 
-The file comprises a list of \texttt{offer} records (subtrees) describing a flat, house or a room.  The description include metadata (where published, sale agent), location address, price, area in square meters, an image, number of rooms, floor level, type of building and its general characteristics, as well as the conditions for obtaining additional information.  Each record is identified by a global identifier.
+The source of the real estate data is \texttt{atlcom.ru} that provide an actual database for real estate market of almost any region or city of Russia.  One can register and supply filter setup by a form for selection of the part of the database to download. The downloaded data are represented in XML format.  The format is developed by \texttt{Yandex.com} within the R\&D of describing selling commodities.  A special variant is for real estate.
+
+The file comprises a list of \texttt{offer} records (subtrees) describing a flat, house or a room.  The description include metadata (where published, sale agent), location address, price, area in square meters, a photo, number of rooms, floor level, type of building and its general characteristics, as well as the conditions for obtaining additional information.  Each record is identified by a global identifier.
 
 The RS users (agents) have roles: unknown, seller, buyer, owner, realtor, expert, and invalid user.  Before  registering users' have role ``unknown'' and as each object in the system is assigned an GUID (global 128 bit identifier) related to the web browser with cookies.  With this cookie and GUID user is being tracked: the RS server collects data on his/her interest by acquiring offers identifiers being visited on the RS website.  An offer is graded as positive if user has spent more than predefined seconds viewing its webpage.  According to the review \cite{br13} forcing user to explicitly grade an offer is useless.
 
-Users having role ``expert'' are construction of the taxonomy of offers, naming of the obtained taxons (classes of realty), and storing the results in the database.  Expert's service is needed at the stage of development of the general principles of RS functioning, the main problem we are to solve within the research.  Realtor role is connected with data load activities (select a XML file, import it in the database, control the results).  In Fig. \ref{fig:use-case} we showed the Use case diagram of the system functions.
+Users having role ``expert'' are for construction of the taxonomy of realty objects, naming of the obtained taxons (classes of realty), and storing the results in the database.  Expert's service is needed at the stage of development of the general principles of RS functioning at the cold start, the main problem we are to solve within the R\&D.  Realtor role is connected with data load activities (select a XML file, import it in the database, control the results).  In Fig. \ref{fig:use-case} we showed the Use case diagram of the system functions.
 
 \begin{figure}[tb]
   \centering
@@ -160,24 +162,24 @@ Users having role ``expert'' are construction of the taxonomy of offers, naming 
   \label{fig:use-case}
 \end{figure}
 
-Therefore, the constructed RS should be based on \emph{collaborative filtration} technique, where there is no expert data available for the object of user interest.  To support our case, note, that the set of offers is dynamically changed day-by-day, and it is very hard to supply the data with expert decisions reflecting all user classes opinions.  Having expert constructed the taxonomy, which seems to be made once, the new flats can be classified easily by measuring the distances to the representative instances of the classes.  The taxonomy allows us to consider the class of the realty as the object of user interest, a set of similar realty is a property characterizing the class.
+Therefore, the constructed RS w3as to be based on \emph{collaborative filtration} technique, where there is no expert data available for the object of user interest.  To support our case, note, that the set of offers is dynamically changed day-by-day, and it is very hard to supply the data with expert decisions reflecting all user classes opinions.  Having expert constructed the taxonomy, which seems to be made once, the new ``flats'' can be classified easily by measuring the distances to the representative instances of the classes.  The taxonomy allows us to consider the class of the realty as the object of user interest, a set of similar realty is a property characterizing the class.
 
-\section{Data source for entrants' RS}
+\subsection{Entrants' RS}
 
 Functioning of a RS could be based on analysis of entrants' personal properties, matching them with already enrolled students, analyzing existing individual direction of training and even a particular educational program.  We have been developing and implementing a prototype RS for helping to choose a direction of training at an university for entrants on the base of algorithms for predicting their possible choice based on digital footprints in a social network. As a source data, \emph{e.g.}, a subscriptions of Russian social network ``In Contact'' (IC) (in Russian -- ``В контакте'') are used as sources of personal characteristics, and enrollment orders of our university.  %The research \cite{c1} of Tomsk state university, Russia, shows that students (pupils) once or twice a year actualize their profile and subscriptions, as irrelevant information in the main tape (blog) results in necessity to routinely filtering it out. In 2016,  the university researchers showed the IC profile in general actually reflects the cognitive properties of personality, and the educational interests of students are closely correlate to their social network behavior.
 
-Nowadays social networks are on of the main place in the life of a person, and even more so a teenager.  This is clear from the data from the Glas Runet online poll service.  Among the 2000 participants of the survey, the majority (86\%) of them know about the existence of Internet social networks and use their services.  Among those who know about the existence of social networks, only 10\% do not use them \cite{c2}.
-The most popular social networks according to the Romir holding are Odnoklassniki, Vkontakte and Instagram.  The youngest audience, from 14 to 30 years old, visit Vkontakte, 45\% does it daily, and 70\% does more often than once a day \cite{c6}.
+Nowadays social networks are one of the main places of person's life, and even more so for a teenager.  This is clear from the data from the Glas Runet online poll service.  Among the 2000 participants of the survey, the majority (86\%) of them know about the existence of Internet social networks and use their services.  Among those who know about the existence of social networks, only 10\% do not use them \cite{c2}.
+The most popular social networks according to the Romir holding are Odnoklassniki, VKontakte and Instagram.  The youngest audience, from 14 to 30 years old, visits VKontakte, 45\% does it daily, and 70\% does more often than once a day \cite{c6}.
 
-Often, it is in social networks that one can track the self-expression, interests and attitude to the world of a person. The analysis of groups, posts on the main blog, reposts, statuses, \emph{etc.} can be the sources of the valuable information \cite{c7}.
+Often, it is in social networks that one can track users' self-expression, interests and attitude to the world. The analysis of groups, posts on the main blog, reposts, statuses, \emph{etc.} can be the sources of the valuable information \cite{c7}.
 
 Of course, if a person is an adult, then it is unlikely that all subscriptions to groups will be relevant (``entered and forgot'').  But school students, according to research \cite{c11}, update subscriptions every six months or a year: irrelevant content in the feed annoys them.  Accordingly, subscriptions can become the original dataset that can be analyzed.
 
-In 2016, TSU proved that the Vkontakte profile reflects the cognitive personality traits, \emph{i.e.} the educational interests of schoolchildren are closely related to their behavior in the social network \cite{c9}.
+In 2016, Tomsk State University researchers proved that the VKontakte profile reflects the cognitive personality traits, \emph{i.e.}, the educational interests of schoolchildren are closely related to their behavior in the social network \cite{c9}.
 
 %Based on the data on students enrolled in various areas of an university, it is possible to build a system of recommendations for the direction of training.
 
-\section{General approach}
+\subsection{Basics of entrants' RS}
 
 There are three basic approaches to development of a RS: \emph{content-based filtering}, \emph{collaborative filtering} and implementing as a \emph{knowledge-based system}.  Collaborative filtering is efficiently used when there is no initial data on object features describing user interests to the items, as well as definitive set of items features, which used in representing user's interest aspects.  This approach is based on continuous data accumulation of user's behavior (the decision made) within a system (\emph{e.g.}, internet shop).  In our case we cannot collect user's decision for each individual user continuously as user makes only one decision which faculty he/she will study at.
 
@@ -186,12 +188,12 @@ This can be done for user classes; each enrollment entrants are classified and t
 % Из Википедии - общий план исследования.
 
 % Content-based filtering
-For the ease of further consideration of the RS basic aspects of development, we took ``Content-based filtering'' section of Wikipedia webpage \cite{wikiRS}, presenting it here with a small font and necessary emphasizing, and fill it with our data, presenting them with the regular font.
+For the ease of further consideration of the RS basic aspects of development, we took ``Content-based filtering'' section of Wikipedia webpage \cite{wikiRS}, presenting it here with a small font and necessary emphasizing, and filled it with our data, presenting with the regular font.
 
 {\footnotesize
 Content-based filtering methods are based on a description of the item (course in our case) and a profile of the users's (student and entrant in our case) preferences \cite{wb41,wb42}. These methods are best suited to situations where \emph{there is known data on an item} (name, location, description, \emph{etc.}), but \emph{not on the user}. Content-based RS treat recommendation as a \emph{user-specific classification problem} and learn a classifier for the user's preferences (likes and dislikes) based on an item's features.}
 
-The item's source data is documents, enrollment orders, where all the formal data presented for each enrolled student.  In contradiction, we have all data about user's features from their IC profiles.  Thus, we have to design machine learning structure relating entrant's features to the classes of courses of an university.
+The item's source data are documents, enrollment orders, where all the formal data presented for each enrolled student.  In contradiction, we have all data about user's features from their IC profiles.  Thus, we have to design machine learning structure relating entrant's features to the classes of courses of an university.
 
 {\footnotesize
 In this system, \emph{keywords} are used to \emph{describe the items} and a \emph{user profile} is built to indicate the \emph{type of item} this user likes. In other words, these algorithms try to recommend items that are similar to those that a \emph{user liked in the past}, or is examining in the present. It does not rely on a user sign-in mechanism to generate this often temporary profile. In particular, various candidate items are compared with items previously rated by the user and the best-matching items are recommended. This approach has its roots in information retrieval and information filtering research.
@@ -236,7 +238,7 @@ In general, the research consists of our variant of the standard scenario that i
 \item Testing the system and interviewing students.
 \end{enumerate}
 
-There are regular problems of feature selection describing users and study courses, as well as naming their classes after stage of taxonomy inference. [[List of features ]].  The subscription group (channel) names can be used as features too.  They also could be processed with clustering to generalize subsets of groups, giving additional data on the similarities and control correspondence to their set subject matter tags.  As for names of courses classes competence names can be used also possibly after a generalization.  Classification of new students is realized with two-layer neural network for easy implementation. The data will be processed in context of the university and its subdivision departments, institutions.  There is other data that could be used in the preliminary data analysis: faculty name, course relation data, competence definition text, relation of competences to their courses, course data like study direction and other describing features, and, in principle, results of feed text analysis.
+There are regular problems of feature selection describing users and study courses, as well as naming their classes after stage of taxonomy inference.  The subscription group (channel) names can be used as features too.  They also could be processed with clustering to generalize subsets of groups, giving additional data on the similarities and control correspondence to their set subject matter tags.  As for names of courses classes competence names can be used also possibly after a generalization.  Classification of new students is to be realized with two-layer neural network for easy implementation. The data will be processed in context of the university and its subdivision departments, institutions.  There is other data that could be used in the preliminary data analysis: faculty name, course relation data, competence definition text, relation of competences to their courses, course data like study direction and other describing features, and, in principle, results of feed text analysis.
 
 
 
@@ -265,11 +267,11 @@ There are regular problems of feature selection describing users and study cours
 
 In both projects we used C\#-based platform for implementation as it is a compromise of expressiveness and computational performance, it has rich set of libraries and frameworks.  The RS are web ASP.NET and MONO applications with database represented with Entity Framework Object-relational mappers (ORM).  One of the advantages of the C\# language is partial classes allowing composition of a class dividing its definition between files, which can be both generated and programmed manually.  This technology supports great flexibility of Entity Framework.  The language also supports properties and decorators, making it a convenient application programming language.
 
-Database back-end of the realty RS is open-source RDF (Resource Description Framework) triple store \texttt{BrightstarDB}, allowing in future research to use data in logical inference engines, \textrm{e.g.}, for constructing knowledge-based RS and connect the system with other servers via SPARQL.  The second back-end database system is SQLEXPRESS, the default setup for Microsoft Visual Development Studio.
+Database back-end of the realty RS is open-source RDF (Resource Description Framework) triple store \texttt{BrightstarDB}, allowing in future research to use data in logical inference engines, \emph{e.g.}, for constructing knowledge-based RS and connect the system with other servers via SPARQL.  The second RS back-end database is SQLEXPRESS, the default setup for Microsoft Visual Development Studio.
 
 The input data for entrants' RS is provided by the input forms and automatic processing of students enrollment orders in DOCX format, using our syntactic analyzer.  Orders contain header, which is parsed to determine the date of the enrollment, specialty and other parameters.  The only table part lists of the enrolled students.  Additionally the list records are checked by regular expressions determining the sum of points gained.  The reading of the document data is implemented by means of C\# library \texttt{Microsoft.Office.Interop.Word} with its \texttt{Paragraphs} collection and \texttt{Range} objects.
 
-The list of students is traversed, and for each student its IC profile is queried.  The data of interest is the profile and the subscriptions.  The query is done via IC API as HTTP queries.  According to IC API policy, the queries can be issued not more than three times per second, otherwise error 6 meaning ``Too many requests per second'' is obtained.  Additional constraints are stated to the set of issued remote methods.  The policy for the set is not published, its violation results to the Captcha test issue or rejection of a concrete method usage with no restriction for others.
+The list of students is traversed, and for each student his/her IC profile is queried.  The data of interest is the profile and the subscriptions.  The query is done via IC API as HTTP queries.  According to IC API policy, the queries can be issued not more than three times per second, otherwise error 6 meaning ``Too many requests per second'' is obtained.  Additional constraints are stated to the set of issued remote methods.  The policy for the set is not published, its violation results to the Captcha test issue or rejection of a concrete method usage with no restriction for others.
 
 % The database is used to query stored data
 
@@ -281,14 +283,14 @@ One student can have more than one IC accounts.  In this case a form appeared to
 \label{sec:relim-proc}
 
 
-\subsection{Input data acquisition}
-\label{sec:tech-input}
+%\subsection{Input data acquisition}
+%\label{sec:tech-input}
 
 % The acquired input data stored in the database at first is processed with hierarchical cluster analysis algorithms to construct set of classes for students and study courses.  After that an classification procedure is applied to construct relations between individual student to its class.  These classifications allow us to reduce the complexity of the main recommender algorithms and shift partially from collaborative filtration technique to .
 
-In realty RS, two program agents are implemented, which are executed on a n event occurrence.  The first one starts by timer of web browser and implements issuing user positive evaluation, if user spends some time viewing a page of a realty object.  The second one, located at server side, is activated if the first one raised event of a positive evaluation.  Server agent receives the evaluation and may start recalculation of estimates for recommendations if there are enough computational resources.
+In realty RS, two program agents are implemented, which are executed on an event occurrence.  The first one starts by timer of web browser and implements issuing user positive evaluation, if user spends some time viewing a page of a realty object.  The second one, located at the server side, is activated if the first one raised event of a positive evaluation.  Server agent receives the evaluation and may start recalculation of estimates for recommendations if there are enough computational resources.
 
-All data are stored in a database, which structure is represented as objects on Figure~\ref{fig:class-siag}.  Central class is \texttt{IOffer}, representing the offer of an realty object.  The information on an object, which is independent of an offer, is stored as \texttt{IObject}-object.  The object structure corresponds to standard Yandex and Google form of real estate representation.
+All data are stored in a database, which structure is represented as objects in Figure~\ref{fig:class-siag}.  Central entity is \texttt{IOffer}, representing the offer of an realty object.  The information on an object, which is independent of an offer, is stored as \texttt{IObject}-object.  The object structure corresponds to standard Yandex and Google form of real estate representation.
 
 \begin{figure*}[tb]
   \centering
@@ -303,12 +305,9 @@ The real estate domain specifics is the total availability of data for realty ob
 \subsection{Classification of realty objects}
 \label{sec:class-realty}
 
-
-
-
 % The classification was carried out with hierarchical clustering method and c\# library ....
 
-Comparison of the object was made in a vector space according to the features presented in Table~\ref{tab:cmp}.
+Comparison of the object is done in a vector space according to the features presented in Table~\ref{tab:cmp}.
 \begin{table}[tb]
   \caption{Comparing features and their weight coefficients}
   \label{tab:cmp}
@@ -353,13 +352,13 @@ In the table with stars we denote the following formulas:
   \tag{\star}
 \]
 \[
-  d_k(i,j) = \frac{|a_i^k-a_j^k|}{a_i^k+a_j^k}, a_i^k+a_j^k>0.
+  d_k(i,j) = \frac{|a_i^k-a_j^k|}{a_i^k+a_j^k},\quad a_i^k+a_j^k>0.
   \tag{\star\star}
 \]
 
 The aggregate assessment is made with formula:
 \[
-  d(i,j)=\frac{\sum\limits_{k=1}^m|v_k\cdot d_k(i,j)|}{\sum\limits_{k=1}^m v_k}, \qquad 0\leqslant d_{i,j}\leqslant 1.
+  d(i,j)=\frac{\sum\limits_{k=1}^m|v_k\cdot d_k(i,j)|}{\sum\limits_{k=1}^m v_k}, \qquad 0\leqslant d_{i,j}\leqslant 1,
 \]
 \noindent where $v_k$ is a weight of $k$-th attribute value, defined in the table. %, we, as programmers, for each calculated $d(i,j)$ \texttt{asserted} its value $0\leqslant d(j,j)\leqslant 1$.
 
@@ -367,7 +366,7 @@ In order to create a taxonomy, expert user must run the hierarchical clustering 
 
 Some clusters can gain the same name, and after renaming, clusters with the same name are joined.  Hierarchical clustering allows us to make experiments with data without recalculation of the taxonomies.  Before running clustering function, expert can restrict the set of objects to be examined, \emph{e.g.} by 200 objects, so we can use even agglomerative hierarchical clustering.
 
-The following classes are presented on Irkutsk region real estate market: two-room flats, one-or-two-room flats (comfort class really), one-room flats, dachas, houses, room, commercial space, a garage, and elite realty (flats with three and more rooms).
+The following classes are presented on Irkutsk region real estate market: two-room flats, one-or-two-room flats (comfort class realty), one-room flats, dachas, houses, room, commercial space, a garage, and elite realty (flats with three and more rooms).
 
 User interests acquired as follows.  New user is suggested a set of objects from all the classes of realty.  Watching users activities, which objects he/she is viewing, the systems gains initial interest, and then specifies the class of objects to view at following steps.  Each object observed by user during long time considered to be of interest, the a positive evaluation is added to database.  Recommended objects are shown in a list located at the bottom of the interface window.  The set of suggested objects is restricted by 20 items.
 
@@ -380,11 +379,11 @@ RS tracks user movement around various classes and fixed for each class the esti
 
 The Slope One algorithm can generate recommendations for an object (a class) if there is at least one positive evaluation of an objects of the class.  At the cold start period if there ware no such evaluations, RS shows random 20 objects of the same class of objects user is viewing.
 
-\section{Web application}
+\section{Web applications}
 
 Both RS use MVC architecture in construction of user interface.  Realty RS is based on \texttt{Nancy} ASP.NET framework, where for each URL template a lambda function is related, having supported parameters of the Request objects.  At the beginning of each function we restore \texttt{session} object, and at the end, the Response object is created by applying a context model and a view object to a template.  As template engine SharpTAL is used, an implementation of Zope page template (ZPT) with Template attribute language (TAL).  This implementation follows traditions of C\#, namely, compile its content into objects at the phase of project compilation.
 
-As for each web template engine, ZPT uses model, view, which implements controller functions as well, and template to generate HTML content.  Model is referred as \texttt{context} of view, which function is simplification of the access to context by template, and transforming user actions into model change upon \texttt{POST} query.  For using global application and other data as with context we pass in a general case \texttt{application}, \texttt{appview}, \texttt{user} and \texttt{message} objects.  User defines the currently authenticated user, and message contains text to show in a view, announcing an event happening in the RS, \emph{e.g.} the fact that the record is successfully stored in the database.
+As for each web template engine, ZPT uses \texttt{model}, \texttt{view}, which implements \emph{controller} functions as well, and \texttt{template} to generate HTML content.  Model is referred as \texttt{context} of a view, which function is simplification of the access to context by template, and transforming user actions into model change upon \texttt{POST} query.  For using global application and other data, as context we pass in a general case \texttt{application}, \texttt{appview}, \texttt{user} and \texttt{message} objects.  User defines the currently authenticated user, and message contains text to show in a view, announcing an event happening in the RS, \emph{e.g.} the fact that the record is successfully stored in the database.
 
 ZPT and TAL technologies were chosen as they give a very powerful tools for HTML tree structure manipulation including usage of named and parametrized macros, attributes subtrees, defined in one page template, and multiply used in other ones, as well as the technology tries do not extend XHTML syntax with new entities for implementation of element replacement functions.
 
@@ -401,12 +400,12 @@ The overview of the presented experience shows that C\# .NET and MONO technologi
 \item using open-source technologies, modules and libraries.
 \end{enumerate}
 
-The obtained real estate RS implementation as well as the second project do not take advantage of the nowadays methods, which corresponds to current traditions.  Most attention is paid to preliminary data processing and obtaining minimal valuable product (MVP).
+The obtained real estate RS implementation as well as the second project do not take advantage of the nowadays methods of R\&D development, which corresponds to current traditions.  Most attention is paid to preliminary data processing and obtaining minimal valuable product (MVP).
 
 \section*{Conclusion}
 \label{sec:conc}
 
-We presented results of two master degree projects in the field of recommender system (RS) development in real estate and university entrants' study direction choice decision making.  The first one is finished, and the second one is on a half way.  Both systems have similar design, but rely on different RS technique: the realty RS is based on collaborative filtration, the entrants' one is based on content filtering.  Both systems use object-oriented representation of application entities, which are persistent.
+We presented results of two master degree projects in the field of recommender system (RS) development in real estate and university entrants' study direction choice decision making.  The first one is finished, and the second one is on a half way.  Both systems have similar design, but rely on different RS technique: the realty RS is based on collaborative filtration, the entrants' one is based on content filtering.  Both systems use object-oriented representation of application entities, which are persistent as well.
 
 Solutions of ``cold start'' problem for both domains has been considered.  They are based on creating taxonomies of objects by cluster analysis and partial transition to consider classes as objects of users' interests.  In the entrant RS we also created taxonomies of users according their subscriptions in a social network.
 
@@ -423,7 +422,7 @@ The described technique could be developed further by adaptation the standard di
 \section*{Acknowledgements}
 \label{sec:ack}
 
-Authors thank Evgeny Vasil'evich Brezheshov, director of a realtor office, for helping with problem domain description and problem statement of real estate RS.
+Authors thank Evgeny Vasil'evich Brezheshov, director of a realtor office, for helping with problem domain description and problem statement for real estate RS.
 
 % \section*{References}
 
