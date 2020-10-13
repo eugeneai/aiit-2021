@@ -2,7 +2,7 @@
 
 LATEXMK=latexmk -lualatex -latexoption=-shell-escape
 TARGET=conference_041818
-TLK=talk-2020-10-15-aiit
+TLK=talk-2020-10-16-RS
 
 run: $(TARGET).pdf
 
@@ -17,7 +17,7 @@ clean:
 	rm -f *.{bbl,aux,ps,dvi,log,toc,out,vrb,snm,nav} *~ ~* *.bak *.synctex.* *.thm *-joined.pdf *.wbk *_latexmk *.fls
 	# cd pics && make clean
 
-show: $(TARGET).pdf
+show: $(TLK).pdf
 	evince $< &
 
 view: show
