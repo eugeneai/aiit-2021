@@ -136,32 +136,14 @@ In the \textbf{second} RS entrants are to obtain perspective specialty, comfort 
 \end{frame}
 
 \begin{frame}
-  \frametitle{Data Sources for Real Estate RS}
+  \frametitle{Preliminary data processing: Real Estate RS}
+  Real estate (RE) \textbf{objects} are presented at \emph{classified advertisement websites} and special RE ones \texttt{altcom.ru} storing \emph{offers}.  Offers refer RE objects described by properties (address, sizes, levels, number of rooms, etc.).  Input format is XML, being essentially a list.
 
-\end{frame}
+  RE \textbf{agents} have roles: \emph{unknown, seller, buyer, owner, realtor, expert, invalid user}.  Experts and realtors are RS managers.  The first three are regular users able to look for an object.
 
-\begin{frame}
-  \frametitle{Data Sources for Entrants}
-\end{frame}
+  Objects are distributed by hierarchical cluster analysis to classes: {\color{JungleGreen}two-room flats}, {\color{Melon}one-or-two-room flats} (comfort class realty), {\color{RawSienna}one-room flats}, {\color{Periwinkle}dachas}, {\color{ForestGreen}houses}, {\color{Mahogany}rooms}, {\color{Dandelion}commercial space}, {\color{Plum}a garage}, and {\color{MidnightBlue}elite realty} (flats with three and more rooms).  Naming is performed by \texttt{experts}.
 
-\begin{frame}
-  \frametitle{Used Technologies}
-
-  \begin{itemize}
-  \item \texttt{C\#} platform as compromise of expressiveness and performance, cross-platform (\texttt{.NET} and \texttt{MONO});
-  \item Entity Framework (ET) for object persistency;
-  \item \texttt{SQLEXPRESS} and \texttt{BrightstarDB} as ET backends with aim to RDF and LOD;
-  \item \texttt{Microsoft.Office.Interop.Word} for DOCX processing;
-  \item \texttt{HtmlAgilityPack} for HTML parsing;
-  \item \texttt{dotNetRdf}, \texttt{System.Xml.Xdocument};
-  \item \texttt{VDS.Common} for word indexing;
-  \item \texttt{SharpTAL} for \texttt{HTML} templating;
-  \item \texttt{Newtonsoft.Json} for \texttt{JSON} generation/parsing;
-  \item \texttt{BCrypt} for user password encryption;
-  \item \texttt{xunit.*} for organizing functional tests.
-  \item Browser \texttt{JavaScript} with \texttt{Bootstrap} and \texttt{JQuery}.
-  \end{itemize}
-
+  \textbf{User interest} is acquired by tracking his/her activity on web site. If user spent more than 30 seconds viewing an object data add a positive interest unit.  After some time user is suggested to register to provide cross-browser data acquisition.
 \end{frame}
 
 \begin{frame}
@@ -241,15 +223,53 @@ In the \textbf{second} RS entrants are to obtain perspective specialty, comfort 
   HTTP template engine is based on SharpTAL, allowing implementation of MVC with a dictionary variable substitution.  It can be extended to support LOD cross-site integration.
 \vfill\centering
   \includegraphics[width=1\linewidth]{architecture.pdf}
-
 \end{frame}
-
 
 \begin{frame}
   \frametitle{Persistent Object Structure}
    \centering
    \includegraphics[width=1\linewidth]{class_diagram.pdf}
+\end{frame}
 
+\begin{frame}
+  \frametitle{Screenshot: Naming clusters}
+   \includegraphics[width=1\linewidth]{screen-cluster.png}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Screenshot: Example of recommendation}
+   \includegraphics[width=1\linewidth]{screen-recommends.png}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Data sources and preliminary processing for entrants' RS}
+  \textbf{Social networks} are popular ways of self-expression for school students (entrants).  User's properties are the profile data and set of group and channel subscriptions represented with \textbf{tags, keywords}.  TSU\footnote{Tomsk state university} research proved that InContact (ВКонтакте) students profiles are closely related to educational interests.
+
+  To produce recalculations we make clusters of users and find ones, who has chosen a specialty.  Specialty data is extracted from \emph{enrollment orders}, which structure is regular.  Specialties described by competence relations are also organized in clusters, named by experts.
+
+  Recommendations are to be produced with machine learning. \emph{e.g.}, a neural network (NN), pretrained to relate user class to a specialty [class].  Another NN will be used to distribute new entrants to classes.
+
+  So the RS is based on \emph{content filtering}, and users will participate in RS functioning passively.
+\end{frame}
+
+\begin{frame}
+  \frametitle{The summary of used technologies}
+
+  \begin{itemize}
+  \item \texttt{C\#} platform as compromise of expressiveness and performance, cross-platform (\texttt{.NET} and \texttt{MONO});
+  \item Entity Framework (ET) for object persistency;
+  \item \texttt{SQLEXPRESS} and \texttt{BrightstarDB} as ET backends with aim to RDF and LOD;
+  \item \texttt{Microsoft.Office.Interop.Word} for DOCX processing;
+  \item \texttt{HtmlAgilityPack} for HTML parsing;
+  \item \texttt{dotNetRdf}, \texttt{System.Xml.Xdocument};
+  \item \texttt{VDS.Common} for word indexing;
+  \item \texttt{SharpTAL} for \texttt{HTML} templating;
+  \item \texttt{Newtonsoft.Json} for \texttt{JSON} generation/parsing;
+  \item \texttt{BCrypt} for user password encryption;
+  \item \texttt{xunit.*} for organizing functional tests;
+  \item \texttt{Paket} \texttt{.NET} dependency manager;
+  \item Browser \texttt{JavaScript} with \texttt{Bootstrap} and \texttt{JQuery}.
+  \end{itemize}
 \end{frame}
 
 \begin{frame}
@@ -282,13 +302,15 @@ The techniques could be developed further by adaptation the standard directions 
 \end{itemize}
 \end{frame}
 
+
 \begin{frame}{}
   \vfill
   \centering
   \Huge \textbf{Thank You for attention!}
   \vfill
+  \includegraphics[width=0.5\linewidth]{QRURL.png}\\
+  \normalsize\url{https://github.com/eugeneai/papers-aiit-rs/raw/master/talk-2020-10-16-RS.pdf}
 \end{frame}
-
 
 \end{document}
 
