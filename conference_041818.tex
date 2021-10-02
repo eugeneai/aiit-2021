@@ -66,16 +66,16 @@
 
 % \title{Recommender system for high school entrants having social network accounts}
 
-\title{Two Recommender Systems: Technical Decisions and Lesson Learned}
+\title{Recommender system for choosing carrier directions by Viet Nam school students}
 
 \author{%
-\IEEEauthorblockN{Evgeny Cherkashin${}^{1,2}$, Viktoria Kopylova${}^2$, Boris Shevchenko${}^2$, Nikita Lukyanov${}^2$}
-\IEEEauthorblockA{${}^1$~\textit{Laboratory of Complex informational systems},\\\textit{Institute for system dynamics and control theory, SB RAS,}
+\IEEEauthorblockN{Dyk The Chan${}^{1}$, Evgeny Cherkashin${}^{2,3}$}
+\IEEEauthorblockA{${}^1$~\textit{Institute for Informational Technologies and Data Analysis},\\
+\textit{National Research Irkutsk State Technical University,} Irkutsk, Russia}
+\IEEEauthorblockA{${}^2$~\textit{Laboratory of Complex Informational Systems},\\\textit{Matrosov Institute for System Dynamics and Control Theory, Siberian Branch of Russian Academy of Sciences,}
 Irkutsk, Russia \\
 eugeneai@irnok.net}
-\IEEEauthorblockA{${}^2$~\textit{Institute for informational technologies and data analysis},\\
-\textit{National research Irkutsk state technical university,} Irkutsk, Russia\\
-kopylovika@mail.ru, lukyanovnd@istu.edu}
+\IEEEauthorblockA{${}^3$~\textit{Chair for Informational Technologies},\\\textit{Institute for Mathematics and Information Technologies, Irkutsk State University, Irkutsk, Russia}}
 }
 
 \maketitle
@@ -94,21 +94,53 @@ Technique of overcoming ``cold start'' problems in these domains are proposed.  
 
 \section{Introduction}
 
-Recommender systems (RS), being considered as an example of decision support systems, are useful to support users with additional information and decision variants.  In this paper we consider our experience with developing RS in two domains: real estate of a region and choosing the specialty of a high school.  Both systems were developed within master degree at Institute for informational technologies and data analysis, National research Irkutsk state technical university.  That's why they have status of pilot projects showing the basic technique implementations.
+In the countries with predominantly young population, such as Viet Nam, the demand of young specialists is high.  While still a high school student, one have to make a decision about a career. Career choice depends on many factors such as personal interests, academic ability and employment opportunities available after the graduation.  Therefore, choosing the right job is not an easy problem.  In fact, quite often graduates remain unemployed for a long time or do not work in their specialties mastered in an educational institution.  This leads to inefficient use of state funds, their irrational distribution.  That's why the choice of an university after receiving a certificate of maturity is very important.  Choosing a suitable university results in an increase students' study productively, as they work and practice with enthusiasm.  Supporting the decision activities will give a better chance of achieving students' goals in the future.
 
-The first system deals with the problem of selling real estate: a flat, a room in a flat, a house.  Most of the objects on the market have similar characteristics in a class, the user interest is expressed with obvious characteristics like price, location, level, number of owners.  But the most interesting aspect of the problem is the special cases of realty like private family hotels, countryside houses, shops.  These are usually being sold for a long time, and the real estate firms utilize too many efforts for that.  The time spent to find new owner of the property is critical for the business: sellers have losses due paying the taxes for the estate being not utilized, buyers have no possibilities to invest available capital.  RS focusing user interest on the previously filtered subsets of the property, preliminary sorting by relevance, could speed up the sales.
 
-Each school student sooner or later faces the problem of choice of a future specialty, university to enroll, and the set of courses to study.  Decisions made at this time significantly affect their future life, their job and career perspectives, families' life level.  Therefore, any help at this stage seems to be a necessary. In comparison to the real estate, where there is a whole industry supporting decision-making -- the services of realtors --, in this field the educational environment supports only an information provision service: students are given only career guidance, advertisement for the high school capabilities.  The student is on his/her own in the fundamental life decision.  Of course, parents and favorite mentors can supply the additional life experience examples helping to focus the analysis of the present conditions, but the actuality of their advices are generally of questions due to specifics of their experience, subjectivity, absence of the topical information of the present state of the labor market, scientific progress, \emph{etc}.
+At present, with the development of the Internet, the search for information about universities is sufficiently efficient. However, having a huge amount of information, selecting substantive information is a difficult task.  Recommender systems (RS) have emerged as a decision support tool, providing users with the most useful and personalized variants for goods and services.  The functioning of RS is based on filtering information with respect to a set of known properties of objects and users.  For example, RSs are used to assess the users' preferences for goods and services (songs, films, video clips, books, articles, \emph{etc}.), which have been not previously given ratings by the user trying to make a choice.
 
-%[[Here we speak about actuality... how to obtain it with data analysis relating contemporary enrollments and, possibly, the resulting educational capabilities of the students after the graduation.]] [[Then transit to the preliminary part (at this time we will deal with the entrant stage) - choice of the study courses]]
+RSs are also quite successfully used in many business spheres, such as entertainment: offering songs to listeners (\emph{e.g.}, the LastFM system -- www.last.fm), offering films (the Netflix system -- www.netflix.com), recommended videos (the YouTube system -- www.youtube.com); in education and training (learning resources, books, articles, site addresses), in intelligent systems of teacher assistants (predicting students' learning capabilities).  RSs are the field of active IT research since 2007.
 
-% Sometimes, having received an education, people realize that they do not want to work in this area. In order to minimize the percentage of such situations, educational institutions hold various events: open days, career guidance work among school graduates, posting useful information on the websites of their university or college, \emph{etc}.  These activities help educational institutions in finding and attracting potential applicants for admission and further study in a more efficient and purposeful way.
+Teaching experience of the first author of this paper in secondary school shows the relevance of the problem of choice of a profession.  This research, being the results of a master thesis, is dedicated to the development of an RS that allows students (applicants) to receive recommendations when taking career decisions.  The aim of the research is development of a RS for supporting students in their carrier decision making.
 
-In a period of intense competition, multidisciplinary educational institutions with similar areas of study are interested in a tool that allows them to determine the target audience more accurately, as well as entrants are interested to find a relevant university.  The work with the audience would be focused and directed. This will help to attract applicants interested in a particular direction, which is being implemented in the educational institution.  This tool could improve the effectiveness of career guidance activities for high school students.  Recommender systems are the tools of such kind.
+The resulting RS prototype has two options for producing recommendations. The first one is realized on the base of John Holland theory \cite{holland}, according to which most people have one of six personality types.  After determining the type, a set of corresponding universities are produced.  The second one is an aggregation of questioning data about concrete universities obtained from students already being taught there.  The recommendations, then, are generated by means of collaborative filtration (CF) based on users' profile comparison.  Thus, the RS prototype combines two approaches: using expert knowledge and CF.
 
-\emph{Recommender systems} (RS) \cite{rs_basics} are decision support information systems designed to assess the user's level of interest in a particular product or service (object) based on available information about user and object.  The RS development industry began to actively develop with the emergence of online sales services, and now it is one of the active areas of development of decision support systems, a direction of artificial intelligence, focused primarily on commercial use, as well as on solving problems of increasing the productivity of searching for relevant information.
 
-Our experience gained when producing a prototype RS for the above mentioned domains is expressed as already built and published at Github.com \cite{RSPO} RS, and in the second RS, being now on the stage of data source import routines implementation.
+\section{Investigation of the carrier choice domain}
+\label{sec:base}
+
+\emph{Recommender systems} \cite{rs_basics} are decision support information systems designed to assess the user's level of interest in a particular product or service (object) based on available information about user and object.  The RS development industry began to actively develop with the emergence of online sales services, and now it is one of the active areas of development of decision support systems, a direction of artificial intelligence, focused primarily on commercial use, as well as on solving problems of increasing the productivity of searching for relevant information.  A profession is the object of RS recommendation production.
+
+Development of the RSs is aimed at solving the following set of problems \cite{ricci}:
+\begin{itemize}
+\item Increasing the sales of a product
+  \begin{itemize}
+  \item a number of commodities sold,
+  \item organizing wider range product sales;
+  \end{itemize}
+\item Increasing user satisfaction and/or loyalty;
+\item Better understanding user needs;
+\item Better products offers with respect to the user needs;
+\item Selection of sets of products for users with a common properties
+  \begin{itemize}
+  \item ``good'' ones, and
+  \item product groups, having a common usability properties;
+  \end{itemize}
+\item Mining the classes of products, structuring the RS product domain, and
+\item Generate a continuity of recommendations using the classification;
+\item Rectifying user profile, \emph{e.g.} with targeted questioning;
+\item For the users having no goal to make choice, but searching for an expert opinions,
+  \begin{itemize}
+  \item Analysis of other users impact on a choice,
+  \item Formalizing opinions,
+  \item Recommending opinions.
+  \end{itemize}
+\end{itemize}
+
+
+
+
+
 
 \section{Data Source for RS}
 
