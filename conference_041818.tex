@@ -69,7 +69,7 @@
 \title{Recommender system for choosing carer directions by Viet Nam school students}
 
 \author{%
-\IEEEauthorblockN{Dyk The Chan${}^{1}$, Evgeny Cherkashin${}^{2,3}$}
+\IEEEauthorblockN{Duc The Tran${}^{1}$, Evgeny Cherkashin${}^{2,3}$}
 \IEEEauthorblockA{${}^1$~\textit{Institute for Informational Technologies and Data Analysis},\\
 \textit{National Research Irkutsk State Technical University,} Irkutsk, Russia}
 \IEEEauthorblockA{${}^2$~\textit{Laboratory of Complex Informational Systems},\\\textit{Matrosov Institute for System Dynamics and Control Theory, Siberian Branch of Russian Academy of Sciences,}
@@ -81,20 +81,40 @@ eugeneai@irnok.net}
 \maketitle
 % \onecolumn
 \begin{abstract}
-  The research of the paper is devoted to expose experience gained in development recommender systems for two domain areas: real estate of a region and choosing the specialty of a high school by entrants. These systems implement different approaches to obtain data and the technique of figuring out the user interest. The common in the techniques are the usage of preliminary data analysis for user and object classification that reduces the computations and data stored. %The recommendation is to be realized on the base of data obtained from his/her account of a social network.  Recommenter system data analysis engine is a complex of data analysis technologies being used for social network data extraction and storage, enrolling documents parsing, entrants and study subjects classifications, construction of the correlations between entrants and subjects of study.
-
-Technique of overcoming ``cold start'' problems in these domains are proposed.  A general system design and implementation are considered.  The future development is indicated.
+  The research of the paper is devoted to present of an R\&D of a recommender system in carer guidance for Viet Nam middle school students.  The system is built on the base of John Holland's six personality types theory and collecting university students' opinions on their study conditions.  The RS relates new user (an entrant or a pupil) to a student group and then presents [[top-$N$]] universities/departments as a recommendation.  Techniques of overcoming ``cold start'' problem and other ones in this domain are considered.
 
   % This paper deals with mostly with the stage of information acquisition, correlation patterns construction and taxonomy construction for entrants and high school subjects.
 \end{abstract}
 
-% \begin{IEEEkeywords}
-% recommender system, taxonomy, cold start, cluster analysis, web application
-% \end{IEEEkeywords}
+\begin{IEEEkeywords}
+recommender system, cold start, carer guidance, TODO:
+\end{IEEEkeywords}
 
 \section{Introduction}
 
 In the countries with predominantly young population, such as Viet Nam, the demand of young specialists is high.  While still a high school student, one have to make a decision about a career. Career choice depends on many factors such as personal interests, academic ability and employment opportunities available after the graduation.  Therefore, choosing the right job is not an easy problem.  In fact, quite often graduates remain unemployed for a long time or do not work in their specialties mastered in an educational institution.  This leads to inefficient use of state funds, their irrational distribution.  That's why the choice of an university after receiving a certificate of maturity is very important.  Choosing a suitable university results in an increase students' study productively, as they work and practice with enthusiasm.  Supporting the decision activities will give a better chance of achieving students' goals in the future.
+
+In Table 1 and 2 we present the result of interest assessment to career guidance and relevance of improving of the guidance system.
+
+\begin{table}
+  \caption{Interest assessment to the carer guidance in Viet Nam}
+  \label{tab:interest}
+  \centering
+  \begin{tabular}{|l|c|c|}
+    \hline
+    \textbf{Interest level} & \textbf{Count of votes} & \textbf{Ratio, \%} \\
+    \hline
+    Very interested & 218 & 51.9 \\
+    \hline
+    Relatively interested & 155 & 36.9 \\
+    \hline
+    Less interested & 36 & 8.6 \\
+    \hline
+    No interest & 11 & 2.6 \\
+    \textbf{Total} & 420 & 100 \\
+    \hline
+  \end{tabular}
+\end{table}
 
 
 At present, with the development of the Internet, the search for information about universities is sufficiently efficient. However, having a huge amount of information, selecting substantive information is a difficult task.  Recommender systems (RS) have emerged as a decision support tool, providing users with the most useful and personalized variants for goods and services.  The functioning of RS is based on filtering information with respect to a set of known properties of objects and users.  For example, RSs are used to assess the users' preferences for goods and services (songs, films, video clips, books, articles, \emph{etc}.), which have been not previously given ratings by the user trying to make a choice.
@@ -146,143 +166,30 @@ The \emph{scalability problem}. Scalability is a property of software systems to
 
 Thus, to construct carer choice RS prototype, we have chosen to collect impersonalized data, structure users with respect to their university/department preference and user profiles by means of collaborative filtering, use questionary and expert approach for initial user profile filling in.
 
-\section{Data Source for RS}
-
-\subsection{Real estate RS}
-
-In Russian sector of Internet, real estate market is presented with various \emph{classified advertisement} websites for selling goods, jobs positions, real estate, cars, services, like \texttt{Avito.ru}.  In Irkutsk region and Moscow, every second flat is sold via such services, with publishing a number of offers for the same flat.  This usually results in reduction of the price to the level below the average on the market.  In Ekaterinburg, real estate is generally sold by realtor firms, in this case the process is more predictable for the seller.  The number of deals in Irkutsk region was raising by 20\% from 2010 to 2016 on the secondary housing market.  This increase is due to the raising of the activity of the websites.
-
-The source of the real estate data is \texttt{atlcom.ru} that provide an actual database for real estate market of almost any region or city of Russia.  One can register and supply filter setup by a form for selection of the part of the database to download. The downloaded data are represented in XML format.  The format is developed by \texttt{Yandex.com} within the R\&D of describing selling commodities.  A special variant is for real estate.
-
-The file comprises a list of \texttt{offer} records (subtrees) describing a flat, house or a room.  The description include metadata (where published, sale agent), location address, price, area in square meters, a photo, number of rooms, floor level, type of building and its general characteristics, as well as the conditions for obtaining additional information.  Each record is identified by a global identifier.
-
-The RS users (agents) have roles: unknown, seller, buyer, owner, realtor, expert, and invalid user.  Before registering users' have role ``unknown'' and as each object in the system is assigned an GUID (global 128 bit identifier) related to the web browser with cookies.  With this cookie and GUID user is being tracked: the RS server collects data on his/her interest in acquiring offers identifiers being visited on the RS website.  An offer is graded as positive if user has spent more than predefined seconds viewing its webpage.  According to the review \cite{br13} forcing user to explicitly grade an offer is useless.
-
-Users having role ``expert'' are for construction of the taxonomy of realty objects, naming of the obtained taxons (classes of realty), and storing the results in the database.  Expert's service is needed at the stage of development of the general principles of RS functioning at the cold start, the main problem we are to solve within the R\&D.  Realtor role is connected with data load activities (select a XML file, import it in the database, control the results).  In Fig. \ref{fig:use-case} we showed the Use case diagram of the system functions.
-
 \begin{figure}[tb]
   \centering
   \includegraphics[width=\linewidth]{use_case.eps}
-  \caption{Use case diagram for real estate RS}
+  \caption{Use case diagram for real estate RS [TODO: UPDATE to CDT's thesis]}
   \label{fig:use-case}
 \end{figure}
 
-Therefore, the constructed RS was to be based on \emph{collaborative filtration} technique, where there is no expert data available for the object of user interest.  To support our case, note, that the set of offers is dynamically changed day-by-day, and it is very hard to supply the data with expert decisions reflecting all user classes opinions.  Having expert constructed the taxonomy, which seems to be made once, the new ``flats'' can be classified easily by measuring the distances to the representative instances of the classes.  The taxonomy allows us to consider the realty class as the object of user interest, a set of similar realty is a property characterizing the class.
+% \section{Related works ????}
 
-\subsection{Entrants' RS}
+% \subsection{Entrants' RS}
 
-Functioning of an RS could be based on analysis of entrants' personal properties, matching them with already enrolled students, analyzing existing individual direction of training and even a particular educational program.  We have been developing and implementing a prototype RS for helping to choose a direction of training at a university for entrants on the base of algorithms for predicting their possible choice based on digital footprints in a social network. As a source data, \emph{e.g.}, subscriptions of Russian social network ``In Contact'' (IC) (in Russian -- ``В контакте'') are used as sources of personal characteristics, and enrollment orders of our university.  %The research \cite{c1} of Tomsk state university, Russia, shows that students (pupils) once or twice a year actualize their profile and subscriptions, as irrelevant information in the main tape (blog) results in necessity to routinely filtering it out. In 2016, the university researchers showed the IC profile in general actually reflects the cognitive properties of personality, and the educational interests of students are closely correlated to their social network behavior.
+% Functioning of an RS could be based on analysis of entrants' personal properties, matching them with already enrolled students, analyzing existing individual direction of training and even a particular educational program.  We have been developing and implementing a prototype RS for helping to choose a direction of training at a university for entrants on the base of algorithms for predicting their possible choice based on digital footprints in a social network. As a source data, \emph{e.g.}, subscriptions of Russian social network ``In Contact'' (IC) (in Russian -- ``В контакте'') are used as sources of personal characteristics, and enrollment orders of our university.  %The research \cite{c1} of Tomsk state university, Russia, shows that students (pupils) once or twice a year actualize their profile and subscriptions, as irrelevant information in the main tape (blog) results in necessity to routinely filtering it out. In 2016, the university researchers showed the IC profile in general actually reflects the cognitive properties of personality, and the educational interests of students are closely correlated to their social network behavior.
 
-Nowadays social networks are one of the main places of person's life, and even more so for a teenager.  This is clear from the data from the Glas Runet online poll service.  Among the 2000 participants of the survey, the majority (86\%) of them know about the existence of Internet social networks and use their services.  Among those who know about the existence of social networks, only 10\% do not use them \cite{c2}.
-The most popular social networks according to the Romir holding are Odnoklassniki, VKontakte and Instagram.  The youngest audience, from 14 to 30 years old, visits VKontakte, 45\% does it daily, and 70\% does more often than once a day \cite{c6}.
+% Nowadays social networks are one of the main places of person's life, and even more so for a teenager.  This is clear from the data from the Glas Runet online poll service.  Among the 2000 participants of the survey, the majority (86\%) of them know about the existence of Internet social networks and use their services.  Among those who know about the existence of social networks, only 10\% do not use them \cite{c2}.
+% The most popular social networks according to the Romir holding are Odnoklassniki, VKontakte and Instagram.  The youngest audience, from 14 to 30 years old, visits VKontakte, 45\% does it daily, and 70\% does more often than once a day \cite{c6}.
 
-Often, it is in social networks that one can track users' self-expression, interests and attitude to the world. The analysis of groups, posts on the main blog, reposts, statuses, \emph{etc.} can be the sources of the valuable information \cite{c7}.
+% Often, it is in social networks that one can track users' self-expression, interests and attitude to the world. The analysis of groups, posts on the main blog, reposts, statuses, \emph{etc.} can be the sources of the valuable information \cite{c7}.
 
-Of course, if a person is an adult, then it is unlikely that all subscriptions to groups will be relevant (``entered and forgot'').  But school students, according to research \cite{c11}, update subscriptions every six months or a year: irrelevant content in the feed annoys them.  Accordingly, subscriptions can become the original dataset that can be analyzed.
+% Of course, if a person is an adult, then it is unlikely that all subscriptions to groups will be relevant (``entered and forgot'').  But school students, according to research \cite{c11}, update subscriptions every six months or a year: irrelevant content in the feed annoys them.  Accordingly, subscriptions can become the original dataset that can be analyzed.
 
-In 2016, Tomsk State University researchers proved that the VKontakte profile reflects the cognitive personality traits, \emph{i.e.}, the educational interests of schoolchildren are closely related to their behavior in the social network \cite{c9}.
+% In 2016, Tomsk State University researchers proved that the VKontakte profile reflects the cognitive personality traits, \emph{i.e.}, the educational interests of schoolchildren are closely related to their behavior in the social network \cite{c9}.
 
-%Based on the data on students enrolled in various areas of a university, it is possible to build a system of recommendations for the direction of training.
+% %Based on the data on students enrolled in various areas of a university, it is possible to build a system of recommendations for the direction of training.
 
-\subsection{Basis of entrants' RS}
-
-There are three basic approaches to development of an RS: \emph{content-based filtering}, \emph{collaborative filtering} and implementing as a \emph{knowledge-based system}.  Collaborative filtering is efficiently used when there is no initial data on object features describing user interests to the items, as well as definitive set of items features, which used in representing user's interest aspects.  This approach is based on continuous data accumulation of user's behavior (the decision made) within a system (\emph{e.g.}, internet shop).  In our case we cannot collect user's decision for each individual user continuously as user makes only one decision on faculty to study at.
-
-This can be done for user classes; each enrollment entrants are classified and their decisions update their classes collected data.  As this is done rarely, usually once a year, and can be processed off-line, then content-based filtering is more suitable approach for this function mode.  The third approach could be usable later after acquiring more data for data mining.
-
-% Из Википедии - общий план исследования.
-
-% Content-based filtering
-For the ease of further consideration of the RS basic aspects of development, we took ``Content-based filtering'' section of Wikipedia webpage (\texttt{\url{https://en.wikipedia.org/wiki/Recommender_system}}) and filled it with our data.
-
-{%\footnotesize
-Content-based filtering methods are based on a description of the item (course in our case) and a profile of the user's (student and entrant in our case) preferences \cite{wb41,wb42}. These methods are best suited to situations where \emph{there is known data on an item} (name, location, description, \emph{etc.}), but \emph{not on the user}. Content-based RS treat recommendation as a \emph{user-specific classification problem} and learn a classifier for the user's preferences (likes and dislikes) based on an item's features.}
-
-The item's source data are documents, enrollment orders, where all the formal data presented for each enrolled student.  In contradiction, we have all data about user's features from their IC profiles.  Thus, we have to design machine learning structure relating entrant's features to the classes of courses of a university.
-
-{%\footnotesize
-In this system, \emph{keywords} are used to \emph{describe the items} and a \emph{user profile} is built to indicate the \emph{type of item} this user likes. In other words, these algorithms try to recommend items that are similar to those that a \emph{user liked in the past}, or is examining in the present. It does not rely on a user sign-in mechanism to generate this often temporary profile. In particular, various candidate items are compared with items previously rated by the user and the best-matching items are recommended. This approach has its roots in information retrieval and information filtering research.
-}
-
-In order to obtain the keywords describing courses, we are to create a taxonomy of courses and relate it to the known characteristics, for example, competence names or keywords obtained from course descriptions.  User profile is built out of the analysis of the user's profile and subscriptions at IC.  We cannot obtain information on the previous behavior for the individual entrants, but we can consider as a user a class of similar users, \emph{i.e.}, join users in classes and treat a class as a RS user.  New entrants are classified and their IC profiles represent new data on user's past behavior.
-
-{%\footnotesize
-To create a user profile, the system mostly focuses on two types of information:
-\begin{enumerate}
-\item A \emph{model of the user's preference}.
-\item A history of the user's interaction with the recommender system.
-\end{enumerate}
-}
-
-Model of user's preference implemented as relation of user class profile features to a study course features expressed by keywords.
-
-{%\footnotesize
-Basically, these methods use an item profile (\emph{i.e.}, a set of discrete attributes and features) characterizing the item within the system. To abstract the features of the items in the system, an item presentation algorithm is applied. A widely used algorithm is the tf–idf representation (also called vector space representation) \cite{wb43}. The system creates a content-based profile of users based on a weighted vector of item features. The weights denote the importance of each feature to the user and can be computed from individually rated content vectors using a variety of techniques. Simple approaches use the average values of the rated item vector while other sophisticated methods use machine learning techniques such as Bayesian Classifiers, cluster analysis, decision trees, and artificial neural networks in order to estimate the probability that the user is going to like the item \cite{wb44}.
-}
-
-We decided to use neural networks for the estimation, as nowadays there appeared a bunch of good programming libraries, which are easily applied.
-
-% {\footnotesize
-% A key issue with content-based filtering is whether the system is able to learn user preferences from users' actions regarding one content source and use them across other content types. When the system is limited to recommending content of the same type as the user is already using, the value from the recommendation system is significantly less than when other content types from other services can be recommended. For example, recommending news articles based on browsing of news is useful, but would be much more useful when music, videos, products, discussions etc. from different services can be recommended based on news browsing. To overcome this, most content-based recommender systems now use some form of hybrid system.
-% }
-
-% {\footnotesize
-% Content-based recommender systems can also include opinion-based recommender systems. In some cases, users are allowed to leave text review or feedback on the items. These user-generated texts are implicit data for the recommender system because they are potentially rich resource of both feature/aspects of the item, and users' evaluation/sentiment to the item. Features extracted from the user-generated reviews are improved meta-data of items, because as they also reflect aspects of the item like meta-data, extracted features are widely concerned by the users. Sentiments extracted from the reviews can be seen as users' rating scores on the corresponding features. Popular approaches of opinion-based recommender system utilize various techniques including text mining, information retrieval, sentiment analysis (see also Multimodal sentiment analysis) and deep learning \cite{wb45}.
-% }
-
-In general, the research consists of our variant of the standard scenario that includes the following steps:
-\begin{enumerate}
-\item Import and analyze enrollment orders existing at the university administration;
-\item Crawl the social network for personal characteristics and subscriptions for all student included in the enrollment orders;
-\item Import curriculum data for all courses we interested in, gathering related data such as competence;
-\item Creating taxonomies for students and study courses, name resulting classes, juxtapose them with related data;
-\item Devising classification procedures for relating entrants to the classes;
-\item Importing and carrying on data analysis, resulting organizing a rational database having wrapped in an ORM (Object-relational mapping) to ease of usage;
-\item Implementation the content-based filtering for students that are entrants with data in the database.
-\item Create web application for entrants and university staff.
-\item Testing the system and interviewing students.
-\end{enumerate}
-
-There are regular problems of feature selection describing users and study courses, as well as naming their classes after stage of taxonomy inference.  The subscription group (channel) names can be used as features too.  They also could be processed with clustering to generalize subsets of groups, giving additional data on the similarities and control correspondence to their set of subject tags.  As for names of courses classes competence names can be used also possibly after a generalization.  Classification of new students is to be implemented with two-layer neural network for easy implementation. The data will be processed in context of the university and its subdivision departments, institutions.  There is other data that could be used in the preliminary data analysis: faculty name, course relation data, competence definition text, relation of competences to their courses, course data like study direction and other describing features, and, in principle, results of feed text analysis.
-
-
-
-
-% Смотри. В этом разделе надо показать, как актуализировать текущее состояние рынка образовательных услуг и рынка профессий для абитуриента. И. Как для университету сделать так, чтобы он мог, например, в ленту конкретного школьника подсовывать свою рекламу (целевая аудитория).
-
-% Но такая реклама это же таргетированная... И это раздел СММ вроде бы...
-
-% Я думала это программа типа помощь с тем, чтобы выбрать направление обучения
-
-% Для реализации проекта необходимо выполнить следующие задачи:
-% - осуществить постановку задачи и описать требования к системе;
-% - получить набор данных (синтаксический анализ открытых приказов о поступлении);
-% - разработать алгоритм поиска студентов в социальной сети «Вконтакте» (ВК) при использовании технологии API;
-% - спроектировать и реализовать базу данных (БД);
-% - разработать основные классы, выполняющие взаимодействие пользователя с БД и обработку поступающих данных;
-% - реализовать графический интерфейс;
-% - осуществить тестирование и отладку программы;
-% - разделить данные на обучающую и тестовую выборку;
-% - подобрать и реализовать алгоритм классификации данных, наиболее подходящий для достижения поставленной цели;
-% - обучить алгоритм и проверить на тестовой выборке;
-% - протестировать алгоритм на данных о поступивших в следующем году абитуриентах.
-
-\section{Technologies Used}
-\label{sec:tech}
-
-In both projects we used C\#-based platform \cite{ben16} for implementation as it is a compromise of expressiveness and computational performance, it has rich set of libraries and frameworks.  The RS are web ASP.NET and MONO applications with database represented with Entity Framework Object-relational mappers (ORM) \cite{ef15}.  One of the advantages of the C\# language is partial classes allowing composition of a class dividing its definition between files, which can be both generated and programmed manually.  This technology supports great flexibility of Entity Framework.  The language also supports properties and decorators, making it a convenient application programming language.
-
-Database back-end of the realty RS is open-source RDF (Resource Description Framework) triple store \texttt{BrightstarDB}, allowing in future research to use data in logical inference engines, \emph{e.g.}, for constructing knowledge-based RS and connect the system with other servers via SPARQL.  The second RS back-end database is SQLEXPRESS, the default setup for Microsoft Visual Development Studio.
-
-The input data for entrants' RS is provided by the input forms and automatic processing of students enrollment orders in DOCX format, using our syntactic analyzer.  Orders contain header, which is parsed to determine the date of the enrollment, specialty and other parameters.  The only table part lists the enrolled students.  Additionally, the list records are checked by regular expressions determining the sum of points gained.  The reading of the document data is implemented by means of C\# library \texttt{Microsoft.Office.Interop.Word} with its \texttt{Paragraphs} collection and \texttt{Range} objects.
-
-The list of students is traversed, and for each student his/her IC profile is queried.  The data of interest are the profile and the subscriptions.  The query is done via IC API as HTTP queries \cite{apivk}.  According to IC API policy, the queries can be issued not more than three times per second, otherwise error 6 meaning ``Too many requests per second'' is obtained.  Additional constraints are stated to the set of issued remote methods.  The policy for the set is not published, its violation results to the Captcha test issue or rejection of a concrete method usage with no restriction for others.
-
-% The database is used to query stored data
-
-One student can have more than one IC accounts.  In this case a form appeared to choose the right one manually.  The decision is stored in a database table attribute.
-
-% Curriculum structure is analyzed by a Python script.  It loads Excel spreadsheet containing the working plans for a student group and extracts disciplines, working hours, competences and various formal data from there.  The structure is stored in a database.
 
 \section{Preliminary Data Processing}
 \label{sec:relim-proc}
@@ -378,11 +285,7 @@ User interests are acquired as follows.  New user is suggested a set of objects 
 \section{Recommendations Generation}
 \label{sec:proc-recs}
 
-The RS for real estate market is implemented Slope One based collaborative filtration \cite{br1}.  We assume that buyer purchases a flat not frequently and then each buyer is a new user, and no data about his/her preferences are available, as well as one flat cannot be bought several times as compared to a regular internet shop of commodities.  New users are assigned a GUID and tracked by cookies.  Tracking data forms preference data.  After a predefined number of viewed pages, RS suggests registering, it is an engine preventing losing the data due to moving user to another workstation, and starts to issue recommendations.  The user is not required to register, as it was specially stated before us as a requirement, but we explain the advantages of the registration action.
-
-RS tracks user movement around various classes and fixed for each class the estimation of the object explicitly viewed by user. For each visited class, RS performs filtering the set of objects and range them according to all collected user data in the context of the class.  The relevance is calculated by Slope One technique.  The average values of differences of objects' evaluations are calculated by request and cashed in the user session data. After calculation of the evaluations for each object, which was not seen by user, in the class, objects are sorted by relevance and a predefined number of them are displayed.
-
-The Slope One algorithm can generate recommendations for an object (a class) if there is at least one positive evaluation of an object of the class.  At the cold start period if there were no such evaluations, RS shows random 20 objects of the same class of objects user is viewing.
+% The Slope One algorithm can generate recommendations for an object (a class) if there is at least one positive evaluation of an object of the class.  At the cold start period if there were no such evaluations, RS shows random 20 objects of the same class of objects user is viewing.
 
 \section{Web Applications}
 
