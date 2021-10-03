@@ -66,7 +66,7 @@
 
 % \title{Recommender system for high school entrants having social network accounts}
 
-\title{Recommender system for choosing carer directions by Viet Nam school students}
+\title{Recommender system for choosing carer directions by Việt Nam school students}
 
 \author{%
 \IEEEauthorblockN{Duc The Tran${}^{1}$, Evgeny Cherkashin${}^{2,3}$}
@@ -81,7 +81,7 @@ eugeneai@irnok.net}
 \maketitle
 % \onecolumn
 \begin{abstract}
-  The research of the paper is devoted to present of an R\&D of a recommender system in carer guidance for Viet Nam middle school students.  The system is built on the base of John Holland's six personality types theory and collecting university students' opinions on their study conditions.  The RS relates new user (an entrant or a pupil) to a student group and then presents [[top-$N$]] universities/departments as a recommendation.  Techniques of overcoming ``cold start'' problem and other ones in this domain are considered.
+  The research of the paper is devoted to present of an R\&D of a recommender system in carer guidance for Việt Nam middle school students.  The system is built on the base of John Holland's six personality types theory and collecting university students' opinions on their study conditions.  The RS relates new user (an entrant or a pupil) to a student group and then presents [[top-$N$]] universities/departments as a recommendation.  Techniques of overcoming ``cold start'' problem and other ones in this domain are considered.
 
   % This paper deals with mostly with the stage of information acquisition, correlation patterns construction and taxonomy construction for entrants and high school subjects.
 \end{abstract}
@@ -94,10 +94,9 @@ recommender system, cold start, carer guidance, TODO:
 
 In the countries with predominantly young population, such as Viet Nam, the demand of young specialists is high.  While still a high school student, one have to make a decision about a career. Career choice depends on many factors such as personal interests, academic ability and employment opportunities available after the graduation.  Therefore, choosing the right job is not an easy problem.  In fact, quite often graduates remain unemployed for a long time or do not work in their specialties mastered in an educational institution.  This leads to inefficient use of state funds, their irrational distribution.  That's why the choice of an university after receiving a certificate of maturity is very important.  Choosing a suitable university results in an increase students' study productively, as they work and practice with enthusiasm.  Supporting the decision activities will give a better chance of achieving students' goals in the future.
 
-In Table 1 and 2 we present the result of interest assessment to career guidance and relevance of improving of the guidance system.
-
-\begin{table}
-  \caption{Interest assessment to the carer guidance in Viet Nam}
+In Table 1 and 2 we present the result of interest assessment to career guidance and relevance of improving of the guidance system.  Tables show that
+\begin{table}[thb]
+  \caption{Interest assessment to the carer guidance in Việt Nam, Hà Tĩnh city}
   \label{tab:interest}
   \centering
   \begin{tabular}{|l|c|c|}
@@ -116,6 +115,24 @@ In Table 1 and 2 we present the result of interest assessment to career guidance
   \end{tabular}
 \end{table}
 
+\begin{table}[bht]
+  \caption{Questionary results of middle school students on need for improvement of the carer guidance system}
+  \label{tab:interest}
+  \centering
+  \begin{tabular}{|l|c|c|}
+    \hline
+    \textbf{Answer option} & \textbf{Quantity} & \textbf{Ration, \%} \\
+    \hline
+    very necessary & 272 & 64.8 \\
+    \hline
+    necessary & 145 & 34.5 \\
+    \hline
+    no necessity & 3 & 0.7 \\
+    \hline
+    \texttt{Total} & 420 & 100 \\
+    \hline
+  \end{tabular}
+\end{table}
 
 At present, with the development of the Internet, the search for information about universities is sufficiently efficient. However, having a huge amount of information, selecting substantive information is a difficult task.  Recommender systems (RS) have emerged as a decision support tool, providing users with the most useful and personalized variants for goods and services.  The functioning of RS is based on filtering information with respect to a set of known properties of objects and users.  For example, RSs are used to assess the users' preferences for goods and services (songs, films, video clips, books, articles, \emph{etc}.), which have been not previously given ratings by the user trying to make a choice.
 
@@ -124,7 +141,6 @@ RSs are also quite successfully used in many business spheres, such as entertain
 Teaching experience of the first author of this paper in secondary school shows the relevance of the problem of choice of a profession.  This research, being the results of a master thesis, is dedicated to the development of an RS that allows students (applicants) to receive recommendations when taking career decisions.  The aim of the research is development of a RS for supporting students in their carer decision making.
 
 The resulting RS prototype has two options for producing recommendations. The first one is realized on the base of John Holland theory \cite{holland}, according to which most people have one of six personality types.  After determining the type, a set of corresponding universities are produced.  The second one is an aggregation of questioning data about concrete universities obtained from students already being taught there.  The recommendations, then, are generated by means of collaborative filtration (CF) based on users' profile comparison.  Thus, the RS prototype combines two approaches: using expert knowledge and CF.
-
 
 \section{Technique of construction for the RS helping with the carer choice}
 \label{sec:base}
