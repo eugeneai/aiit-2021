@@ -70,7 +70,7 @@
 \title{Recommender systems for carer guidance}
 
 \author{%
-\IEEEauthorblockN{Đức The Trần${}^{1}$, Evgeny Cherkashin${}^{1,2,3}$, Viktoria Kopylova${}^2$, Nikita Lukyanov${}^2$}
+\IEEEauthorblockN{Trần Đức Thế${}^{1}$, Viktoria Kopylova${}^1$, Evgeny Cherkashin${}^{1,2,3}$, Nikita Lukyanov${}^1$}
 \IEEEauthorblockA{${}^1$~\textit{Institute for Informational Technologies and Data Analysis},\\
 \textit{National Research Irkutsk State Technical University,} Irkutsk, Russia}
 \IEEEauthorblockA{${}^2$~\textit{Laboratory of Complex Informational Systems},\\\textit{Matrosov Institute for System Dynamics and Control Theory, Siberian Branch of Russian Academy of Sciences,}
@@ -81,13 +81,13 @@ Irkutsk, Russia}
 \maketitle
 % \onecolumn
 \begin{abstract}
-  The research of the paper is devoted to present of an R\&D of a recommender system in carer guidance for Việt Nam middle school students.  The system is built on the base of John Holland's six personality types theory and collecting university students' opinions on their study conditions.  The RS relates new user (an entrant or a pupil) to a student group and then presents [[top-$N$]] universities/departments as a recommendation.  Techniques of overcoming ``cold start'' problem and other ones in this domain are considered.
+  The research of the paper is devoted to present of an R\&D of two recommender systems in carer guidance for Việt Nam middle school students and one for testing a paper \cite{tomsk} technique for data obtained in National research Irkutsk state technical university.  The first system is built on the base of John Holland's six personality types theory and collecting university students' opinions on their study conditions, and the second one relates data from a social network and faculty enrollment documents.  Both systems describe new user (an entrant or a pupil) properties by distances to student groups and then presents top-$N$ universities/departments as a recommendation.  Techniques of overcoming ``cold start'' problem and other ones in this domain are considered.
 
   % This paper deals with mostly with the stage of information acquisition, correlation patterns construction and taxonomy construction for entrants and high school subjects.
 \end{abstract}
 
 \begin{IEEEkeywords}
-recommender system, cold start, carer guidance, TODO:
+recommender system, cold start, carer guidance, user group description, machine learning
 \end{IEEEkeywords}
 
 \section{Introduction}
@@ -136,7 +136,7 @@ In Tables 1 and 2, we present the result of interest assessment to career guidan
 
 At present, with the development of the Internet, the search for information about universities is sufficiently efficient. However, having a huge amount of information, selecting substantive information is a difficult task.  Recommender systems (RS) have emerged as a decision support tool, providing users with the most useful and personalized variants for goods and services.  The functioning of RS is based on filtering information with respect to a set of known properties of objects and users.  For example, RSs are used to assess the users' preferences for goods and services (songs, films, video clips, books, articles, \emph{etc}.), which have been not previously given ratings by the user trying to make a choice.
 
-RSs are also quite successfully used in many business spheres, such as entertainment: offering songs to listeners (\emph{e.g.}, the LastFM system -- www.last.fm), offering films (the Netflix system -- www.netflix.com), recommended videos (the YouTube system -- www.youtube.com); in education and training (learning resources, books, articles, site addresses), in intelligent systems of teacher assistants (predicting students' learning capabilities).  RSs are the field of active IT research since 2007.  Our literature and technologies review is in\ref{review}.
+RSs are also quite successfully used in many business spheres, such as entertainment: offering songs to listeners (\emph{e.g.}, the LastFM system -- www.last.fm), offering films (the Netflix system -- www.netflix.com), recommended videos (the YouTube system -- www.youtube.com); in education and training (learning resources, books, articles, site addresses), in intelligent systems of teacher assistants (predicting students' learning capabilities).  RSs are the field of active IT research since 2007.  Our literature and technologies review is in \cite{review}.
 
 Teaching experience of the first author of this paper in secondary school shows the relevance of the problem of choice of a profession.  This research, being the results of a master thesis, is dedicated to the development of an RS that allows students (applicants) to receive recommendations when taking career decisions.  The aim of the research is development of a RS for supporting students in their carer decision making.
 
@@ -360,7 +360,9 @@ The results were obtained within the state assignment of the Ministry of Educati
 
 \begin{thebibliography}{99}
 
+\bibitem{tomsk} Tomsk hypothesis.
 \bibitem{review} AIIT'2020 Cherkashin, et al. Two recommender ....
+\bibitem{ricci} Ricci.... types of RSs.
 \bibitem{rs_basics} D. Jannach, M. Zanker, A. Felfernig, G. Friedrich. Recommender Systems: An Introduction. Cambridge University Press, 2010.
 \bibitem{RSPO}E.~Charkashin, B.~Shevchenko. Source code of a prototype real estate market recommender system.  URL:\url{https://github.com/eugeneai/RSPO-CSharp}. (access date: 21-09-2020)
 \bibitem{br13} J. Beel, B. Gripp, S. Langer, C. Breitinger. Research-paper recommender systems: a literature survey. International Journal on Digital Libraries (2016) 17: 305. \doi{10.1007/s00799-015-0156-0}
