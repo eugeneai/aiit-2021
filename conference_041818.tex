@@ -136,7 +136,7 @@ In Tables 1 and 2, we present the result of interest assessment to career guidan
 
 At present, with the development of the Internet, the search for information about universities is sufficiently efficient. However, having a huge amount of information, selecting substantive information is a difficult task.  Recommender systems (RS) have emerged as a decision support tool, providing users with the most useful and personalized variants for goods and services.  The functioning of RS is based on filtering information with respect to a set of known properties of objects and users.  For example, RSs are used to assess the users' preferences for goods and services (songs, films, video clips, books, articles, \emph{etc}.), which have been not previously given ratings by the user trying to make a choice.
 
-RSs are also quite successfully used in many business spheres, such as entertainment: offering songs to listeners (\emph{e.g.}, the LastFM system -- www.last.fm), offering films (the Netflix system -- www.netflix.com), recommended videos (the YouTube system -- www.youtube.com); in education and training (learning resources, books, articles, site addresses), in intelligent systems of teacher assistants (predicting students' learning capabilities).  RSs are the field of active IT research since 2007.
+RSs are also quite successfully used in many business spheres, such as entertainment: offering songs to listeners (\emph{e.g.}, the LastFM system -- www.last.fm), offering films (the Netflix system -- www.netflix.com), recommended videos (the YouTube system -- www.youtube.com); in education and training (learning resources, books, articles, site addresses), in intelligent systems of teacher assistants (predicting students' learning capabilities).  RSs are the field of active IT research since 2007.  Our literature and technologies review is in\ref{review}.
 
 Teaching experience of the first author of this paper in secondary school shows the relevance of the problem of choice of a profession.  This research, being the results of a master thesis, is dedicated to the development of an RS that allows students (applicants) to receive recommendations when taking career decisions.  The aim of the research is development of a RS for supporting students in their carer decision making.
 
@@ -317,37 +317,6 @@ TODO Activity diagram % Page 58, 59 - 61
 
 \section{Web Applications}
 
-\section{Related Works}
-
-There are many research groups and commercial firms dealing with developing RS technologies for various domains.  We will consider related domains and other interesting cases.
-
-In \cite{br22} a case-based reasoning RS for real estate market is presented.  Its goal is to find a similar instance in the database of existing cases, describing the cases for the user.  The obtained relations are used in followed collaborative filtration and content filtering.  In theoretical research \cite{br20} the users are divided on sellers and buyers.  Sellers ``advertise'' their realty by highlighting the important features by their opinion.  So the sellers play expert roles for forming data for content filtration.  Research \cite{br23} showed that usage of Internet does not influence significantly on the time efficiency, flexibility and satisfaction criteria of the search for a flat to buy.  There are no statistical difference between 2009 and 2011, since in 2011 88\% of buyers used Internet just as the main source of information.  Authors created RS with case based reasoning utilizing an ontology model.
-
-In \cite{br23} authors highlight three key features which significantly affects the decision: location, housing unit properties and price.  Final decision is made after evaluation of the environment, such as distances to shops, kindergartens, schools.  This can be accounted reducing the additional data to the value of the feature of housing unit properties using ontology.  The environment constraint is entered by user: user draws a circle around the preferable location, which should contain interested services and realty.
-
-Paper \cite{br21} considers a complex logistic problem of organization of a process of real estate control, involving various people group in changing business environment.  The main aim is to develop a model, where the groups will be maximally satisfied in a rational micro and macro environment.  The efficiency of the realty utilization is evaluated with criteria of market, ownership, renewal prices, capacity, number of operations to be done while ownership transferring, safety, comfort, the time of physical and technical exploitations, \emph{etc}.  The software functions shift from ``the most economically efficient control of the property'' to multicriterial choice, raising computation efficiency.
-
-% TODO: review of entrants' RS.
-
-For recent RS dealing with student's problem of choice the following papers were observed. In \cite{belotsky} an RS is constructed for helping entrants to choose an education direction (expressed as sets of corresponding high schools) according to his/her grades in GCE (General certificate of education), gained competing prizes, physical activity, and hobby.  Three methods of content filtration were implemented: by distances between vector characteristics, axiomatic method of Pareto-set contraction, and analysis of hierarchies.  Authors figured out coefficients relating study directions to the features of user using series of experimental assessments controlled by experts.
-
-In \cite{bakh}, a problem of learning outcomes assessment of higher education students is considered.  A course RS on the base students' graduate attributes, which describe their developing values, is proposed.  RS rates improvement after each course and suggests new courses by a collaborative filtering algorithm in order to improve student's average competence profile.  Students are presented as long vectors of courses they already taken with the corresponding grades.  Similarity is calculated with a variation of angle cosine of the vectors.  The recommendations are the prediction of the grades for the new courses.  Similar by the problem statement paper \cite{amer}, where RS predicts course learning trajectory patterns, the students is suggested elective curses.  Source data for collaborative filtering are existing learning trajectories acquired from senior students in the image and likeliness one student advices younger one. Students and courses are divided on clusters.  For each student cluster (a group), mean values are calculated.  RS algorithms are based on combination of collaborative filtering and fuzzy-like rule based system, which defines process of production of a decision.  The article has a good reviews of related works and three classical approaches basics.
-
-Work \cite{naren} has the similar aim to develop RS for advising students new courses, but is focusing on description of courses, taking advantage of natural language processing over course documents to acquire descriptions.  Feature descriptions contain formal course data (name, structure, lecturer) and a placement in a keyword appearance frequency space.  Existing student data, represented as grades of the courses he/she already got, related to the course data.  The resulting recommendations are represented as top-5 new courses, where student will gain the best grades.  This is a simplistic direct approach and, by authors opinion, gives good results; some measurement supporting the opinion were carried on.
-
-
-% frvei of paper selection.
-
-Interesting research has been done in \cite{br10}, where the problem of overcoming the cold start problem in recommending genres and music compositions, as well as movies.  The authors developed the RS ``EZSurf'' automating the process of web surfing and content filtering using a user profile on the social network ``VKontakte'', as well as API services \texttt{last.fm} and TheMovieDB, to obtain information about similarity of the objects.  This approach greatly simplifies storage of RS data, since it does not require the designing own system of classifications.  In \cite{br14}, a problem of choosing top--$N$ objects, with higher evaluations of user interest, in content filtration.  Authors proposed RS model based on fuzzy sets, RS quality assessment technique, and a corresponding algorithm.  The models have been tested on \texttt{last.fm} data.
-
-In a comprehensive RS review dealing with text (scientific) document relevance grading \cite{br13}, authors noted that more than half (55\%, 34 of 62) RS were based on content filtration.  Collaborative filtration was used only in 18\% (11 of 62) cases.  Stereotype based and hybrid methods are also presented.  Authors concluded that 81\% in of cases modeling user does not produce significant results in comparison to explicit indication the set of keywords.  The papers were described by keywords and, less frequently, $N$--grams included in the text, as well as metadata such as authors and references.  Most popular recommending model is based on vector space approach.  User interest modeling is implemented with graphs, where vertices are the papers, and arcs are their relationships, and topic lists assigned to user by machine learning.  The topics are organized in hierarchical catalogs using ACM classifiers.  In the RS which used collaborative filtration, the explicit ratings was not collected at all as users were too lazy to supply a rating to a paper he/she looked through.  Implicit ratings were obtained by measuring the number of pages user read, document user interaction (loading, editing), co--loadings, co-view and co-citing by users of one group.
-
-The collaborative filtration is currently more popular as it reflects practical experience: most of RS R\&D have to solve ``cold start'' problem of initial lack of information on objects and users, as well as have adaptation to user group interest transformations due to modern trends.
-
-% TODO: Указать, в чем особенность наших двух проектов.
-
-%Our research is aimed at application of known techniques to the objects and agents data of real estate market of Irkutsk region and, similarly, the market of education service of the region, as well as at implementation of libraries for constructing RS using nowadays technologies.
-
 \section{Discussion}
 \label{sec:disc}
 
@@ -390,6 +359,8 @@ The results were obtained within the state assignment of the Ministry of Educati
 % \section*{References}
 
 \begin{thebibliography}{99}
+
+\bibitem{review} AIIT'2020 Cherkashin, et al. Two recommender ....
 \bibitem{rs_basics} D. Jannach, M. Zanker, A. Felfernig, G. Friedrich. Recommender Systems: An Introduction. Cambridge University Press, 2010.
 \bibitem{RSPO}E.~Charkashin, B.~Shevchenko. Source code of a prototype real estate market recommender system.  URL:\url{https://github.com/eugeneai/RSPO-CSharp}. (access date: 21-09-2020)
 \bibitem{br13} J. Beel, B. Gripp, S. Langer, C. Breitinger. Research-paper recommender systems: a literature survey. International Journal on Digital Libraries (2016) 17: 305. \doi{10.1007/s00799-015-0156-0}
