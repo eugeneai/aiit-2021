@@ -26,6 +26,7 @@
 \usepackage{alltt}
 %\usepackage{textcomp}
 \usepackage{enumitem}
+\usepackage{minted}
 %\usepackage{indentfirst}
 
 %
@@ -66,16 +67,15 @@
 
 % \title{Recommender system for high school entrants having social network accounts}
 
-\title{Recommender system for choosing carer directions by Việt Nam school students}
+\title{Recommender systems for carer guidance}
 
 \author{%
-\IEEEauthorblockN{Duc The Tran${}^{1}$, Evgeny Cherkashin${}^{2,3}$}
+\IEEEauthorblockN{Đức The Trần${}^{1}$, Evgeny Cherkashin${}^{1,2,3}$, Viktoria Kopylova${}^2$, Nikita Lukyanov${}^2$}
 \IEEEauthorblockA{${}^1$~\textit{Institute for Informational Technologies and Data Analysis},\\
 \textit{National Research Irkutsk State Technical University,} Irkutsk, Russia}
 \IEEEauthorblockA{${}^2$~\textit{Laboratory of Complex Informational Systems},\\\textit{Matrosov Institute for System Dynamics and Control Theory, Siberian Branch of Russian Academy of Sciences,}
-Irkutsk, Russia \\
-eugeneai@irnok.net}
-\IEEEauthorblockA{${}^3$~\textit{Chair for Informational Technologies},\\\textit{Institute for Mathematics and Information Technologies, Irkutsk State University, Irkutsk, Russia}}
+Irkutsk, Russia}
+\IEEEauthorblockA{${}^3$~\textit{Chair for Informational Technologies},\\\textit{Institute for Mathematics and Information Technologies, Irkutsk State University, Irkutsk, Russia}\\ \emph{eugeneai@icc.ru}}
 }
 
 \maketitle
@@ -92,9 +92,9 @@ recommender system, cold start, carer guidance, TODO:
 
 \section{Introduction}
 
-In the countries with predominantly young population, such as Viet Nam, the demand of young specialists is high.  While still a high school student, one have to make a decision about a career. Career choice depends on many factors such as personal interests, academic ability and employment opportunities available after the graduation.  Therefore, choosing the right job is not an easy problem.  In fact, quite often graduates remain unemployed for a long time or do not work in their specialties mastered in an educational institution.  This leads to inefficient use of state funds, their irrational distribution.  That's why the choice of an university after receiving a certificate of maturity is very important.  Choosing a suitable university results in an increase students' study productively, as they work and practice with enthusiasm.  Supporting the decision activities will give a better chance of achieving students' goals in the future.
+In the countries with predominantly young population, such as Việt Nam, the demand of young specialists is high.  While still a high school student, one have to make a decision about a career. Career choice depends on many factors such as personal interests, academic ability and employment opportunities available after the graduation.  Therefore, choosing the right carer is not an easy task.  In fact, quite often graduates remain unemployed for a long time or do not work in their specialties mastered in an educational institution.  This leads to inefficient use of state funds, their irrational distribution.  That's why the choice of an university after receiving a certificate of maturity is very important.  Choosing a suitable university results in an increase students' study productively, as they work and practice with enthusiasm.  Supporting the decision activities will give a better chance of achieving students' goals in the future.
 
-In Table 1 and 2 we present the result of interest assessment to career guidance and relevance of improving of the guidance system.  Tables show that
+In Tables 1 and 2, we present the result of interest assessment to career guidance and relevance of improving of the guidance system.  Tables show that there is a real problem of carer guidance and middle school students are very interested in improving the corresponding activities.
 \begin{table}[thb]
   \caption{Interest assessment to the carer guidance in Việt Nam, Hà Tĩnh city}
   \label{tab:interest}
@@ -182,13 +182,6 @@ The \emph{scalability problem}. Scalability is a property of software systems to
 
 Thus, to construct carer choice RS prototype, we have chosen to collect impersonalized data, structure users with respect to their university/department preference and user profiles by means of collaborative filtering, use questionary and expert approach for initial user profile filling in.
 
-\begin{figure}[tb]
-  \centering
-  \includegraphics[width=\linewidth]{use_case.eps}
-  \caption{Use case diagram for real estate RS [TODO: UPDATE to CDT's thesis]}
-  \label{fig:use-case}
-\end{figure}
-
 % \section{Related works ????}
 
 % \subsection{Entrants' RS}
@@ -206,6 +199,11 @@ Thus, to construct carer choice RS prototype, we have chosen to collect imperson
 
 % %Based on the data on students enrolled in various areas of a university, it is possible to build a system of recommendations for the direction of training.
 
+\subsection{Holland's six types TODO}
+
+Realistic, Investigative, Artistic, Social, Enterprising, Conventional. % Pages 27 of thesis
+
+In order to determine the type one must answer 54 questions, the questions are evenly distributed on this six types.  For each question, a 0-4 scores are to be set depending on the degree of manifestation. The store 0 corresponds to ``no manifestation'' was mentioned of a kind, and score 4 denotes ``always manifestative''.  For each type the scores of the corresponding nine questions are collected, and the type is figured out as a type with the maximum score sum.  Student profiles store all answers and estimates, just for a further system development.
 
 \section{Preliminary Data Processing}
 \label{sec:relim-proc}
@@ -220,96 +218,104 @@ In realty RS, two program agents are implemented, which are executed on an event
 
 All data are stored in a database, which structure is represented as objects in Fig.~\ref{fig:class-siag}.  The central entity is \texttt{IOffer}, representing the offer of a realty object.  The information on an object, which is independent of an offer, is stored as \texttt{IObject}-object.  The object structure corresponds to standard Yandex and Google form of real estate representation.
 
-\begin{figure*}[tb]
+
+\section{Database structure}
+
+
+\section{Implementation}
+
+The RS is a web-application implement in Django MVP\footnote{Abbreviation of Model-View-Controller programming pattern} framework, MySQL has been chosen for data storage.  Python programming language is the main glue subsystem, gathering web-application and recommender unit in one system.  For carrying out experiments with data, a Jupiter subsystem was included in the system as well.
+
+User roles are administrators, anonymous and regular user.  Administrator can manipulate user accounts and any raw data.  Anonymous users can register, view information on universities, taught courses and professions.  Regular registered user can obtain recommendations, rate universities, add an university to his/her preference list.  The use-case diagram is shown in Figure~\ref{fig:use-case}.
+\begin{figure}[tb]
   \centering
-   \includegraphics[width=0.7\linewidth]{class_diagram.pdf}
-  \caption{Class diagram for real estate RS}
-  \label{fig:class-siag}
-\end{figure*}
+  \includegraphics[width=\linewidth]{use_case.eps}
+  \caption{Use case diagram for real estate RS [TODO: UPDATE to CDT's thesis]}  % Page 57
+  \label{fig:use-case}
+\end{figure}
 
-The real estate domain specifics is the total availability of data for realty objects, so the import function provides the whole body of information on objects by importing it from other sites.
+\begin{minted}[fontsize=\footnotesize]{python}
+from django.db import models
+from django.contrib.auth.models import AbstractUser
+
+# User
+class NGUOIDUNG(models.Model):
+IdUser = models.AutoField(primary_key=True)
+TenNguoiDung = models.CharField(max_length=20, null=False)
+HoTen = models.CharField(max_length=200, null=False)
+MatKhau = models.CharField(max_length=200, null=False)
+Email = models.CharField(max_length=200, null=False)
+Quyen = models.IntegerField(null=False)
+GioiTinh = models.BooleanField(default=False)
+SDT = models.CharField(max_length=15, null=True)
+NgaySinh = models.DateTimeField(null=False,
+  default="1999-01-01")
+
+# Interests
+class TINHCACH(models.Model):
+IdTinhCach = models.AutoField(primary_key=True)
+Loai = models.IntegerField(null = False)
+ChiTiet = models.CharField(max_length=1000, null=False)
+# List university
+
+class TRUONG(models.Model):
+IdTruong = models.AutoField(primary_key=True)
+TenTruong = models.CharField(max_length=1000, null=False,default="")
+ChiTiet = models.CharField(max_length=1000, null=True)
+ChiTietFull = models.CharField(max_length=1000, null=True)
+
+# Vote for an university
+class VOTE(models.Model):
+IdVote = models.AutoField(primary_key=True)
+IdTruong = models.IntegerField(null=False)
+IdUser = models.IntegerField(null=False)
+Point = models.IntegerField(default=0)
+
+# List of favorite universities
+class FAVORITE(models.Model):
+IdFavo = models.AutoField(primary_key=True)
+IdTruong = models.IntegerField(null=False)
+IdUser = models.IntegerField(null=False)
+\end{minted}
+
+For representing answers on Holland's questionary and intermediate data two tables added.
+
+\begin{minted}[fontsize=\footnotesize]{python}
+from django.db import models
+# Create your models here.
+class ListUni(models.Model):
+name = models.CharField(max_length=100)
+description = models.TextField()
+excerpt = models.TextField(max_length=300)
+pictrure = models.ImageField(upload_to='Uni_picture')
+group = models.IntegerField(default=0)
+def __str__(self):
+return self.name
+class list1(models.Model):
+name = models.CharField(max_length=100)
+anddress = models.CharField(max_length=200)
+description = models.TextField()
+excerpt = models.TextField(max_length=300)
+pictrure = models.ImageField(upload_to='Uni_picture')
+group = models.IntegerField(default=0)
+def __str__(self):
+return self.name
+\end{minted}
 
 
-\subsection{Classification of realty objects}
-\label{sec:class-realty}
-
-% The classification was carried out with hierarchical clustering method and c\# library ....
-
-Comparison of the object is done in a vector space according to the features presented in Table~\ref{tab:cmp}.
-\begin{table}[tb]
-  \caption{Comparing features and their weight coefficients}
-  \label{tab:cmp}
-  \footnotesize
-  \centering
-  \begin{tabular}{|l|l|c|c|}
-    \hline
-    Attribute & Calculation technique & $v_k, \%$ & Formula \\
-    \hline
-\texttt{string Name} & not used & & \\
-    \texttt{ILocation Location} & equality & 10 & $(1)$
-    \\
-\texttt{string Address} & --''-- & 10 & \\
-\texttt{float Price} & relative difference & 25 & $(2)$\\
-\texttt{CurrencyEnum \ldots} & not used  & & \\
-\texttt{float Area} & relative difference  & 35 & $(2)$\\
-\texttt{AreaUnits AreaUnit} & not used & &\\
-\texttt{string ImageURL} & --''-- & & \\
-\texttt{string URL} & --''-- & & \\
-\texttt{int Rooms}  & relative difference  & 100 & $(2)$\\
-\texttt{int RoomsOffered} &  --''--   & 100 & $(2)$\\
-\texttt{int Floor}  &  --''--   & 30 & $(2)$\\
-\texttt{int FloorTotal}  &  --''--   & 10 & $(2)$\\
-\texttt{BuildingEnum \ldots}  & equality & 30 & $(1)$\\
-\texttt{IBuilding \ldots{}}  & --''-- & 30 &  $(1)$\\
-\texttt{PropertyEnum \ldots} & --''-- & 30 &  $(1)$\\
-\texttt{CategoryEnum \ldots} & --''-- & 100 &  $(1)$\\
-\texttt{string Description} & not used & & \\
-    \texttt{string GUID} & --''-- & & \\
-    \hline
-  \end{tabular}
-\end{table}
-
-In the table, with (1) and (2) we denote the following formulas:
-\[
-  d_k(i,j) = \left\{
-                                                          \begin{array}{ll}
-                                                            0, & \mbox{if\ \ } a_i=a_j,\\
-                                                            1, & \mbox{if\ \ } a_i\neq a_j,
-                                                          \end{array}
-                                                          \right.
-  \tag{1}
-\]
-\[
-  d_k(i,j) = \frac{|a_i^k-a_j^k|}{a_i^k+a_j^k},\quad a_i^k+a_j^k>0.
-  \tag{2}
-\]
-
-The aggregate assessment is made with formula:
-\[
-  d(i,j)=\frac{\sum\limits_{k=1}^m|v_k\cdot d_k(i,j)|}{\sum\limits_{k=1}^m v_k}, \qquad 0\leqslant d_{i,j}\leqslant 1,
-\]
-\noindent where $v_k$ is a weight of $k$-th attribute value in the table. %, we, as programmers, for each calculated $d(i,j)$ \texttt{asserted} its value $0\leqslant d(j,j)\leqslant 1$.
-
-In order to create a taxonomy, expert user must run the hierarchical clustering function supplying the number $N$ of general clusters to figure out.  After the function finishes, expert will see the numbers of top $N$ clusters with number of their objects.  Next step is naming the clusters.  Expert enters the subsets and reviews the objects, forming an image of the common properties of the objects.  After naming the image in the first interface, expert changes name of cluster from a number to the name.  This is to be done for each $\overline{0,N-1}$ cluster.  If expert cannot form a concrete image of the class, them we recommend repeat the procedure with larger number of clusters.
-
-Some clusters can gain the same name, and after renaming, clusters with the same name are joined.  Hierarchical clustering allows us to make experiments with data without recalculation of the taxonomies.  Before running clustering function, expert can restrict the set of objects to be examined, \emph{e.g.} by 200 objects, so we can use even agglomerative hierarchical clustering.
-
-The following classes are presented on Irkutsk region real estate market: two-room flats, one-or-two-room flats (comfort class realty), one-room flats, dachas, houses, rooms, commercial space, a garage, and elite realty (flats with three and more rooms).
-
-User interests are acquired as follows.  New user is suggested a set of objects from all the classes of realty.  Watching users activities, which objects he/she is viewing, the systems gains initial interest, and then specifies the class of objects to view at following steps.  Each object observed by user during long time considered to be of interest, the positive evaluation is added to database.  Recommended objects are shown in a list located at the bottom of the interface window.  The set of suggested objects is restricted by 20 items.
+TODO Activity diagram % Page 58, 59 - 61
 
 \section{Recommendations Generation}
 \label{sec:proc-recs}
 
+
+% Page 50 of the thesis
+
+
+
 % The Slope One algorithm can generate recommendations for an object (a class) if there is at least one positive evaluation of an object of the class.  At the cold start period if there were no such evaluations, RS shows random 20 objects of the same class of objects user is viewing.
 
 \section{Web Applications}
-
-Both RS use MVC \cite{friman15,cchadvik20} architecture in construction of user interface.  Realty RS is based on \texttt{Nancy} ASP.NET framework, where for each URL template a lambda function is related, having supported parameters of the Request objects.  At the beginning of each function we restore \texttt{session} object, and at the end, the Response object is created by applying a context model and a view object to a template.  As template engine SharpTAL is used, an implementation of Zope page template (ZPT) with Template attribute language (TAL).  This implementation follows traditions of C\#, namely, compiling its content into objects at the phase of project compilation.
-
-As for each web template engine, ZPT uses \texttt{model}, \texttt{view}, which implements \emph{controller} functions as well, and \texttt{template} to generate HTML content.  Model is referred as \texttt{context} of a view, which function is simplification of the access to context by template, and transforming user actions into model change upon \texttt{POST} query.  For using global application and other data, as context we pass in a general case \texttt{application}, \texttt{appview}, \texttt{user} and \texttt{message} objects.  User defines the currently authenticated user, and message contains text to show in a view, announcing an event happening in the RS, \emph{e.g.} the fact that a record is successfully stored in the database.
-
-ZPT and TAL technologies were chosen as they give a very powerful tool for HTML tree structure manipulation including usage of named and parametrized macros, attributes subtrees, defined in one-page template, and multiply used in other ones, as well as the technology tries not to extend XHTML syntax with new entities for implementation of element replacement functions.
 
 \section{Related Works}
 
@@ -345,39 +351,41 @@ The collaborative filtration is currently more popular as it reflects practical 
 \section{Discussion}
 \label{sec:disc}
 
-The realty RS was tested by a number of human being fictitious buyers, none of them mentioned misbehavior of the system like spontaneous transitions from one class to another, or supplying empty sets of recommendations.
+Comparing these two approaches to the RS R\&D ....
 
-The overview of the presented experience shows that C\# .NET and MONO technologies and used techniques are well suitable for construction RS of various kind, fulfilling the following typical requirements:
-\begin{enumerate}
-\item working in ``cold start'' conditions;
-\item do not require user to register and authorize while implicit gathering information needed for recommendation generation;
-\item testing systems are to be done in a local conditions to be able to check the results comparing with existing ``natural'' data;
-\item using open-source technologies, modules and libraries.
-\end{enumerate}
+The first approach ... allowed collecting data in the runtime of the RS and also used J.~Holland's theory, which has been used for decades for carer guidance, ...
 
-The obtained real estate RS implementation as well as the second project do not take advantage of the nowadays methods of R\&D development, which corresponds to current traditions.  Most attention is paid to preliminary data processing and obtaining minimal valuable product (MVP).
+The second approach ... is more useful for solving problems~1, 6,7,9 of the list of Section~\ref{sec:base}.
+
+
 
 \section{Conclusion}
 \label{sec:conc}
 
-We presented results of two master degree projects in the field of recommender system (RS) development in real estate and university entrants' study direction decision-making.  The first one is finished, and the second one is on a half way.  Both systems have similar design, but rely on different RS technique: the realty RS is based on collaborative filtration, the entrants' one is based on content filtering.  Both systems use object-oriented representation of application entities, which are persistent as well.
+% Page 68
 
-Solutions of ``cold start'' problem for both domains has been considered.  They are based on creating taxonomies of objects by cluster analysis and partial transition to consider classes as objects of users' interests.  In the entrant RS we also created taxonomies of users according their subscriptions in a social network.
+In this brief narration of the results of two master theses, information recommender systems (RS) were developed to support the choice of a profession for students in Viet Nam and Irkutsk, Russia. The following tasks have been solved:
 
-The RS are implemented as MVC web applications for users, the administrative and expert user interfaces are implemented as window applications in entrant RS.  This simplifies user role model: web users must register, administrator runs form application at workstation and is not required to register.  Testing the finalized RS showed stable work when used by human users.
+1. The subject area of ​​RS, assistance in choosing a profession (carer guidance), have been analyzed; typical problems were recognized and their solution method were proposed.
 
-The described technique could be developed further by adaptation the standard directions such as:
-\begin{itemize}
-  \item development or adaptation of ontology of domain to extend search capabilities especially in students' courses domain;
-  \item case based reasoning for the same domain;
-  \item predictive modeling of attribute values for realty;
-  \item providing geospacial data of infrastructural service organizations in the environment, \emph{e.g.} schools, kindergartens and shops.
-\end{itemize}
+2. The theory of John Holland in carer guidance was applied for high school students in Ki Lam High School, Ha Tinh, Viet Nam.
+
+3. High school students of last courses tested the universities rating setting playing role of university students.
+
+4. A methodology for calculating recommendations for carer guidance, based on the method of collaborative filtering and expert evaluation, is proposed.  The technique has been implemented with Python modules.
+
+5. Implemented an RS subsystems in the Python programming environment based on the proposed techniques and data structures; This Rs was tested by younger students of the Viet Nam school.
+
+The resulting RS MVP\footnote{Abbreviation of Minimal Valuable Product}, extended with automatic university data crawling and more efficient algorithms, is to be deployed in the school.
+
+The source code is located at Github.com URL:~\url{https://github.com/tranducthe/diplom_CollaborativeFiltering}.
+
 
 \section*{Acknowledgements}
 \label{sec:ack}
 
-Authors thank Evgeny Vasil'evich Brezheshov, director of a realtor office, for helping with problem domain description and problem statement for real estate RS.
+The results were obtained within the state assignment of the Ministry of Education and Science of Russia, the project ``Methods and technologies of a cloud-based service-oriented digital platform for collecting, storing and processing large volumes of multi-format interdisciplinary data and knowledge based on the use of artificial intelligence, a model-driven approach and machine learning'', No.~FWEW-2021-0005 (State registration No.~121030500071-2).
+
 
 % \section*{References}
 
