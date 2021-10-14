@@ -78,10 +78,13 @@ Irkutsk, Russia}
 \IEEEauthorblockA{${}^3$~\textit{Chair for Informational Technologies},\\\textit{Institute for Mathematics and Information Technologies, Irkutsk State University, Irkutsk, Russia}\\ \emph{eugeneai@icc.ru}}
 }
 
+\newcommand{\irnitu}{INRTU}
+\newcommand{\inrtu}{INRTU}
+
 \maketitle
 % \onecolumn
 \begin{abstract}
-  The research of the paper is devoted to present of an R\&D of two recommender systems in carer guidance for Việt Nam middle school students and one for testing a paper \cite{tomsk} technique for data obtained in National research Irkutsk state technical university.  The first system is built on the base of John Holland's six personality types theory and collecting university students' opinions on their study conditions, and the second one relates data from a social network and faculty enrollment documents.  Both systems describe new user (an entrant or a pupil) properties by distances to student groups and then presents top-$N$ universities/departments as a recommendation.  Techniques of overcoming ``cold start'' problem and other ones in this domain are considered.
+  The research of the paper is devoted to present of an R\&D of two recommender systems in carer guidance for Việt Nam middle school students and one for testing a paper \cite{tomsk} technique for data obtained in National research Irkutsk state technical university (\irnitu).  The first system is built on the base of John Holland's six personality types theory and collecting university students' opinions on their study conditions, and the second one relates data from a social network and faculty enrollment documents.  Both systems describe new user (an entrant or a pupil) properties by distances to student groups and then presents top-$N$ universities/departments as a recommendation.  Techniques of overcoming ``cold start'' problem and other ones in this domain are considered.
 
   % This paper deals with mostly with the stage of information acquisition, correlation patterns construction and taxonomy construction for entrants and high school subjects.
 \end{abstract}
@@ -96,7 +99,7 @@ In the countries with predominantly young population, such as Việt Nam, the de
 
 In Tables 1 and 2, we present the result of interest assessment to career guidance and relevance of improving of the guidance system.  Tables show that there is a real problem of carer guidance and middle school students are very interested in improving the corresponding activities.
 \begin{table}[thb]
-  \caption{Interest assessment to the carer guidance in Việt Nam, Hà Tĩnh city}
+  \caption{Interest assessment to the career guidance in Việt Nam, Hà Tĩnh city}
   \label{tab:interest}
   \centering
   \begin{tabular}{|l|c|c|}
@@ -110,18 +113,18 @@ In Tables 1 and 2, we present the result of interest assessment to career guidan
     Less interested & 36 & 8.6 \\
     \hline
     No interest & 11 & 2.6 \\
-    \textbf{Total} & 420 & 100 \\
+    \textbf{Total} & \textbf{420} & \textbf{100} \\
     \hline
   \end{tabular}
 \end{table}
 
 \begin{table}[bht]
-  \caption{Questionary results of middle school students on need for improvement of the carer guidance system}
+  \caption{Questionary results of middle school students on need for improvement of the career guidance system}
   \label{tab:interest}
   \centering
   \begin{tabular}{|l|c|c|}
     \hline
-    \textbf{Answer option} & \textbf{Quantity} & \textbf{Ration, \%} \\
+    \textbf{Answer option} & \textbf{Quantity} & \textbf{Ratio, \%} \\
     \hline
     very necessary & 272 & 64.8 \\
     \hline
@@ -129,23 +132,24 @@ In Tables 1 and 2, we present the result of interest assessment to career guidan
     \hline
     no necessity & 3 & 0.7 \\
     \hline
-    \texttt{Total} & 420 & 100 \\
+    \textbf{Total} & \textbf{420} & \textbf{100} \\
     \hline
   \end{tabular}
 \end{table}
 
 At present, with the development of the Internet, the search for information about universities is sufficiently efficient. However, having a huge amount of information, selecting substantive information is a difficult task.  Recommender systems (RS) have emerged as a decision support tool, providing users with the most useful and personalized variants for goods and services.  The functioning of RS is based on filtering information with respect to a set of known properties of objects and users.  For example, RSs are used to assess the users' preferences for goods and services (songs, films, video clips, books, articles, \emph{etc}.), which have been not previously given ratings by the user trying to make a choice.
 
-RSs are also quite successfully used in many business spheres, such as entertainment: offering songs to listeners (\emph{e.g.}, the LastFM system -- www.last.fm), offering films (the Netflix system -- www.netflix.com), recommended videos (the YouTube system -- www.youtube.com); in education and training (learning resources, books, articles, site addresses), in intelligent systems of teacher assistants (predicting students' learning capabilities).  RSs are the field of active IT research since 2007.  Our literature and technologies review is in \cite{review}.
+RSs are also quite successfully used in many business spheres, such as entertainment: offering songs to listeners (\emph{e.g.}, the LastFM system -- www.last.fm), offering films (the Netflix system -- www.netflix.com), recommended videos (the YouTube system -- www.youtube.com); in education and training (learning resources, books, articles, site addresses), in intelligent systems of teacher assistants (predicting students' learning capabilities).  RSs are the field of active IT research since 2007.  Our literature and technologies review is in~\cite{review}.
 
-Teaching experience of the first author of this paper in secondary school shows the relevance of the problem of choice of a profession.  This research, being the results of a master thesis, is dedicated to the development of an RS that allows students (applicants) to receive recommendations when taking career decisions.  The aim of the research is development of a RS for supporting students in their carer decision making.
+Teaching experience of the first author of this paper in secondary school shows the relevance of the problem of choice of a profession.  This research, being the results of a master thesis, is dedicated to the development of an RS that allows students (applicants) to receive recommendations when taking career decisions.  The aim of the research is development of RSs for supporting students in their carer decision making and for universities management staff to analyze actual demand and elaborate the best sets of courses.
 
-The resulting RS prototype has two options for producing recommendations. The first one is realized on the base of John Holland theory \cite{holland}, according to which most people have one of six personality types.  After determining the type, a set of corresponding universities are produced.  The second one is an aggregation of questioning data about concrete universities obtained from students already being taught there.  The recommendations, then, are generated by means of collaborative filtration (CF) based on users' profile comparison.  Thus, the RS prototype combines two approaches: using expert knowledge and CF.
+The resulting RS prototypes have various options for producing recommendations. The first one is realized on the base of John Holland theory~\cite{holland}, according to which most people have one of six personality types.  After determining the type, a set of corresponding universities are produced.  The second one is an aggregation of questioning data about concrete universities obtained from students already being taught there.  The third option is acquisition of user profile and subscription data from a social network and enrollment documents of a university.  The obtained data is processed to construct taxonomies and class recognition procedures.  The recommendations, then, are generated by means of collaborative filtration (CF) based on users' RS profile comparison.
 
-\section{Technique of construction for the RS helping with the carer choice}
+\section{Technique of data collection}
 \label{sec:base}
 
-\emph{Recommender systems} \cite{rs_basics} are decision support information systems designed to assess the user's level of interest in a particular product or service (object) based on available information about user and object.  The RS development industry began to actively develop with the emergence of online sales services, and now it is one of the active areas of development of decision support systems, a direction of artificial intelligence, focused primarily on commercial use, as well as on solving problems of increasing the productivity of searching for relevant information.  A profession is the object of RS recommendation production.  Let us consider the development technique for RS construction from the point of view of solving the standard set problems and challenges.
+\emph{Recommender systems}~\cite{rs_basics} are decision support information systems designed to assess the user's level of interest in a particular product or service (object) based on available information about user and object.  The RS development industry began to actively develop with the emergence of online sales services, and now it is one of the active areas of development of decision support systems, a direction of artificial intelligence, focused primarily on commercial use, as well as on solving problems of increasing the productivity of searching for relevant information.  A profession is the object of RS recommendation production.  Let us consider the development technique for RS construction from the point of view of solving the standard set problems and challenges.
+
 
 Development of the RSs is aimed at solving the following set of problems \cite{ricci}:
 \begin{enumerate}
@@ -172,32 +176,12 @@ Development of the RSs is aimed at solving the following set of problems \cite{r
   \item Recommending opinions.
   \end{itemize}
 \end{enumerate}
-In this context, the RS is aimed at solving 4--7-th problems.  This set defines the methods of RS proposal generation and algorithms, which have to be implemented.  As we can see, the universities and their departments can be distributed on various carer directions by two ways: with the use of expert knowledge, when experts analyze a departments' properties and relate them to a direction, and with use of onions of the students (users who already ``consume'' a product).  In the second case, a good opinion of a user on a department (product) creates or solidifies a corresponding relation.  In the same time, a group of students positively characterized a department form a group of ``similar'' users.  % A new user, \emph{i.e.}, an enrollee of a middle school student, is to be tested with John Holland's theory to gain initial profile data.
+In this context, the first RS (for Viet Nam students) is aimed at solving 4--7-th problems.  This set defines the methods of RS proposal generation and algorithms, which have to be implemented.  As we can see, the universities and their departments can be distributed on various carer directions by two ways: with the use of expert knowledge, when experts analyze a departments' properties and relate them to a direction, and with use of opinions of the students (users who already ``consume'' a product).  A good opinion of a user on a department (product) creates or solidifies a corresponding relation.  In the same time, a group of students positively characterized a department form a group of ``similar'' users.  % A new user, \emph{i.e.}, an enrollee of a middle school student, is to be tested with John Holland's theory to gain initial profile data.
+The second RS aimed at solving problems~1, 6, 7, 9 as almost all algorithms are developed for acquire and structure information for further decision production in a general form.
 
-The main problem solved during the R\&D is ``\emph{cold-start}'' \emph{problem}.  For RS based on CF, the similarity of user profiles in terms of sets of specified characteristics are performed. Content filtering RS compare products. In both cases, RS cannot generate recommendations if it does not have enough information about users or products.  The cold-start problem arises at the first stages of RS functioning and when a new user's behavior had not been observed sufficient time, \emph{i.e.}, the RS have no data about his preferences, or user's profile contains no useful information for a comparison.  The same situations arises for a new product, \emph{e.g.} there is no user bought the product, and no responses were given.  In this system explicit information collection has been realized for solving cold-start problem in CF, and John Holland's theory was used as initial profile data filling in, including the input data for the Holland's questionary.
+The main problem solved during the R\&D is ``\emph{cold-start}'' \emph{problem}.  For RS based on CF, the similarity of user profiles in terms of sets of specified characteristics are performed. Content filtering RS compare products. In both cases, RS cannot generate recommendations if it does not have enough information about users or products.  The cold-start problem arises at the first stages of RS functioning and when a new user's behavior had not been observed sufficient time, \emph{i.e.}, the RS have no data about his preferences, or user's profile contains no useful information for a comparison.  The same situations arises for a new product, \emph{e.g.} there is no user bought the product, and no responses were given.  In the first system explicit information collection has been realized for solving cold-start problem in CF, and John Holland's theory was used as initial profile data filling in, including the input data for the Holland's questionary.
 
 The simplest technique for user profile data collection and usage is so called \emph{impersonalized acquisition}.  Recommendations are generated for an ``average'' user related to a nearest group od users.  An RS gives top-$N$ products for the group, efficiently ignoring personal preferences.  The approach can be developed to support personal data with construction of subgroups of the groups relating them to a set of personal characteristics.  This may lead to unwillingness giving personal data of users and impossibility to generate proposals when a user cardinally changes his/her preferences.  In this system, as our intention is a detection of a direction of a carer, impersonalized approach seems to give sufficient quality result.
-
-The \emph{scalability problem}. Scalability is a property of software systems to be able to cope with the load prescribed by design, as well as with increased load if additional information--communication and computing resources are available.  For a simple RS with several users and products, there is no need to maintain scalability, and algorithms such as ``nearest-neighbor'' are widely used for assessing interests as the combinatorial space is not large. % TODO: SAY what algos used...
-
-Thus, to construct carer choice RS prototype, we have chosen to collect impersonalized data, structure users with respect to their university/department preference and user profiles by means of collaborative filtering, use questionary and expert approach for initial user profile filling in.
-
-% \section{Related works ????}
-
-% \subsection{Entrants' RS}
-
-% Functioning of an RS could be based on analysis of entrants' personal properties, matching them with already enrolled students, analyzing existing individual direction of training and even a particular educational program.  We have been developing and implementing a prototype RS for helping to choose a direction of training at a university for entrants on the base of algorithms for predicting their possible choice based on digital footprints in a social network. As a source data, \emph{e.g.}, subscriptions of Russian social network ``In Contact'' (IC) (in Russian -- ``В контакте'') are used as sources of personal characteristics, and enrollment orders of our university.  %The research \cite{c1} of Tomsk state university, Russia, shows that students (pupils) once or twice a year actualize their profile and subscriptions, as irrelevant information in the main tape (blog) results in necessity to routinely filtering it out. In 2016, the university researchers showed the IC profile in general actually reflects the cognitive properties of personality, and the educational interests of students are closely correlated to their social network behavior.
-
-% Nowadays social networks are one of the main places of person's life, and even more so for a teenager.  This is clear from the data from the Glas Runet online poll service.  Among the 2000 participants of the survey, the majority (86\%) of them know about the existence of Internet social networks and use their services.  Among those who know about the existence of social networks, only 10\% do not use them \cite{c2}.
-% The most popular social networks according to the Romir holding are Odnoklassniki, VKontakte and Instagram.  The youngest audience, from 14 to 30 years old, visits VKontakte, 45\% does it daily, and 70\% does more often than once a day \cite{c6}.
-
-% Often, it is in social networks that one can track users' self-expression, interests and attitude to the world. The analysis of groups, posts on the main blog, reposts, statuses, \emph{etc.} can be the sources of the valuable information \cite{c7}.
-
-% Of course, if a person is an adult, then it is unlikely that all subscriptions to groups will be relevant (``entered and forgot'').  But school students, according to research \cite{c11}, update subscriptions every six months or a year: irrelevant content in the feed annoys them.  Accordingly, subscriptions can become the original dataset that can be analyzed.
-
-% In 2016, Tomsk State University researchers proved that the VKontakte profile reflects the cognitive personality traits, \emph{i.e.}, the educational interests of schoolchildren are closely related to their behavior in the social network \cite{c9}.
-
-% %Based on the data on students enrolled in various areas of a university, it is possible to build a system of recommendations for the direction of training.
 
 \subsection{Holland's six types TODO}
 
@@ -205,26 +189,37 @@ Realistic, Investigative, Artistic, Social, Enterprising, Conventional. % Pages 
 
 In order to determine the type one must answer 54 questions, the questions are evenly distributed on this six types.  For each question, a 0-4 scores are to be set depending on the degree of manifestation. The store 0 corresponds to ``no manifestation'' was mentioned of a kind, and score 4 denotes ``always manifestative''.  For each type the scores of the corresponding nine questions are collected, and the type is figured out as a type with the maximum score sum.  Student profiles store all answers and estimates, just for a further system development.
 
-\section{Preliminary Data Processing}
-\label{sec:relim-proc}
+\subsection{Collecting data from social network and enrollment documents}
+\label{sec:collect-2}
 
+Social networks allow one to track the self-expression, interests and attitude to the world of each person by analyzing subscription groups, posts and reposts, statuses, \emph{etc} \cite{kb7}.  This tendency is especially exposed by schoolchildren and students, who, according to the research of Tomsk State University (TSU) \cite{kb20}, update subscriptions every six months or a year as irrelevant content in the feed annoys them. Therefore, it can be assumed that user subscriptions to certain topics really reflect his interests and can serve as a starting point for a deeper analysis.  The personal social page in a network, entrants inform university staff on a request.
 
-%\subsection{Input data acquisition}
-%\label{sec:tech-input}
+In 2016, TSU showed that the social network ``In~Contact'' (in~Russian -- ``В~Контакте'') profile reflects the cognitive personality traits, \emph{i.e.}, the educational interests of schoolchildren are closely related to their behavior in the social network \cite{kb9}.  Applying this technique for \irnitu{} data, the similar results should to be obtained.  Object data for the RS were obtained by parsing enrollment documents for each department of \irnitu.  The documents contain lists of students, and these list were used to search their social network accounts for further analysis.
 
-% The acquired input data stored in the database at first is processed with hierarchical cluster analysis algorithms to construct set of classes for students and study courses.  After that, a classification procedure is applied to construct relations between individual student to its class.  These classifications allow us to reduce the complexity of the main recommender algorithms and shift partially from collaborative filtration technique to ....
+\vspace{0.7em}
+% \begin{center}
+%   \hbox{*~*~*}
+% \end{center}
+% \vspace{1em}
 
-In realty RS, two program agents are implemented, which are executed on an event occurrence.  The first one starts by timer of web browser and implements issuing user positive evaluation, if user spends some time viewing a page of a realty object.  The second one, located at the server side, is activated if the first one raised event of a positive evaluation.  Server agent receives the evaluation and may start recalculation of estimates for recommendations if there are enough computational resources.
+The \emph{scalability problem}. Scalability is a property of software systems to be able to cope with the load prescribed by design, as well as with increased load if additional information--communication and computing resources are available.  For a simple RS with several users and products, there is no need to maintain scalability, and algorithms such as ``nearest-neighbor'' are widely used for assessing interests as the combinatorial space is not large. % TODO: SAY what algos used...
 
-All data are stored in a database, which structure is represented as objects in Fig.~\ref{fig:class-siag}.  The central entity is \texttt{IOffer}, representing the offer of a realty object.  The information on an object, which is independent of an offer, is stored as \texttt{IObject}-object.  The object structure corresponds to standard Yandex and Google form of real estate representation.
-
+Thus, to construct carer choice RS prototype, different ways to collect data in the RSs were chosen: the first one collected impersonalized data, in the same time, the second RS collects highly personalized data.  The collected impersonalized user data were structured with respect to university/department preference and user profiles by means of collaborative filtering, use questionary and expert approach for initial user profile filling in.
 
 \section{Database structure}
 
+\begin{figure}\centering
 
+  \includegraphics[width=\linewidth]{pics/2-obj-stru.png}
+
+  \caption{The structure of the second RS}
+  \label{fig:2-struct}
+\end{figure}
 \section{Implementation}
 
-The RS is a web-application implement in Django MVP\footnote{Abbreviation of Model-View-Controller programming pattern} framework, MySQL has been chosen for data storage.  Python programming language is the main glue subsystem, gathering web-application and recommender unit in one system.  For carrying out experiments with data, a Jupiter subsystem was included in the system as well.
+Both RS are MVC\footnote{Abbreviation of Model-View-Controller programming pattern} web-applications, the first one is realized with Django and the second one with ASP.NET.
+
+The Django RS uses MySQL for data storage.  Python programming language is the main glue subsystem, gathering web-application and recommender unit in one system.  For carrying out experiments with data, a Jupiter subsystem was included in the system as well.
 
 User roles are administrators, anonymous and regular user.  Administrator can manipulate user accounts and any raw data.  Anonymous users can register, view information on universities, taught courses and professions.  Regular registered user can obtain recommendations, rate universities, add an university to his/her preference list.  The use-case diagram is shown in Figure~\ref{fig:use-case}.
 \begin{figure}[tb]
@@ -304,6 +299,37 @@ return self.name
 
 
 TODO Activity diagram % Page 58, 59 - 61
+
+The second ASP.NET RS uses Microsoft SQL Server as database server and Entity Framework for the database structure representation.
+
+\section{Preliminary Data Processing}
+\label{sec:relim-proc}
+
+\subsection{Analysis of social network data}
+\label{sec:socnetan}
+
+For bachelors and specialists entrants, the last three year data from ``In~Contect'' were loaded.  For 6270 enrolled students, the data were found for 4325 (68.98\%) ones of them.  The input was represented as \texttt{.CSV}-file with 4325 rows and 480 columns.  After that a part of profiles were filtered outs due to user mark ``private'', and the same has been done for columns for topics, blocked by Russian government (extremism and similar ones).  After this cleansing, the table comprised only 686 rows and 389 columns, including \texttt{CategoryID}, the identifier of a category (institute of \irnitu), \texttt{StudentID}, \texttt{CountFriends}, \texttt{CountFollowers}, \texttt{CountNotes}, the number of the messages the user wrote, \texttt{CountPhotos}.  The distribution of the students, whose accounts contain sensible data, between institutes of \irnitu{} is shown in Table~\ref{tab:numstudbycat}.
+
+\begin{table}
+  \caption{Number of students by categories}
+  \label{tab:numstudbycat}
+  \centering
+  \begin{tabular}{|l|c|}
+    \hline
+    \textbf{Institute} & \textbf{Number of students} \\
+    \hline
+   ИАМиТ & 101\\
+   ИАСиД & 137\\
+   ИВТ & 81\\
+   ИН & 167\\
+   ИЭ  & 48\\
+   ИЭУиП & 77\\
+           ИИТиАД & 75\\
+                    \hline
+  \end{tabular}
+\end{table}
+
+
 
 \section{Recommendations Generation}
 \label{sec:proc-recs}

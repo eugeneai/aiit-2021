@@ -86,16 +86,16 @@
 
 \begin{document}
 \parindent=1em
-\title{Two recommender systems: Technical decisions and lesson learned}
+\title{Recommender systems for career guidance}
 \author{
 \def\and{, }
+Trần Đức Thế\and
 \remph{Evgeny~Cherkashin}\and
 Viktoria Kopylova\and
-Boris Shevchenko\and\\
 Nikita Lukyanov}
 
 
-\date{${}$\\\vspace{2em}AIIT-2020, October, 16}
+\date{${}$\\\vspace{2em}AIIT-2021, October, 15}
 \institute{\textit{Matrosov Institute for System Dynamics and Control Theory of SB RAS}, Irkutsk, Russia,
   \href{mailto:eugeneai@icc.ru}{eugeneai@icc.ru}\\
   \textit{National research Irkutsk state technical university,} Irkutsk, Russia,
@@ -105,19 +105,62 @@ Nikita Lukyanov}
 % ----------------------------------------------------------------
 \begin{frame}{Introduction}
 
-  \emph{Recommender systems} (RS) are examples of \emph{decision support systems}. They are useful to support users with additional information and decision variants.  We consider two application domains:
-  \begin{enumerate}
-  \item real estate of a region, helping with selling realty;
-  \item choosing the specialty of a high school, analyzing entrant's social network profile.
-\end{enumerate}
-Both systems were developed within master degrees at Institute for Information Technologies and Data Adalysys, National research Irkutsk state technical university.
+  \emph{Recommender systems} (RS) are examples of \emph{decision support systems}. They are useful to support users with additional information and decision variants.  We consider two RS in career guidance field.
 
-The \textbf{first} system deals with selling flats, houses, garages, rooms, but the \textbf{interesting} aspect is to supply realty offices with support in selling spacial cases like hotels, countryside houses, shops: sellers paying taxes for unprofitable property, buyers cannot invest.
+Both systems were developed within master degrees at Institute for Information Technologies and Data Analysis, National research Irkutsk state technical university.
 
-In the \textbf{second} RS entrants are to obtain perspective specialty, comfort to their nature.  There are no industry supporting career guidance, only informational services and neighbors' subjective experience.  The universities' activities should be focused to a target audience with supplying students \textbf{relevant optional courses}.
+\textbf{Relevance} is determined by
+\begin{itemize}
+\item In the countries with young population, such as Việt Nam, the demand of young specialists is high. In fact, quite often graduates remain unemployed for a long time or do not work in originally mastered specialties.
+\item University institutions are interested in rising quality of entrants: attract attention of domain targeted students with high potentials to the existing courses, organize new courses for target student groups.
+\end{itemize}
 
-% In both systems the speedup of solution is focusing user to a target subset of objects.
+%In the \textbf{second} RS entrants are to obtain perspective specialty, comfort to their nature.  There are no industry supporting career guidance, only informational services and neighbors' subjective experience.  The universities' activities should be focused to a target audience with supplying students \textbf{relevant optional courses}.
 
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Interest assessment}
+  In Tables 1 and 2, we present the result of interest assessment to career guidance and relevance of improving of the guidance system.
+\begin{table}[thb]
+  \caption{Interest assessment to the carer guidance in Việt Nam, Hà Tĩnh city}
+  \label{tab:interest}
+  \centering
+  \begin{tabular}{|l|c|c|}
+    \hline
+    \textbf{Interest level} & \textbf{Count of votes} & \textbf{Ratio, \%} \\
+    \hline
+    Very interested & 218 & 51.9 \\
+    \hline
+    Relatively interested & 155 & 36.9 \\
+    \hline
+    Less interested & 36 & 8.6 \\
+    \hline
+    No interest & 11 & 2.6 \\
+    \textbf{Total} & 420 & 100 \\
+    \hline
+  \end{tabular}
+\end{table}
+
+\begin{table}[bht]
+  \caption{Questionary results of middle school students on need for improvement of the carer guidance system}
+  \label{tab:interest}
+  \centering
+  \begin{tabular}{|l|c|c|}
+    \hline
+    \textbf{Answer option} & \textbf{Quantity} & \textbf{Ration, \%} \\
+    \hline
+    very necessary & 272 & 64.8 \\
+    \hline
+    necessary & 145 & 34.5 \\
+    \hline
+    no necessity & 3 & 0.7 \\
+    \hline
+    \texttt{Total} & 420 & 100 \\
+    \hline
+  \end{tabular}
+\end{table}
 \end{frame}
 
 \begin{frame}

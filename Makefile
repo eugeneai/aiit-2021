@@ -2,7 +2,7 @@
 
 LATEXMK=latexmk -lualatex -latexoption=-shell-escape
 TARGET=conference_041818
-TLK=talk-2020-10-16-RS
+TLK=talk-2021-aiit-rs-career
 
 run: $(TARGET).pdf
 
